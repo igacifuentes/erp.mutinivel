@@ -276,7 +276,6 @@ class model_afiliado extends CI_Model{
  		#return $dato_afiliar;#true;
  		#echo "afiliar si|";
 	}
-
 	
 	private function definir_sponsor($id_debajo) {
 		if(isset($_POST['sponsor']))

@@ -920,5 +920,26 @@ order by (U.id);");
 		return true;
 	}
 	
+	function insertarAfiliadoCiclo($id, $mi_red, $id_debajo, $lado, $ciclo) { #dato_afiliar
+		$dato_afiliar =array(
+				"id_ciclo"     => $ciclo,
+				"id_red"      => $mi_red,
+				"id_afiliado" => $id,
+				"debajo_de"   => $id_debajo,
+				"lado"        => $lado
+		);
+		
+		$this->db->insert("ciclos",$dato_afiliar);
+	}
 	
+	function consultarCiclo($id, $mi_red) {
+		$q=$this->db->query("select * from ciclos where id_red = ".$mi_red." and id_afiliado = ".$id." order by id_ciclo DESC limit 1");
+		$q2=$q->result();
+		return $q2;
+	}
+	
+	function consultarHijosCiclo($id,$red,$id_ciclo){
+		$q = $this->db->query("select id_afiliado from ciclos where debajo_de=".$id." and id_ciclo = ".$id_ciclo." and  id_red = ".$red);
+		return $q->result();
+	}
 }

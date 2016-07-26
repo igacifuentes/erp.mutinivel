@@ -1680,5 +1680,4 @@ class perfil_red extends CI_Controller
 		$this->template->set("valor_retencion",$valor_retencion);
 		$this->template->build('website/ov/perfil_red/fases');
 	}	
-	
 }
