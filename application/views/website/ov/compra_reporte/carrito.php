@@ -321,18 +321,6 @@
 														<a href="javascript:void(0);" class="btn btn-danger btn-sm">Read more</a> -->
 													</div>
 												</div>
-												<!-- Slide 3 -->
-												<div class="item">
-													<img src="/media/imagenes/carrito/banner3.png" alt="">
-													<div class="carousel-caption caption-left">
-													<!--  	<h4>Title 2</h4>
-														<p>
-															Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-														</p>
-														<br>
-														<a href="javascript:void(0);" class="btn btn-danger btn-sm">Read more</a> -->
-													</div>
-												</div>
 											</div>
 											<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
 											<a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>

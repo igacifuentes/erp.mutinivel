@@ -32,6 +32,7 @@ class compras extends CI_Controller
 	}
 	
 	private $afiliados = array();
+	private $numeroAfiliadosActivos=0;
 	private $afiliadosEstadisticas = array();
 	
 function index()
@@ -4126,6 +4127,11 @@ function index()
 			$valor_punto_comisionable=$this->model_tipo_red->traerValorPuntoComisionableRed($id_red_mercancia);
 			$tipo_plan_compensacion=$this->modelo_compras->obtenerPlanDeCompensacion($id_red_mercancia);
 			
+			$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
+			
+			if($mercancia->id==1)
+				$this->generearBonoCiclo($id_afiliado_comprador, $id_red_mercancia, $capacidad_red[0]->profundidad,$id_venta, $mercancia);
+			
 			if($tipo_plan_compensacion[0]->plan==$MATRICIAL||$tipo_plan_compensacion[0]->plan==$UNILEVEL){
 
 				$valorAComisionar=(($valor_punto_comisionable*$mercancia->puntos_comisionables)*$mercancia->cantidad);
@@ -4137,12 +4143,13 @@ function index()
 	}
 	
 	public function calcularComisionAfiliado($id_venta,$id_red_mercancia,$costoVenta,$id_afiliado){
+		
 	
 		$valor_comision_por_nivel = $this->modelo_compras->ValorComision($id_red_mercancia);
 		$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
 		$profundidadRed=$capacidad_red[0]->profundidad;
 	
-	
+		
 		for($i=0;$i<$profundidadRed;$i++){
 				
 			$afiliado_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red_mercancia);
@@ -4161,4 +4168,52 @@ function index()
 	
 	}
 	
+	private function generearBonoCiclo($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia){
+		
+		
+		$afiliado_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red)[0]->debajo_de;
+		
+		if(!$afiliado_padre||$afiliado_padre==2 ||$afiliado_padre==1)
+			return false;
+		
+		$afiliado_abuelo = $this->model_perfil_red->ConsultarIdPadre($afiliado_padre,$id_red)[0]->debajo_de;
+		
+		
+		$this->numeroAfiliadosActivos=0;
+		
+		$this->consultarRedAfiliado($afiliado_abuelo, $id_red, $profundidad_red,0);
+		
+		if($this->numeroAfiliadosActivos >= 5){
+			
+			$directos = $this->model_perfil_red->get_afiliados_directos($id_red, $afiliado_abuelo);
+			
+			if((count($directos) >= 2) || ($this->modelo_compras->ComprobarCompraMercancia($afiliado_abuelo, 2)))	
+			{
+				$valor_comision = $this->modelo_compras->consultarMercancia($id_venta)[0]->puntos_comisionables;
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$afiliado_abuelo,$valor_comision);
+				
+				$sponson = $this->model_perfil_red->get_sponsor_id($afiliado_abuelo,$id_red);
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$sponson[0]->directo,$valor_comision);
+			}
+		}
+		
+	}
+	
+	private function consultarRedAfiliado($id_afiliado,$id_red,$profundidad_red,$contador){
+		if($profundidad_red <= $contador)
+		{
+			return $contador-1;
+		}
+		
+		$hijos = $this->model_perfil_red->ConsultarHijos($id_afiliado,$id_red);
+		
+		foreach ($hijos as $hijo){
+			if($this->modelo_compras->is_afiliado_activo($hijo->id_afiliado,$id_red)){
+				$this->numeroAfiliadosActivos++;
+				
+			}
+			
+			$this->consultarRedAfiliado($hijo->id_afiliado,$id_red,$profundidad_red,$contador+1);
+		}
+	}
 }

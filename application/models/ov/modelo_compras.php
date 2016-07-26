@@ -1448,8 +1448,8 @@ where a.id_paquete = e.id_paquete and d.sku= a.id_paquete and d.estatus="ACT" an
 	
 	function ComprovarCompraProducto($id_usuario, $id_red, $frecuencia){
 		if ($frecuencia=='Mensual'){
-		$mes = date("m");
-		$consulta = "and MONTH(v.fecha) = ".$mes;	
+			$mes = date("m");
+			$consulta = "and MONTH(v.fecha) = ".$mes;	
 		}
 		
 		else if ($frecuencia=='Anual'){

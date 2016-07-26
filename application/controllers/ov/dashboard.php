@@ -24,28 +24,24 @@ class dashboard extends CI_Controller
 	private function VerificarCompras($id_afiliado,$id_red,$nivel, $profundidad, $frecuencia){
 		
 		if ($nivel<$profundidad){
-		$afiliados = $this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
-		
-		$contador = 0;
-		$siCompro = 0;
-		$this->afiliados[$nivel]=0;
-				foreach ($afiliados as $afiliado2){
-					$siCompro = 0;
-					if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_red, $frecuencia)){
-						$siCompro = 1;
-					}
-					if($this->afiliados[$nivel]!=0){
-						$this->afiliados[$nivel] =  $siCompro + $this->afiliados[$nivel];
-					}else{
-						$this->afiliados[$nivel] = $siCompro;
-					}
-					
-					$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1,$profundidad, $frecuencia);
-					
+			$afiliados = $this->modelo_compras->traer_afiliados_red($id_afiliado, $id_red);
+			
+			$contador = 0;
+			$siCompro = 0;
+			$this->afiliados[$nivel]=0;
+			foreach ($afiliados as $afiliado2){
+				$siCompro = 0;
+				if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_red, $frecuencia)){
+					$siCompro = 1;
 				}
-				
+				if($this->afiliados[$nivel]!=0){
+					$this->afiliados[$nivel] =  $siCompro + $this->afiliados[$nivel];
+				}else{
+					$this->afiliados[$nivel] = $siCompro;
+				}
+				$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1,$profundidad, $frecuencia);
+			}			
 		}
-		
 	}
 	
 	private function DeterminarPremio($id_afiliado,$id_red){
@@ -83,7 +79,22 @@ class dashboard extends CI_Controller
 			unset($GLOBALS['afiliados']);
 		}
 	}
-
+	
+	private function VerificarComprasAfiliado($id_afiliado,$tiempo){
+	
+		if($this->modelo_compras->ComprovarCompraProducto($afiliado2->id_afiliado, $id_red, $frecuencia)){
+			$siCompro = 1;
+		}
+		if($this->afiliados[$nivel]!=0){
+			$this->afiliados[$nivel] =  $siCompro + $this->afiliados[$nivel];
+		}else{
+			$this->afiliados[$nivel] = $siCompro;
+		}
+		$this->VerificarCompras($afiliado2->id_afiliado, $id_red,$nivel+1,$profundidad, $frecuencia);
+		
+		
+	}
+	
 	private function RegistrarPremioAfiliado($id_afiliado, $id_premio, $frecuencia){
 		return $this->modelo_premios->InsertarPremioAfiliado($id_premio,$id_afiliado, $frecuencia);
 	}
@@ -135,7 +146,7 @@ class dashboard extends CI_Controller
 	    $notifies = $this->model_admin->get_notify_activos();
 
 
-	     $name_sponsor= ($id_sponsor) ? $this->general->get_username($id_sponsor[0]->id_usuario) : '';
+	    $name_sponsor= ($id_sponsor) ? $this->general->get_username($id_sponsor[0]->id_usuario) : '';
 
 		$image=$this->modelo_dashboard->get_images($id);
 		$fondo="/template/img/portada.jpg";
