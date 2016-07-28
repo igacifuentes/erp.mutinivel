@@ -760,7 +760,7 @@ function codpos_red()
 														</fieldset>
 															<input class='hide' type="text" name="red" id='red' value="<?php echo $_GET['id']; ?>" placeholder="">
 															<input type="text" name="id" value="<?php echo $id; ?>" class="hide">
-															
+															<input type="text" name="ciclo" value="<?php echo $ciclo; ?>" class="hide">
 													</form>
 												</div>
 												<div class="step-pane" id="step3">

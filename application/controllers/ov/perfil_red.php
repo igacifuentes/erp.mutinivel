@@ -96,6 +96,7 @@ class perfil_red extends CI_Controller
 	{
 		$id_red=$_POST['red'];
 		$id_afiliado=$_POST['id'];
+		$id_ciclo = $_POST['ciclo'];
 		
 		$red 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		$frontalidadRed= $red[0]->frontal;
@@ -119,10 +120,14 @@ class perfil_red extends CI_Controller
 			$frontalesUsuario=$frontalesUsuario[0]->frontales;
 			$frontalidadRed=$frontalesUsuario+1;
 		}
-
-		$this->printRedParaAfiliar ( $id_red,$id_afiliado,$frontalidadRed,$nivel);
-
-		
+	
+		if($id_ciclo != 0)
+		{
+			$this->printRedParaAfiliarCiclo($id_red,$id_afiliado, $frontalidadRed,$nivel,$id_ciclo);
+		}
+		else{
+			$this->printRedParaAfiliar ( $id_red,$id_afiliado,$frontalidadRed,$nivel);
+		}	
 	}
 
 	private function getHayEspacioParaAfiliarProfundidad($nivel,$profundidadRed) {
@@ -133,7 +138,25 @@ class perfil_red extends CI_Controller
 		}
 		return true;
 	}
-
+	
+	private function printRedParaAfiliarCiclo($id_red,$id_afiliado, $frontales,$nivel,$ciclo) {
+		
+		echo "<ul>";
+		for($lado=0;$lado<$frontales;$lado++){
+			
+			$afiliado = $this->model_perfil_red->get_afiliadoCiclolado($id_red, $id_afiliado, $ciclo, $lado);
+			if($afiliado){
+				$this->printPosicionAfiliado ( $nivel, $afiliado);
+			}else {
+				$sponsor=$this->model_perfil_red->get_name($id_afiliado);
+				$this->printEspacioParaAfiliar ($sponsor, $id_afiliado, $lado );
+	
+			}
+		}
+		echo "</ul>";
+	
+	}
+	
 	private function printRedParaAfiliar($id_red,$id_afiliado, $frontales,$nivel) {
 	
 		echo "<ul>";
@@ -198,7 +221,13 @@ class perfil_red extends CI_Controller
 		$nivel = ($this->tank_auth->get_user_id()==2) ? 0 : $_POST['nivel'];
 		$red 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		$frontales= $red[0]->frontal;
-		$afiliados = $this->model_perfil_red->get_afiliados($id_red, $_POST['id']);
+		$afiliados = array();
+		if($_POST['ciclo'] != 0){
+			$afiliados = $this->model_perfil_red->get_afiliadosCiclo($id_red, $_POST['id'],$_POST['ciclo']);
+		}else{
+			$afiliados = $this->model_perfil_red->get_afiliados($id_red, $_POST['id']);
+		}
+		
 		$frontales=count($afiliados);
 		
 		$nombre=$this->model_perfil_red->get_name($_POST['id']);
@@ -675,7 +704,16 @@ class perfil_red extends CI_Controller
 				redirect('/ov/perfil_red/afiliar_red?id='.$id_red);
 			
 		}
-
+		
+		if($this->model_perfil_red->isCiclaje($id,$id_red))
+		{
+			$ciclo = $this->model_perfil_red->consultarCiclo($id, $id_red)[0]->id_ciclo;
+			$this->template->set("ciclo",$ciclo);
+		}
+		else{
+			$this->template->set("ciclo",0);
+		}
+		
 		$img_perfil="/template/img/empresario.jpg";
 		foreach ($image as $img)
 		{
@@ -802,7 +840,18 @@ class perfil_red extends CI_Controller
 		}
 		
 		//$premium         = $red[0]->premium;
-		$afiliados       = $this->model_perfil_red->get_afiliados($id_red, $id);
+		$afiliados = array();
+		if($this->model_perfil_red->isCiclaje($id,$id_red))
+		{
+			$ciclo = $this->model_perfil_red->consultarCiclo($id, $id_red)[0]->id_ciclo;
+			$afiliados = $this->model_perfil_red->get_afiliadosCiclo($id_red, $id, $ciclo);
+			$this->template->set("ciclo",$ciclo);
+		}
+		else{
+			$afiliados = $this->model_perfil_red->get_afiliados($id_red, $id);
+			$this->template->set("ciclo",0);
+		}
+		
 		$planes 		 = $this->model_planes->Planes();
 	
 		$image 			 = $this->model_perfil_red->get_images($id);
@@ -1065,6 +1114,7 @@ class perfil_red extends CI_Controller
 	{
 		$this->load->model('ov/modelo_afiliado');	//pruebas
 		isset($_POST['token']) ? $this->model_perfil_red->trash_token($_POST['token']) : '';
+	
 		$resultado = $this->modelo_afiliado->crearUsuario();
 		#echo $resultado;
 		//$resultado=$this->model_perfil_red->afiliar_nuevo($id);

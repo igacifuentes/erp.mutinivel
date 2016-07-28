@@ -942,4 +942,39 @@ order by (U.id);");
 		$q = $this->db->query("select id_afiliado from ciclos where debajo_de=".$id." and id_ciclo = ".$id_ciclo." and  id_red = ".$red);
 		return $q->result();
 	}
+	
+	function consultarIdPadreCiclo($id , $id_red_padre, $id_ciclo){
+		
+		$q = $this->db->query("select debajo_de from ciclos where id_afiliado=".$id." and id_red = ".$id_red_padre." and id_ciclo = ".$id_ciclo);
+		$id_padre = $q->result();
+		return $id_padre;
+	}
+	
+	function isCiclaje($id,$id_red){
+		$q=$this->db->query("select * from ciclos where id_red = ".$id_red." and id_afiliado = ".$id);
+		$q2=$q->result();
+		return $q2 ? true: false;
+	}
+	
+	function get_afiliadosCiclo($id_red, $id_afiliado, $id_ciclo)
+	{
+		$q=$this->db->query("select c.*, a.directo,(select nombre from user_profiles where user_id = c.id_afiliado) afiliado,
+			(select apellido from user_profiles where user_id= c.id_afiliado) afiliado_p,
+			(select nombre from user_profiles where user_id = c.debajo_de) debajo_de_n,
+			(select apellido from user_profiles where user_id=c.debajo_de) debajo_de_p,
+			(select (select url from cat_img b where a.id_img=b.id_img) url from cross_img_user a where id_user = c.id_afiliado) img
+			from ciclos c, afiliar a where a.id_afiliado = c.id_afiliado and c.id_red=".$id_red." and c.debajo_de=".$id_afiliado." and c.id_ciclo = ".$id_ciclo." order by c.lado");
+		return $q->result();
+	}
+	
+	function get_afiliadoCiclolado($id_red, $id_afiliado, $id_ciclo, $lado)
+	{
+		$q=$this->db->query("select c.*, a.directo,(select nombre from user_profiles where user_id = c.id_afiliado) afiliado,
+			(select apellido from user_profiles where user_id= c.id_afiliado) afiliado_p,
+			(select nombre from user_profiles where user_id = c.debajo_de) debajo_de_n,
+			(select apellido from user_profiles where user_id=c.debajo_de) debajo_de_p,
+			(select (select url from cat_img b where a.id_img=b.id_img) url from cross_img_user a where id_user = c.id_afiliado) img
+			from ciclos c, afiliar a where a.id_afiliado = c.id_afiliado and c.id_red=".$id_red." and c.debajo_de=".$id_afiliado." and c.id_ciclo = ".$id_ciclo." and c.lado = ".$lado." order by c.lado");
+		return $q->result();
+	}
 }

@@ -9,7 +9,7 @@
 				<span> 
 					> <a href="/ov/red/index">Redes</a>
 					> <a href="/ov/red/mi_red?id=<?php echo $_GET['id']; ?>">Arbol</a>
-					> 1
+					> 1 - Ciclo <?php echo $ciclo; ?>
 				</span>
 			</h1>
 		</div>
@@ -356,7 +356,8 @@ function subtree(id, profundidad)
 		data: {
 			id: id,
 			red: <?php echo $_GET['id']; ?>,
-			nivel: profundidad 
+			nivel: profundidad,
+			ciclo: <?php echo $ciclo; ?>
 		},
 	})
 	.done(function( msg )

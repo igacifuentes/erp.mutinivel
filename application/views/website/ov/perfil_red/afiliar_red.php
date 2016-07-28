@@ -233,8 +233,12 @@ function subred(id,profundidad)
 	$.ajax({
 		type: "POST",
 		url: "/ov/perfil_red/get_red_afiliar",
-		data: {id: id,
-				red: <?php echo $_GET['id']; ?>,profundidad: profundidad,},
+		data: {
+			id: id,
+			red: <?php echo $_GET['id']; ?>,
+			profundidad: profundidad,
+			ciclo: <?php echo $ciclo; ?>,
+			},	
 	})
 	.done(function( msg )
 	{
@@ -455,6 +459,7 @@ function botbox(nombre, id, lado)
 							+'</div>'
 						+'</fieldset>'
 						+'<input class="hide" type="text" name="red" id="red" value="<?php echo $_GET['id']; ?>" placeholder="">'
+						+'<input class="hide" type="text" name="ciclo" id="ciclo" value="<?php echo $ciclo; ?>" placeholder="">'
 						+'<input type="text" class="hide" name="id" value="<?php echo $id; ?>" placeholder="">'
 					+'</form>'
 				+'</div>'
@@ -811,13 +816,13 @@ function detalles(id)
 					> <a href="/bo/comercial">Comercial</a> 
 					> <a href="/bo/comercial/red">Red</a>
 					> <a href="/bo/usuarios/afiliar">Tipo de Afiliacion</a>
-					> Afiliacion Red
+					> Afiliacion Red - Ciclo <?php echo $ciclo; ?>
 				</span>
 				<?php }else {?>
 				<span> 
 				> <a href="/ov/perfil_red/afiliar?tipo=1">Red</a>
 				> <a href="/ov/perfil_red/nuevo_afilido?id=<?php echo $_GET['id']; ?>">Afiliar</a>
-				> Red
+				> Red - Ciclo <?php echo $ciclo; ?>
 				</span>
 				<?php }?>
 

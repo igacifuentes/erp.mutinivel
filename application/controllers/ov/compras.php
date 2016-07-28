@@ -370,7 +370,7 @@ function index()
 			
 		
 		$id_venta = $this->modelo_compras->registrar_ventaConsignacion($id,$fecha);
-	
+		
 		$this->registrarFacturaDatosDefaultAfiliado ($id,$id_venta);
 		
 		$this->registrarFacturaMercancia ( $contenidoCarrito ,$id_venta);
@@ -899,7 +899,8 @@ function index()
 		foreach ($telefonos as $telefono){
 			$tel.="-Numero ".$telefono->tipo."[".$telefono->numero."]\n";
 		}
-			  
+		
+		
 		$this->modelo_compras->registrar_factura_datos_usuario
 			  						($id_venta,$datos_afiliado[0]->nombre,$datos_afiliado[0]->apellido,$datos_afiliado[0]->keyword,
 			  						 $direccion[0]->codigo_postal,$direccion[0]->pais,$direccion[0]->estado,$direccion[0]->municipio,
@@ -4219,15 +4220,18 @@ function index()
 				
 			}
 			
-			$this->consultarRedAfiliado($hijo->id_afiliado,$id_red,$profundidad_red,$contador+1);
+			$contador = $this->consultarRedAfiliado($hijo->id_afiliado,$id_red,$profundidad_red,$contador+1);
 		}
 	}
 	
 	private function registarCiclo($id_afiliado, $id_red){
 		
-		$id_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red)[0]->debajo_de;
+		$id_padre = $this->model_perfil_red->get_sponsor_id($id_afiliado,$id_red)[0]->directo;
 		
-		
+		if($id_padre == 1){
+			$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, 1);
+			return 0;
+		}
 		$ciclo = $this->buscarCicloPadre($id_padre, $id_red);
 		
 		$this->hayEspacio=false;
@@ -4235,6 +4239,22 @@ function index()
 		$this->buscarEspacioCiclo($this->ciclo[0]->id_afiliado);
 		
 		$this->model_perfil_red->insertarAfiliadoCiclo($id_afiliado, $id_red, $this->ciclo[0]->id_afiliado, $this->ciclo[0]->lado, $this->ciclo[0]->id_ciclo);
+		
+		$this->numeroAfiliadosActivos = 0;
+		
+		$id_padre = $this->model_perfil_red->consultarIdPadreCiclo($this->ciclo[0]->id_afiliado, $id_red, $this->ciclo[0]->id_ciclo);
+		
+		$id_padre_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($id_padre[0]->debajo_de, $id_red, $this->ciclo[0]->id_ciclo);
+		
+		$this->verificarCiclaje($id_padre_abuelo[0]->debajo_de, $this->ciclo[0]->id_ciclo, $id_red, 2, 0);
+		
+		if($this->numeroAfiliadosActivos == 6){
+			if($id_padre_abuelo[0]->debajo_de == 2){
+				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, $this->ciclo[0]->id_ciclo+1);
+			}else{
+				$this->registarCiclo($id_padre_abuelo[0]->debajo_de, $id_red);
+			}
+		}
 		
 	}
 	
@@ -4277,4 +4297,21 @@ function index()
 		return 0;
 	}
 	
+	private function verificarCiclaje($id_afiliado,$id_ciclo,$id_red,$profundidad_red, $contador){
+		
+		if($profundidad_red <= $contador)
+		{
+			return $contador-1;
+		}
+		
+		$hijos = $this->model_perfil_red->consultarHijosCiclo($id_afiliado,$id_red,$id_ciclo);
+		
+		foreach ($hijos as $hijo){
+			if($this->modelo_compras->is_afiliado_activo($hijo->id_afiliado,$id_red)){
+				$this->numeroAfiliadosActivos++;
+			}
+			$this->verificarCiclaje($hijo->id_afiliado,$id_ciclo,$id_red,$profundidad_red,$contador+1);	
+		}
+		$contador--;
+	}
 }
