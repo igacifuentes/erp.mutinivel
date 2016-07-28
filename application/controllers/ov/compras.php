@@ -4227,7 +4227,6 @@ function index()
 	
 		$this->verificarCiclaje($afiliado_abuelo,$id_ciclo,$id_red,$profundidad_red, 0);
 	
-		//var_dump($this->numeroAfiliadosActivos); exit();
 		if($this->numeroAfiliadosActivos >= 5){
 					
 			$directos = $this->model_perfil_red->get_afiliados_directos($id_red, $afiliado_abuelo);
@@ -4273,24 +4272,28 @@ function index()
 				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, $ciclo+1);
 			else 
 				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, 1);
+			
 			return 0;
 		}
 		$ciclo = $this->buscarCicloPadre($id_padre, $id_red);
 		
 		$this->hayEspacio=false;
+		$contador = 0;
 		
-		$this->buscarEspacioCiclo($this->ciclo[0]->id_afiliado);
+		$this->buscarEspacioCiclo($this->ciclo[0]->id_afiliado,$profundidad_red,$contador);
 		
 		$this->model_perfil_red->insertarAfiliadoCiclo($id_afiliado, $id_red, $this->ciclo[0]->id_afiliado, $this->ciclo[0]->lado, $this->ciclo[0]->id_ciclo);
 		
-		$this->numeroAfiliadosActivos = 0;
+		//Verificar ciclajes continuo
 		
-		$id_padre = $this->model_perfil_red->consultarIdPadreCiclo($this->ciclo[0]->id_afiliado, $id_red, $this->ciclo[0]->id_ciclo);
+		$id_padre = $this->ciclo[0]->id_afiliado;
 		
-		if(!$id_padre[0]->debajo_de || $id_padre[0]->debajo_de ==2 || $id_padre[0]->debajo_de==1)
+		if(!$id_padre || $id_padre == 2 || $id_padre==1)
 			return false;
 		
-		$id_padre_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($id_padre[0]->debajo_de, $id_red, $this->ciclo[0]->id_ciclo);
+		$id_padre_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($id_padre, $id_red, $this->ciclo[0]->id_ciclo);
+		
+		$this->numeroAfiliadosActivos = 0;
 		
 		$this->verificarCiclaje($id_padre_abuelo[0]->debajo_de, $this->ciclo[0]->id_ciclo, $id_red, 2, 0);
 		
@@ -4331,8 +4334,15 @@ function index()
 		}
 	}
 	
-	private function buscarEspacioCiclo($id){
+	private function buscarEspacioCiclo($id,$profundidad_red,$contador){
+		
+		if($profundidad_red <= $contador)
+		{
+			return $contador-1;
+		}
+		
 		$hijos = $this->model_perfil_red->consultarHijosCiclo($id, $this->ciclo[0]->id_red, $this->ciclo[0]->id_ciclo);
+		
 		if(count($hijos) == 0){
 			$this->ciclo[0]->lado = 0;
 			$this->hayEspacio = true;
@@ -4341,16 +4351,18 @@ function index()
 			$this->hayEspacio = true;
 			$this->ciclo[0]->lado = 1;
 			return 0;
-		}else{
+		}else if($profundidad_red-1 > $contador){
 			foreach ($hijos as $hijo){
+				
+				
 				if(!$this->hayEspacio)
 				{
 					$this->ciclo[0]->id_afiliado = $hijo->id_afiliado;
-					$this->buscarEspacioCiclo($hijo->id_afiliado);
+					$contador = $this->buscarEspacioCiclo($hijo->id_afiliado,$profundidad_red, $contador+1);
 				}
 			}
 		}
-		return 0;
+		return $contador--;
 	}
 	
 	private function verificarCiclaje($id_afiliado,$id_ciclo,$id_red,$profundidad_red, $contador){
@@ -4363,6 +4375,8 @@ function index()
 		$hijos = $this->model_perfil_red->consultarHijosCiclo($id_afiliado,$id_red,$id_ciclo);
 		
 		foreach ($hijos as $hijo){
+			//$padre = "Nivel ".$contador." ".$id_afiliado." - ".$hijo->id_afiliado;
+			//var_dump($padre);
 			if($this->modelo_compras->is_afiliado_activo($hijo->id_afiliado,$id_red)){
 				$this->numeroAfiliadosActivos++;
 			}
