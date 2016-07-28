@@ -151,7 +151,7 @@ class modelo_afiliado extends CI_Model{
 		if($id_ciclo == 0){
 			$lado = $this->definir_lado ($id_debajo,$mi_red);
 		}else{
-			$lado = $this->definir_ladoCiclo($id_debajo,$mi_red,$ciclo);
+			$lado = $this->definir_ladoCiclo($id_debajo,$mi_red,$id_ciclo);
 		}
 		
 		$fijos = $_POST["fijo"];
@@ -175,17 +175,16 @@ class modelo_afiliado extends CI_Model{
 		$dato_perfil=$this->Perfil($id); # USER_PROFILES
 		
 		$dato_afiliar = array();
-		var_dump($id_ciclo);
 		if($id_ciclo == 0){
 			$dato_afiliar = $this->dato_afiliar ( $id, $mi_red, $id_debajo, $lado, $directo );
 		}else{
-			$this->insert_dato_afiliarCiclo($id, $mi_red, $id_debajo, $lado, $ciclo);
+			
+			$this->insert_dato_afiliarCiclo($id, $mi_red, $id_debajo, $lado, $id_ciclo);
 			
 			$lado = $this->definir_lado ($id_debajo,$mi_red);
 			
 			$dato_afiliar = $this->dato_afiliar ( $id, $mi_red, $id_debajo, $lado, $directo );
 		}
-		
 		
 		//$dato_permiso=$this->Perfil($id); # USER_PERMISSIONS
 		$dato_estilo=$this->EstiloUsuario($id);	# ESTILO_USUARIO
@@ -211,7 +210,6 @@ class modelo_afiliado extends CI_Model{
 		);	
 		
 		# TELEFONOS $dato_tels dato_tels($id)
-		exit();
 		return $afiliar ? $id /*var_dump()."|".var_dump($_POST["movil"])*/ : null;#; #;
 	}
 	

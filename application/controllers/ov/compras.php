@@ -4173,6 +4173,11 @@ function index()
 	
 	private function generearBonoCiclo($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia){
 		
+		if($this->model_perfil_red->isCiclaje($id_afiliado,$id_red))
+		{
+			$this->generearBonoCicloCliclajes($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia);
+			return 0;
+		}
 		
 		$afiliado_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red)[0]->debajo_de;
 		
@@ -4200,10 +4205,44 @@ function index()
 				$sponson = $this->model_perfil_red->get_sponsor_id($afiliado_abuelo,$id_red);
 				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$sponson[0]->directo,$valor_comision);
 				
-				$this->registarCiclo($afiliado_abuelo, $id_red);
+				$this->registarCiclo($afiliado_abuelo, $id_red, $profundidad_red,$id_venta, $mercancia);
 			}
 		}
 		
+	}
+	
+	private function generearBonoCicloCliclajes($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia){
+		
+		$id_ciclo = $this->model_perfil_red->consultarCiclo($id_afiliado, $id_red)[0]->id_ciclo;
+		
+		$afiliado_padre = $this->model_perfil_red->consultarIdPadreCiclo($id_afiliado, $id_red, $id_ciclo)[0]->debajo_de;
+		
+		if(!$afiliado_padre||$afiliado_padre==2 ||$afiliado_padre==1)
+			return false;
+		
+		$afiliado_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($afiliado_padre, $id_red, $id_ciclo)[0]->debajo_de;
+	
+	
+		$this->numeroAfiliadosActivos=0;
+	
+		$this->verificarCiclaje($afiliado_abuelo,$id_ciclo,$id_red,$profundidad_red, 0);
+	
+		//var_dump($this->numeroAfiliadosActivos); exit();
+		if($this->numeroAfiliadosActivos >= 5){
+					
+			$directos = $this->model_perfil_red->get_afiliados_directos($id_red, $afiliado_abuelo);
+					
+			if((count($directos) >= 2) || ($this->modelo_compras->ComprobarCompraMercancia($afiliado_abuelo, 2)))
+			{
+				$valor_comision = $this->modelo_compras->consultarMercancia($id_venta)[0]->puntos_comisionables;
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$afiliado_abuelo,$valor_comision);
+	
+				$sponson = $this->model_perfil_red->get_sponsor_id($afiliado_abuelo,$id_red);
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$sponson[0]->directo,$valor_comision);
+	
+				$this->registarCiclo($afiliado_abuelo, $id_red,$profundidad_red,$id_venta, $mercancia);
+			}
+		}
 	}
 	
 	private function consultarRedAfiliado($id_afiliado,$id_red,$profundidad_red,$contador){
@@ -4224,12 +4263,16 @@ function index()
 		}
 	}
 	
-	private function registarCiclo($id_afiliado, $id_red){
+	private function registarCiclo($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia){
 		
 		$id_padre = $this->model_perfil_red->get_sponsor_id($id_afiliado,$id_red)[0]->directo;
 		
 		if($id_padre == 1){
-			$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, 1);
+			$ciclo = $this->model_perfil_red->consultarCiclo(2, $id_red)[0]->id_ciclo;
+			if(isset($ciclo))
+				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, $ciclo+1);
+			else 
+				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, 1);
 			return 0;
 		}
 		$ciclo = $this->buscarCicloPadre($id_padre, $id_red);
@@ -4244,15 +4287,28 @@ function index()
 		
 		$id_padre = $this->model_perfil_red->consultarIdPadreCiclo($this->ciclo[0]->id_afiliado, $id_red, $this->ciclo[0]->id_ciclo);
 		
+		if(!$id_padre[0]->debajo_de || $id_padre[0]->debajo_de ==2 || $id_padre[0]->debajo_de==1)
+			return false;
+		
 		$id_padre_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($id_padre[0]->debajo_de, $id_red, $this->ciclo[0]->id_ciclo);
 		
 		$this->verificarCiclaje($id_padre_abuelo[0]->debajo_de, $this->ciclo[0]->id_ciclo, $id_red, 2, 0);
 		
+		
 		if($this->numeroAfiliadosActivos == 6){
+			
 			if($id_padre_abuelo[0]->debajo_de == 2){
+				
 				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, $this->ciclo[0]->id_ciclo+1);
 			}else{
-				$this->registarCiclo($id_padre_abuelo[0]->debajo_de, $id_red);
+				
+				$valor_comision = $this->modelo_compras->consultarMercancia($id_venta)[0]->puntos_comisionables;
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$id_padre_abuelo[0]->debajo_de,$valor_comision);
+	
+				$sponson = $this->model_perfil_red->get_sponsor_id($id_padre_abuelo[0]->debajo_de,$id_red);
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$sponson[0]->directo,$valor_comision);
+	
+				$this->registarCiclo($id_padre_abuelo[0]->debajo_de, $id_red,$profundidad_red,$id_venta, $mercancia);
 			}
 		}
 		
