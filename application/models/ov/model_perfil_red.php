@@ -977,4 +977,36 @@ order by (U.id);");
 			from ciclos c, afiliar a where a.id_afiliado = c.id_afiliado and c.id_red=".$id_red." and c.debajo_de=".$id_afiliado." and c.id_ciclo = ".$id_ciclo." and c.lado = ".$lado." order by c.lado");
 		return $q->result();
 	}
+	
+	function ConsultarRedCicloDebajo($id,$red, $id_ciclo){
+		$q = $this->db->query("select group_concat(id_afiliado) as hijos from ciclos where debajo_de=".$id." and id_red = ".$red." and id_ciclo =".$id_ciclo);
+		return $q->result();
+	}
+	
+	function consultarVacioCiclo($id,$espacio,$red,$i, $id_ciclo){
+		$debajo = $this->ConsultarIdPadreCiclo($id , $red, $id_ciclo);
+		if($debajo[0]->debajo_de==$espacio){
+			return $debajo[0]->lado;
+		}else{
+			return $i;
+		}
+	}
+	
+	function actualizarHijosCiclo($id,$espacio,$setHijos,$red,$hijos,$id_ciclo){
+	
+		$i = count($this->consultarHijosCiclo($espacio,$red, $id_ciclo));
+		$j = $this->consultarVacioCiclo($id,$espacio,$red,$i, $id_ciclo);
+		//echo "dentro de actualizarHijos	:".$i."	cupos: ".$j." setHijos: ".$setHijos."	";
+		$this->db->query("update ciclos set debajo_de = ".$espacio." where id_afiliado in (".$setHijos.") and id_red = ".$red." and id_ciclo = ".$id_ciclo);
+		foreach($hijos as $hijo){
+			if($j==$i){
+				$this->db->query("update ciclos set lado = ".$i." where id_afiliado = ".$hijo->id_afiliado." and id_red = ".$red." and id_ciclo = ".$id_ciclo);
+			}else{
+				$this->db->query("update ciclos set lado = ".$j." where id_afiliado = ".$hijo->id_afiliado." and id_red = ".$red." and id_ciclo = ".$id_ciclo);
+			}
+			$j=$i;
+			$i++;
+		}
+		return true;
+	}
 }

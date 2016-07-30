@@ -1648,4 +1648,20 @@ where a.id_paquete = e.id_paquete and d.sku= a.id_paquete and d.estatus="ACT" an
 		return $q->result();
 	
 	}
+	
+	function compraMercanciaMenbresia($id){
+		$q = $this->db->query("select v.id_venta, v.id_user, v.id_estatus, cvm.id_mercancia 
+from venta v, cross_venta_mercancia cvm, mercancia m 
+where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.id_tipo_mercancia = 5 and v.id_estatus = 'ACT' and v.id_user = ".$id);
+		return $q->result();
+	}
+	
+	function yaSedioComision($id_venta){
+		$q = $this->db->query("select * from comision where id_venta = ".$id_venta);
+		if(isset($q->result()[0]->id_venta)){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

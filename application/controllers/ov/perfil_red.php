@@ -828,6 +828,7 @@ class perfil_red extends CI_Controller
 		$estudios        = $this->model_perfil_red->get_estudios();
 		$ocupacion       = $this->model_perfil_red->get_ocupacion();
 		$tiempo_dedicado = $this->model_perfil_red->get_tiempo_dedicado();
+		$sponsor = $this->model_perfil_red->get_name($id);
 		
 		$red 			 = $this->model_afiliado->RedAfiliado($id, $id_red);
 
@@ -880,7 +881,8 @@ class perfil_red extends CI_Controller
 		$this->template->set("red_frontales",$red_forntales);
 		//$this->template->set("premium",$premium);
 		$this->template->set("planes",$planes);
-	
+		$this->template->set("sponsor",$sponsor);
+		
 		$this->template->set_theme('desktop');
 		$this->template->set_layout('website/main');
 		$this->template->set_partial('header', 'website/ov/header');

@@ -18,6 +18,7 @@ class billetera2 extends CI_Controller
 		$this->load->model('bo/model_bonos');
 		$this->load->model('model_tipo_red');
 		$this->load->model('ov/model_perfil_red');
+		$this->load->model('ov/modelo_compras');
 		
 		if (!$this->tank_auth->is_logged_in())
 		{																		// logged in
@@ -43,8 +44,7 @@ class billetera2 extends CI_Controller
 		if($this->general->isActived($id)!=0){
 			redirect('/ov/compras/carrito');
 		}
-
-
+		
 		$usuario=$this->general->get_username($id);
 		$style=$this->general->get_style($id);
 

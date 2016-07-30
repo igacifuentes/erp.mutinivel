@@ -17,9 +17,13 @@ class dashboard extends CI_Controller
 		$this->load->model('modelo_premios');
 		$this->load->model('model_tipo_red');
 		$this->load->model('bo/model_admin');
+		$this->load->model('ov/model_perfil_red');
 	}
 
 	private $afiliados = array();
+	private $numeroAfiliadosActivos=0;
+	private $ciclo;
+	private $hayEspacio=false;
 	
 	private function VerificarCompras($id_afiliado,$id_red,$nivel, $profundidad, $frecuencia){
 		
@@ -118,6 +122,20 @@ class dashboard extends CI_Controller
 		$this->email->send();
 	
 	}
+	private function comprovarGeneracionBonos($id){
+		$venta = $this->modelo_compras->compraMercanciaMenbresia($id);
+		if(!isset($venta[0])){
+			return 0;
+		}
+		
+		$redesUsuario=$this->model_tipo_red->cantidadRedesUsuario($id);
+			
+		foreach ($redesUsuario as $redUsuario){
+			$red = $this->model_tipo_red->ObtenerFrontalesRed($redUsuario->id );
+		
+			$this->generearBonoCiclo($id, $redUsuario->id, $red[0]->profundidad, $venta[0]->id_venta, $venta[0]->id_mercancia);
+		}
+	}
 	
 	function index()
 	{
@@ -129,7 +147,8 @@ class dashboard extends CI_Controller
 		$id=$this->tank_auth->get_user_id();
 		$usuario=$this->general->get_username($id);
 		
-	
+		$this->comprovarGeneracionBonos($id);
+		
 		$this->getAfiliadosRed($id);
 		$numeroAfiliadosRed=count($this->afiliados);
 		
@@ -267,5 +286,221 @@ class dashboard extends CI_Controller
 				$this->preOrdenRedProfundidadInfinita($dato->id_afiliado,$id_red,$frontalidad);
 			}
 		}
+	}
+	
+	private function generearBonoCiclo($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia){
+	
+		if($this->model_perfil_red->isCiclaje($id_afiliado,$id_red))
+		{
+			$this->generearBonoCicloCliclajes($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia);
+			return 0;
+		}
+		
+		/*
+		$afiliado_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red)[0]->debajo_de;
+	
+		if(!$afiliado_padre||$afiliado_padre==2 ||$afiliado_padre==1)
+			return false;
+	
+		$afiliado_abuelo = $this->model_perfil_red->ConsultarIdPadre($afiliado_padre,$id_red)[0]->debajo_de;
+		*/
+		$afiliado_abuelo = $id_afiliado;
+	
+		$this->numeroAfiliadosActivos=0;
+	
+		$this->consultarRedAfiliado($afiliado_abuelo, $id_red, $profundidad_red,0);
+	
+	
+		if($this->numeroAfiliadosActivos >= 5){
+					
+			$directos = $this->model_perfil_red->get_afiliados_directos($id_red, $afiliado_abuelo);
+					
+			if((count($directos) >= 2) || ($this->modelo_compras->ComprobarCompraMercancia($afiliado_abuelo, 2)))
+			{
+	
+				$valor_comision = $this->modelo_compras->consultarMercancia($id_venta)[0]->puntos_comisionables;
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$afiliado_abuelo,$valor_comision);
+	
+				$sponson = $this->model_perfil_red->get_sponsor_id($afiliado_abuelo,$id_red);
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$sponson[0]->directo,$valor_comision);
+	
+				$this->registarCiclo($afiliado_abuelo, $id_red, $profundidad_red,$id_venta, $mercancia);
+			}
+		}
+	}
+	
+	private function generearBonoCicloCliclajes($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia){
+	
+		
+		 $id_ciclo = $this->model_perfil_red->consultarCiclo($id_afiliado, $id_red)[0]->id_ciclo;
+		 /*
+		$afiliado_padre = $this->model_perfil_red->consultarIdPadreCiclo($id_afiliado, $id_red, $id_ciclo)[0]->debajo_de;
+	
+		if(!$afiliado_padre||$afiliado_padre==2 ||$afiliado_padre==1){
+			return false;
+		}
+		$afiliado_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($afiliado_padre, $id_red, $id_ciclo)[0]->debajo_de;
+		*/
+		$afiliado_abuelo = $id_afiliado;
+		$this->numeroAfiliadosActivos=0;
+	
+		$this->verificarCiclaje($afiliado_abuelo,$id_ciclo,$id_red,$profundidad_red, 0);
+		
+		if($this->numeroAfiliadosActivos == 6){
+					
+			$directos = $this->model_perfil_red->get_afiliados_directos($id_red, $afiliado_abuelo);
+						
+			if((count($directos) >= 2) || ($this->modelo_compras->ComprobarCompraMercancia($afiliado_abuelo, 2)))
+			{
+				$valor_comision = $this->modelo_compras->consultarMercancia($id_venta)[0]->puntos_comisionables;
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$afiliado_abuelo,$valor_comision);
+		
+				$sponson = $this->model_perfil_red->get_sponsor_id($afiliado_abuelo,$id_red);
+				$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$sponson[0]->directo,$valor_comision);
+		
+				$this->registarCiclo($afiliado_abuelo, $id_red,$profundidad_red,$id_venta, $mercancia);
+			}
+		}
+	}
+	
+	private function consultarRedAfiliado($id_afiliado,$id_red,$profundidad_red,$contador){
+		if($profundidad_red <= $contador)
+		{
+			return $contador-1;
+		}
+	
+		$hijos = $this->model_perfil_red->ConsultarHijos($id_afiliado,$id_red);
+	
+		foreach ($hijos as $hijo){
+			if($this->modelo_compras->is_afiliado_activo($hijo->id_afiliado,$id_red)){
+				$this->numeroAfiliadosActivos++;
+	
+			}
+				
+			$contador = $this->consultarRedAfiliado($hijo->id_afiliado,$id_red,$profundidad_red,$contador+1);
+		}
+	}
+	
+	private function registarCiclo($id_afiliado, $id_red, $profundidad_red,$id_venta, $mercancia){
+	
+		$id_padre = $this->model_perfil_red->get_sponsor_id($id_afiliado,$id_red)[0]->directo;
+		
+		if($id_padre == 1){
+			$ciclo = $this->model_perfil_red->consultarCiclo(2, $id_red)[0]->id_ciclo;
+			if(isset($ciclo))
+				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, $ciclo+1);
+			else
+				$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, 1);
+						
+			return 0;
+		}
+		$ciclo = $this->buscarCicloPadre($id_padre, $id_red);
+	
+		$this->hayEspacio=false;
+		$contador = 0;
+	
+		$this->buscarEspacioCiclo($this->ciclo[0]->id_afiliado,$profundidad_red,$contador);
+	
+		$this->model_perfil_red->insertarAfiliadoCiclo($id_afiliado, $id_red, $this->ciclo[0]->id_afiliado, $this->ciclo[0]->lado, $this->ciclo[0]->id_ciclo);
+	
+		//Verificar ciclajes continuo
+	
+		$id_padre = $this->ciclo[0]->id_afiliado;
+	
+		if(!$id_padre || $id_padre == 2 || $id_padre==1)
+			return false;
+	
+			$id_padre_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($id_padre, $id_red, $this->ciclo[0]->id_ciclo);
+	
+			$this->numeroAfiliadosActivos = 0;
+	
+			$this->verificarCiclaje($id_padre_abuelo[0]->debajo_de, $this->ciclo[0]->id_ciclo, $id_red, 2, 0);
+	
+	
+			if($this->numeroAfiliadosActivos == 6){
+					
+				if($id_padre_abuelo[0]->debajo_de == 2){
+	
+					$this->model_perfil_red->insertarAfiliadoCiclo(2, $id_red, 1, 0, $this->ciclo[0]->id_ciclo+1);
+				}else{
+	
+					$valor_comision = $this->modelo_compras->consultarMercancia($id_venta)[0]->puntos_comisionables;
+					$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$id_padre_abuelo[0]->debajo_de,$valor_comision);
+	
+					$sponson = $this->model_perfil_red->get_sponsor_id($id_padre_abuelo[0]->debajo_de,$id_red);
+					$this->modelo_compras->set_comision_afiliado($id_venta,$id_red,$sponson[0]->directo,$valor_comision);
+	
+					$this->registarCiclo($id_padre_abuelo[0]->debajo_de, $id_red,$profundidad_red,$id_venta, $mercancia);
+				}
+			}
+	
+	}
+	
+	private function buscarCicloPadre($id_afiliado,$id_red){
+	
+		$ciclo = $this->model_perfil_red->consultarCiclo($id_afiliado, $id_red);
+		$id_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red)[0]->debajo_de;
+		if($id_afiliado == 1){
+			return 0;
+		}
+	
+	
+		if(!isset($ciclo[0]->id_ciclo)){
+			$this->buscarCicloPadre($id_padre,$id_red);
+		}else{
+			$this->ciclo = $ciclo;
+			return $ciclo[0]->id_ciclo;
+		}
+	}
+	
+	private function buscarEspacioCiclo($id,$profundidad_red,$contador){
+	
+		if($profundidad_red <= $contador)
+		{
+			return $contador-1;
+		}
+	
+		$hijos = $this->model_perfil_red->consultarHijosCiclo($id, $this->ciclo[0]->id_red, $this->ciclo[0]->id_ciclo);
+	
+		if(count($hijos) == 0){
+			$this->ciclo[0]->lado = 0;
+			$this->hayEspacio = true;
+			return 0;
+		}else if(count($hijos) == 1){
+			$this->hayEspacio = true;
+			$this->ciclo[0]->lado = 1;
+			return 0;
+		}else if($profundidad_red-1 > $contador){
+			foreach ($hijos as $hijo){
+	
+	
+				if(!$this->hayEspacio)
+				{
+					$this->ciclo[0]->id_afiliado = $hijo->id_afiliado;
+					$contador = $this->buscarEspacioCiclo($hijo->id_afiliado,$profundidad_red, $contador+1);
+				}
+			}
+		}
+		return $contador--;
+	}
+	
+	private function verificarCiclaje($id_afiliado,$id_ciclo,$id_red,$profundidad_red, $contador){
+	
+		if($profundidad_red <= $contador)
+		{
+			return $contador-1;
+		}
+	
+		$hijos = $this->model_perfil_red->consultarHijosCiclo($id_afiliado,$id_red,$id_ciclo);
+	
+		foreach ($hijos as $hijo){
+			//$padre = "Nivel ".$contador." ".$id_afiliado." - ".$hijo->id_afiliado;
+			//var_dump($padre);
+			if($this->modelo_compras->is_afiliado_activo($hijo->id_afiliado,$id_red)){
+				$this->numeroAfiliadosActivos++;
+			}
+			$this->verificarCiclaje($hijo->id_afiliado,$id_ciclo,$id_red,$profundidad_red,$contador+1);
+		}
+		$contador--;
 	}
 }

@@ -892,8 +892,15 @@ function detalles(id)
 															<div onclick="detalles(<?=$key->id_afiliado?>)" class="<?=($key->directo==$id) ? 'todo1' : 'todo'?>"><?=$key->afiliado?> <?=$key->afiliado_p?><br />Detalles</div>
 														</li>
 														<?}
-													}?>
-												
+													}
+													
+													for( $i = $aux; $i < $red_frontales[0]->frontal; $i++ ){ ?>
+														<li>
+															<a onclick="botbox('<?php echo $sponsor[0]->nombre; ?>','<?php echo $id; ?>','<?php echo $i ?>')" href='javascript:void(0)'>Afiliar Aqui</a>
+														 </li>
+												<?php }
+													?>
+													
 													</ul>
 												</li>
 											</ul>

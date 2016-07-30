@@ -356,7 +356,7 @@ class modelo_afiliado extends CI_Model{
 	
 	private function definir_lado($id_debajo,$mi_red) {
 		
-		if(isset($_POST['lado'])){
+		if(isset($_POST['lado']) && $_POST['ciclo'] == 0){
 			return $_POST['lado'];
 		}else {
 			return $this->consultarFrontalDisponible($id_debajo, $mi_red);
