@@ -181,9 +181,9 @@ class modelo_afiliado extends CI_Model{
 			
 			$this->insert_dato_afiliarCiclo($id, $mi_red, $id_debajo, $lado, $id_ciclo);
 			
-			$lado = $this->definir_lado ($id_debajo,$mi_red);
+			$lado = $this->consultarFrontalDisponible($directo, $mi_red);
 			
-			$dato_afiliar = $this->dato_afiliar ( $id, $mi_red, $id_debajo, $lado, $directo );
+			$dato_afiliar = $this->dato_afiliar ( $id, $mi_red, $directo , $lado, $directo );
 		}
 		
 		//$dato_permiso=$this->Perfil($id); # USER_PERMISSIONS

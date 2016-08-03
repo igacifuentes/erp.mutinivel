@@ -1421,6 +1421,20 @@ where a.id_paquete = e.id_paquete and d.sku= a.id_paquete and d.estatus="ACT" an
 		$this->db->insert("comision",$dato);
 	}
 	
+	function set_comision_afiliadoTipo($id_venta,$id_red_mercancia,$id_afiliado,$valor_comision,$tipo){
+		$dato=array(
+				"id_venta"       => $id_venta ,
+				"id_afiliado"    => $id_afiliado,
+				"id_red"         => $id_red_mercancia ,
+				"puntos"         => 0,
+				"valor"          => $valor_comision,
+				"tipo"           => $tipo
+	
+		);
+	
+		$this->db->insert("comision",$dato);
+	}
+	
 	function set_puntos_padre($id_afiliado,$puntos){
 		$q = $this->db->query("SELECT * FROM puntos_padre where id_user=".$id_afiliado);
 		$p_paquete = $q->result();

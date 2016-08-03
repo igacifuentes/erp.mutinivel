@@ -4123,14 +4123,20 @@ function index()
 		$UNILEVEL='UNI';	
 		 
 		$mercancias = $this->modelo_compras->consultarMercanciaTotalVenta($id_venta);
-	
+		
 		foreach ($mercancias as $mercancia){
-				
+			
+			
 			$id_red_mercancia = $this->modelo_compras->ObtenerCategoriaMercancia($mercancia->id);
 			$valor_punto_comisionable=$this->model_tipo_red->traerValorPuntoComisionableRed($id_red_mercancia);
 			$tipo_plan_compensacion=$this->modelo_compras->obtenerPlanDeCompensacion($id_red_mercancia);
 			
 			$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
+			$costoVenta = 30;
+			
+			if($mercancia->id == 2){
+				$this->generarBonoResidual($id_venta,$id_red_mercancia,$costoVenta,$id_afiliado_comprador);
+			}
 			
 			if($tipo_plan_compensacion[0]->plan==$MATRICIAL||$tipo_plan_compensacion[0]->plan==$UNILEVEL){
 
@@ -4149,7 +4155,6 @@ function index()
 		$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
 		$profundidadRed=$capacidad_red[0]->profundidad;
 	
-		
 		for($i=0;$i<$profundidadRed;$i++){
 				
 			$afiliado_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red_mercancia);
@@ -4184,6 +4189,49 @@ function index()
 			}
 			
 			$contador = $this->consultarRedAfiliado($hijo->id_afiliado,$id_red,$profundidad_red,$contador+1);
+		}
+	}
+	
+	private function generarBonoResidual($id_venta,$id_red_mercancia,$costoVenta,$id_afiliado){
+	
+		$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
+		$profundidadRed=$capacidad_red[0]->profundidad;
+	
+	
+		$id_padre = $this->model_perfil_red->get_sponsor_id ( $id_afiliado, $id_red_mercancia ) [0]->directo;
+	
+		if(!$id_padre|| $id_padre == 1){
+			return false;
+		}
+	
+		$valor_comision=8;
+		$this->setBonoCodificado($id_afiliado, $id_red_mercancia, $id_venta, $valor_comision);
+		if(! $this->modelo_compras->ComprobarCompraMercancia($id_padre, 2)){
+			$valor_comision = 0;	
+		}
+		$tipo = 4; //Bono codificado de Igualdad
+		$this->modelo_compras->set_comision_afiliadoTipo($id_venta,$id_red_mercancia,$id_padre,$valor_comision, $tipo);
+	}
+	
+	private function setBonoCodificado($id_afiliado, $id_red,$id_venta,$valor_comision){
+		$tipo = 3; //Bono Codificado
+		if($id_afiliado == 2){
+			$this->modelo_compras->set_comision_afiliadoTipo($id_venta,$id_red,2,$valor_comision,$tipo);
+			return 0;
+		}
+		$id_padre = $this->model_perfil_red->get_sponsor_id ( $id_afiliado, $id_red ) [0]->directo;
+		
+		$lado = $this->model_perfil_red->Consultarlado($id_afiliado, $id_red)[0]->lado;
+		
+		if($lado <= 1){
+			$this->setBonoCodificado($id_padre, $id_red,$id_venta,$valor_comision);
+			return 0;
+		}else{
+			if($this->modelo_compras->ComprobarCompraMercancia($id_padre, 2)){
+				$this->modelo_compras->set_comision_afiliadoTipo($id_venta,$id_red,$id_padre,$valor_comision,$tipo);
+			}else{
+				$this->setBonoCodificado($id_padre, $id_red,$id_venta,$valor_comision);
+			}
 		}
 	}
 }

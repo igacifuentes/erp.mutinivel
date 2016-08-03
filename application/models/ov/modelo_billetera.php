@@ -330,7 +330,7 @@ from transaccion_billetera t, users u, user_profiles p
 	}
 	
 	function get_ventas_comision_id($id){
-		$q=$this->db->query("SELECT c.id_venta, v.fecha, t.nombre as red, c.id_afiliado,
+		$q=$this->db->query("SELECT c.id_venta, v.fecha , c.puntos, t.nombre as red, c.id_afiliado, c.tipo,
 								concat(p.nombre,' ',p.apellido) as nombres,
 								(select group_concat(
 										concat((
@@ -360,7 +360,7 @@ from transaccion_billetera t, users u, user_profiles p
 	}
 	
 	function get_ventas_comision_fecha($id,$fecha){
-		$q=$this->db->query("SELECT c.id_venta, v.fecha, t.nombre as red, c.id_afiliado,
+		$q=$this->db->query("SELECT c.id_venta, v.fecha , c.puntos, t.nombre as red, c.id_afiliado, c.tipo,
 								concat(p.nombre,' ',p.apellido) as nombres,
 								(select group_concat(
 										concat((

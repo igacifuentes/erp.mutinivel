@@ -6,8 +6,7 @@
 			<h1 class="page-title txt-color-blueDark">
 					<a class="backHome" href="/bo"><i class="fa fa-home"></i> Menu</a>
 				<span>> <a href="/bo/configuracion/"> Configuracion </a>
-				> <a href="/bo/configuracion/premios"> Premios </a>
-				>	Listar
+				> Premios
 				</span>
 			</h1>
 		</div>
@@ -93,9 +92,9 @@
 												<tr>
 													<th>ID</th>
 													<th data-class="expand">Red</th>
-													<th data-hide="phone,tablet">Nivel de Red</th>
 													<th data-hide="phone,tablet">Nombre</th>
-													<th data-hide="phone,tablet">Cant. afiliados</th>
+													<th data-hide="phone,tablet">Timepo Requerido (Meses)</th>
+													<th data-hide="phone,tablet">Cant. Codificados</th>
 													<th data-hide="phone,tablet">Frecuencia</th>
 													<th> Acciones</th>
 												</tr>
@@ -109,9 +108,9 @@
 																echo $red->nombre;
 															}
 														} ?></td>
-														<td><?php echo $premio->nivel; ?></td>
 														<td><?php echo $premio->nombre; ?></td>
-														<td><?php echo $premio->num_afiliados; ?></td>
+														<td><?php echo $premio->meses; ?></td>
+														<td><?php echo $premio->codificados; ?></td>
 														<td><?php echo $premio->frecuencia; ?></td>
 														<td>
 															<a title="Editar" style="cursor: pointer;" class="txt-color-blue" onclick="editar('<?php echo $premio->id; ?>');"><i class="fa fa-pencil fa-3x"></i></a>

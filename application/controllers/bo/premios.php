@@ -240,35 +240,16 @@ class premios extends CI_Controller
 			redirect('/bo/premios/nuevo_premio');
 		}
 		
-		else if ($_POST['nivel']>$red[0]->profundidad || $_POST['nivel']<=0){
-			if ($_POST['nivel']<=0) $error = "El nivel de profundidad no puede ser igual o menor a 0.";
-			else $error = "La red solo cuenta con una capacidad de profundidad de ".$red[0]->profundidad." niveles.";
-			$this->session->set_flashdata('error', $error);
-			redirect('/bo/premios/nuevo_premio');
-		}
-		
-		for ($i = 0; $i<$_POST['nivel']; $i++){
-			if ($i==0){
-				$frontales_por_nivel = $red[0]->frontal;
-			}
-			else $frontales_por_nivel = $frontales_por_nivel * $red[0]->frontal;
-				
-			if ($_POST['cantidad']>$frontales_por_nivel){
-				$contador_de_errores = 1;
-			}
-			else $contador_de_errores = 0;
-		}
-		
-		if ($contador_de_errores == 1 || $_POST['cantidad']<=0){
-			if ($_POST['cantidad']<=0) $error = "La cantidad de afiliados necesarios no puede ser igual o menor a 0.";
-			else	$error = "La cantidad máxima de afiliados necesarios que se puede tener en el nivel ".$_POST['nivel']." es ".$frontales_por_nivel.".";
+		if ($contador_de_errores == 1 || $_POST['codificados']<=0){
+			if ($_POST['cantidad']<=0) 
+				$error = "La cantidad de codificados necesarios no puede ser igual o menor a 0.";
 			$this->session->set_flashdata('error', $error);
 			redirect('/bo/premios/nuevo_premio');
 		}
 		
 		if (!$this->tank_auth->is_logged_in())
 		{																		// logged in
-		redirect('/auth');
+			redirect('/auth');
 		}
 		//echo 'heey';
 		$id=$this->tank_auth->get_user_id();
@@ -317,8 +298,8 @@ class premios extends CI_Controller
 			//echo 'se supone que se debo de subir';
 				
 			//echo 'insert into noticia (id_usuario,nombre,contenido,imagen) values ('.$id.',"'.$_POST['nombre_frm'].'","'.$_POST['desc_frm'].'","'.$ruta.$_POST['file_nme'].'")';
-			$this->db->query('insert into premios (nombre,descripcion,imagen,nivel,num_afiliados,id_red,frecuencia,estatus)
-				values ("'.$_POST['nombre'].'","'.$descripcion.'","'.$ruta.$nombre.".".$ext.'","'.$_POST['nivel'].'","'.$_POST['cantidad'].'","'.$_POST['red'].'","'.$_POST['frecuencia'].'","'.ACT.'")');
+			$this->db->query('insert into premios (nombre,descripcion,imagen,meses,codificados,id_red,frecuencia,estatus)
+				values ("'.$_POST['nombre'].'","'.$descripcion.'","'.$ruta.$nombre.".".$ext.'","'.$_POST['meses'].'","'.$_POST['codificados'].'","'.$_POST['red'].'","'.$_POST['frecuencia'].'","'.ACT.'")');
 			//echo 'ptm';
 		
 		
@@ -357,35 +338,22 @@ class premios extends CI_Controller
 			redirect('/bo/premios/listar');
 		}
 		
-		else if ($_POST['nivel']>$red[0]->profundidad || $_POST['nivel']<=0){
-			if ($_POST['nivel']<=0) $error = "El nivel de profundidad no puede ser igual o menor a 0.";
-			else $error = "La red solo cuenta con una capacidad de profundidad de ".$red[0]->profundidad." niveles.";
+		else if ($_POST['meses']<=0){
+			$error = "El numero de meses que se deba mantener los cofificados no puede ser igual o menor a 0.";
 			$this->session->set_flashdata('error', $error);
 			redirect('/bo/premios/listar');
 		}
 		
-		for ($i = 0; $i<$_POST['nivel']; $i++){
-			if ($i==0){
-				$frontales_por_nivel = $red[0]->frontal;
-			}
-			else $frontales_por_nivel = $frontales_por_nivel * $red[0]->frontal;
+		if ($_POST['codificados']<=0) {
+			$error = "La cantidad de codificados necesarios no puede ser igual o menor a 0.";
 			
-			if ($_POST['cantidad']>$frontales_por_nivel){
-				$contador_de_errores = 1; 
-			}
-			else $contador_de_errores = 0;
-		}
-		
-		if ($contador_de_errores == 1 || $_POST['cantidad']<=0){
-			if ($_POST['cantidad']<=0) $error = "La cantidad de afiliados necesarios no puede ser igual o menor a 0.";
-			else	$error = "La cantidad máxima de afiliados necesarios que se puede tener en el nivel ".$_POST['nivel']." es ".$frontales_por_nivel.".";
 			$this->session->set_flashdata('error', $error);
 			redirect('/bo/premios/listar');
 		}
 		
 		$id_premio = $_POST['id'];
-		$nivel= $_POST['nivel'];
-		$num_afiliados= $_POST['cantidad'];
+		$meses= $_POST['meses'];
+		$codificados= $_POST['codificados'];
 		$id_red= $_POST['red'];
 		$frecuencia= $_POST['frecuencia'];
 		
@@ -394,7 +362,7 @@ class premios extends CI_Controller
 			$descripcion = $_POST['desc_frm'];
 			$descripcion = htmlentities($descripcion);
 			
-			$this->modelo_premios->actualizarPremio($id_premio,$_POST['nombre'],$descripcion,$imagen,$nivel,$num_afiliados,$id_red,$frecuencia);
+			$this->modelo_premios->actualizarPremio($id_premio,$_POST['nombre'],$descripcion,$imagen,$meses,$codificados,$id_red,$frecuencia);
 		}
 		else {
 			$ruta="/media/premios/";

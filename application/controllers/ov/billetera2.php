@@ -518,7 +518,7 @@ class billetera2 extends CI_Controller
 				<thead id='tablacabeza'>
 					<th data-class='expand'>ID Venta</th>
 					<th data-hide='phone,tablet'>Afiliado</th>
-					<th data-hide='phone,tablet'>Red</th>
+					<th data-hide='phone,tablet'>Bono</th>
 					<th data-hide='phone,tablet'>Items</th>
 					<th data-hide='phone,tablet'>Total</th>
 					<th data-hide='phone,tablet'>Comision</th>
@@ -528,16 +528,39 @@ class billetera2 extends CI_Controller
 	
 		foreach($ventas as $venta)
 		{
+			if($venta->tipo == 5)
+			{
+				$ventas_table .= "<td COLSPAN='5' >Premio de liderazgo</td>
+				<td> $	".number_format($venta->comision, 2)."</td>";
+			}else{
 				
-			$ventas_table .= "<tr>
-			<td class='sorting_1'>".$venta->id_venta."</td>
-			<td>".$venta->nombres."</td>
-			<td>".$venta->red."</td>
-			<td>".$venta->items."</td>
-			<td>".number_format($venta->total, 2)."</td>
-			<td> $	".number_format($venta->comision, 2)."</td>
-			</tr>";
-	
+				if($venta->comision > 0){		
+					$ventas_table .= "<tr>
+					<td class='sorting_1'>".$venta->id_venta."</td>
+					<td>".$venta->nombres."</td>";
+					switch ($venta->tipo){
+						case 1:
+							$ventas_table .="<td>Bono Ciclo (".$venta->red.")</td>";
+							break;
+						case 2:
+							$ventas_table .="<td>Bono de Igualdad Ciclo (".$venta->red.")</td>";
+							break;
+						case 3:
+							$ventas_table .="<td>Bono Codificado (".$venta->red.")</td>";
+							break;
+						case 4:
+							$ventas_table .="<td>Bono de Igualdad Codificado (".$venta->red.")</td>";
+							break;
+						default:
+							$ventas_table .="<td>".$venta->red.")</td>";
+							break;
+					}
+					$ventas_table .="<td>".$venta->items."</td>
+					<td>".number_format($venta->total, 2)."</td>
+					<td> $	".number_format($venta->comision, 2)."</td>
+					</tr>";
+				}
+			}
 			$total += ($venta->comision);
 	
 		}

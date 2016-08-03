@@ -1009,4 +1009,26 @@ order by (U.id);");
 		}
 		return true;
 	}
+	
+	function Consultarlado($id,$red){
+		$q = $this->db->query("select lado from afiliar where id_afiliado = ".$id." and id_red = ".$red);
+		return $q->result();
+	}
+	
+	function numeroCodificadosMes($id){
+		$mes = date("m");
+		$año = date("Y");
+		$consulta = " and MONTH(fecha) = ".$mes." and YEAR(fecha) = ".$año;
+		$q = $this->db->query("select count(*) as codificados from comision where id_afiliado = ".$id." ".$consulta);
+		$numeroCodificados = $q->result()[0]->codificados;
+		return $numeroCodificados;
+	}
+	
+	function numeroCodificadosMesPremio($id, $mes, $año){
+		
+		$consulta = " and MONTH(fecha) = ".$mes." and YEAR(fecha) = ".$año;
+		$q = $this->db->query("select count(*) as codificados from comision where id_afiliado = ".$id." ".$consulta);
+		$numeroCodificados = $q->result()[0]->codificados;
+		return $numeroCodificados;
+	}
 }
