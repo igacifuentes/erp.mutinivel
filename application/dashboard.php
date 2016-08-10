@@ -78,15 +78,6 @@ class dashboard extends CI_Controller {
 		}
 		return $siCumple;
 	}
-	
-	private function premioNavideño($id_afiliado, $id_premio, $frecuencia){
-		$fecha = date("m-d");
-		if($fecha == "12-15"){
-			return true;
-		}else{
-			return false;
-		}
-	}
 	private function DeterminarPremio($id_afiliado, $id_red, $numeroCodificados) {
 		$fecha = date('Y-m-d');
 		$fechaConsulta = strtotime ( '-1 month' , strtotime ( $fecha ) ) ;
@@ -106,52 +97,18 @@ class dashboard extends CI_Controller {
 						
 						if($this->RegistrarPremioAfiliado($id_afiliado, $premio->id, $premio->frecuencia))
 						{
-							$this->modelo_compras->set_comision_afiliadoTipo( 0, $id_red, $id_afiliado, 500, 6);
+							$this->modelo_compras->set_comision_afiliadoTipo( 0, $id_red, $id_afiliado, 500, 5);
 							$this->modelo_premios->cambiarEstadoPremioAfiliado($id_afiliado, 1, "Embarcado", $premio->frecuencia);
 						}
 						break;
-					case 2: case 3:
+					case 2:
 						
 						if($this->requisitoMesesPremio($id_afiliado, $premio->meses, $premio->codificados,$premio->id))
 						{
 							$this->RegistrarPremioAfiliado($id_afiliado, $premio->id, $premio->frecuencia);
 						}
+						
 						break;
-					case 4:
-						if($this->premioNavideño($id_afiliado, $premio->id, $premio->frecuencia)){
-							$valorComision = 0;
-							if($numeroCodificados >= 256 && $numeroCodificados < 512){
-								$valorComision = 500;
-							}else if($numeroCodificados >= 512 && $numeroCodificados < 1024){
-								$valorComision = 1000;
-							} else if($numeroCodificados >= 1024 && $numeroCodificados < 2048){
-								$valorComision = 2000;
-							}else if($numeroCodificados >= 2048){
-								$valorComision = 4000;
-							}
-							
-							if($this->RegistrarPremioAfiliado($id_afiliado, $premio->id, $premio->frecuencia) && $valorComision > 0)
-							{
-								$this->modelo_compras->set_comision_afiliadoTipo( 0, $id_red, $id_afiliado, $valorComision, 5);
-								$this->modelo_premios->cambiarEstadoPremioAfiliado($id_afiliado, $premio->id, "Embarcado", $premio->frecuencia);
-							}	
-						}
-						//Navideño
-						break;
-					case 5: 
-						if($this->requisitoMesesPremio($id_afiliado, $premio->meses, $premio->codificados,$premio->id - 1))
-						{
-							$this->RegistrarPremioAfiliado($id_afiliado, $premio->id, $premio->frecuencia);
-						}
-						break;
-					case 6: case 7: case 8: case 9:
-						if($this->requisitoMesesPremio($id_afiliado, $premio->meses, $premio->codificados,$premio->id))
-						{
-							$this->RegistrarPremioAfiliado($id_afiliado, $premio->id, $premio->frecuencia);
-						}
-						break;
-						//Premios del 5 al 8
-					break;
 				}	
 			}
 			

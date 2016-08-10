@@ -404,7 +404,7 @@ class premios extends CI_Controller
 				$descripcion = $_POST['desc_frm'];
 				$descripcion = htmlentities($descripcion);
 				
-				$this->modelo_premios->actualizarPremio($id_premio,$_POST['nombre'],$descripcion,$imagen,$nivel,$num_afiliados,$id_red,$frecuencia);
+				$this->modelo_premios->actualizarPremio($id_premio,$_POST['nombre'],$descripcion,$imagen,$codificados,$codificados,$id_red,$frecuencia);
 			}
 		}
 		$success = "El premio ha sido actualizado satisfactoriamente.";

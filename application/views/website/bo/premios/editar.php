@@ -95,7 +95,7 @@
 								</section>
 								
 								<br>
-								
+								<input type="hidden" value="<?php echo $premio[0]->imagen; ?>" name="file">
 								<div class="row">
 									<section  id="div_subir" style="width: 25rem;">
 																									

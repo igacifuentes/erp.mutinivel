@@ -466,4 +466,10 @@ from transaccion_billetera where id_user = ".$id." order by fecha desc ");
 		return $q3;		
 	}
 	
+	function getComisionPorMeses($id){
+		$q = "SELECT fecha, sum(valor) as comision from comision where id_afiliado = ".$id." group by month(fecha)";
+		$consulta = $this->db->query($q);
+		$q2=$consulta->result();
+		return $q2;
+	}
 }

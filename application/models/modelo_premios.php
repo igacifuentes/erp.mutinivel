@@ -195,7 +195,15 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 		}
 	}
 	
-	function premio1($id){
-		
+	function consultarPremioObtenido($id_premio, $id_afiliado){
+		$q = $this->db->query("select cpu.* from premios p, cross_premio_usuario cpu where p.id = cpu.id_premio and p.id = ".$id_premio." and cpu.id_afiliado = ".$id_afiliado);
+		$premio =  $q->result();
+		return $premio;
+	}
+	
+	function consultarPremiosObtenido($id_afiliado){
+		$q = $this->db->query("select p.* , cpu.fecha, cpu.estado from premios p, cross_premio_usuario cpu where p.id = cpu.id_premio and cpu.estado <> 'Embarcado' and cpu.id_afiliado = ".$id_afiliado);
+		$premios =  $q->result();
+		return $premios;
 	}
 }

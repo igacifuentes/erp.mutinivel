@@ -694,16 +694,13 @@ class perfil_red extends CI_Controller
 		$red_forntales 	 = $this->model_tipo_red->ObtenerFrontalesRed($id_red);
 		
 	
-		if($id>2){
-			$estaEnRed 	 = $this->model_tipo_red->validarUsuarioRed($id,$id_red);
+		$estaEnRed 	 = $this->model_tipo_red->validarUsuarioRed($id,$id_red);
 			
-			if(!$estaEnRed)
-				redirect('/');
-			
-			if(count($afiliados)>=$red_forntales[0]->frontal&&$red_forntales[0]->frontal>0)
-				redirect('/ov/perfil_red/afiliar_red?id='.$id_red);
-			
-		}
+		if(!$estaEnRed)
+			redirect('/');
+		
+		if(count($afiliados)>=$red_forntales[0]->frontal&&$red_forntales[0]->frontal>0)
+			redirect('/ov/perfil_red/afiliar_red?id='.$id_red);
 		
 		if($this->model_perfil_red->isCiclaje($id,$id_red))
 		{

@@ -104,21 +104,16 @@ class billetera2 extends CI_Controller
 		$usuario=$this->general->get_username($id);
 		$style=$this->general->get_style($id);
 	
-		$historial=$this->modelo_billetera->get_historial_cuenta($id);
+		$historial=$this->modelo_billetera->getComisionPorMeses($id);
+		
 		$ganancias=$this->modelo_billetera->get_monto($id);
 		$ganancias=$ganancias[0]->monto;
 		$años = $this->modelo_billetera->anosCobro($id);
 
-	/*	foreach ($historial as $comision){
-				if($comision->fecha == $mes->fecha){
-					$mes->valor+=$comision->valor;
-				}
-		}*/
-		$this->template->set("historial",$historial);
 		
 		$this->template->set("style",$style);
 		$this->template->set("usuario",$usuario);
-		//$this->template->set("historial",$historial);
+		$this->template->set("historial",$historial);
 		$this->template->set("ganancias",$ganancias);
 		$this->template->set("años",$años);
 	
@@ -503,7 +498,7 @@ class billetera2 extends CI_Controller
 		$fecha =isset($_POST['fecha']) ? $_POST['fecha'] : null;
 	
 		//echo "dentro de historial : ".$id;
-	
+		
 		$ventas = ($fecha)
 		? $this->modelo_billetera->get_ventas_comision_fecha($id,$fecha)
 		: $this->modelo_billetera->get_ventas_comision_id($id);
@@ -532,7 +527,11 @@ class billetera2 extends CI_Controller
 			{
 				$ventas_table .= "<td COLSPAN='5' >Premio de liderazgo</td>
 				<td> $	".number_format($venta->comision, 2)."</td>";
-			}else{
+			}else if($venta->tipo == 5)
+			{
+				$ventas_table .= "<td COLSPAN='5' >Bono Navideño</td>
+				<td> $	".number_format($venta->comision, 2)."</td>";
+			}else {
 				
 				if($venta->comision > 0){		
 					$ventas_table .= "<tr>
