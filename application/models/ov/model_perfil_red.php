@@ -1019,7 +1019,7 @@ order by (U.id);");
 		$mes = date("m");
 		$año = date("Y");
 		$consulta = " and MONTH(fecha) = ".$mes." and YEAR(fecha) = ".$año;
-		$q = $this->db->query("select count(*) as codificados from comision where id_afiliado = ".$id." ".$consulta);
+		$q = $this->db->query("select count(*) as codificados from comision where id_afiliado = ".$id." and tipo=3 ".$consulta);
 		$numeroCodificados = $q->result()[0]->codificados;
 		return $numeroCodificados;
 	}
@@ -1027,7 +1027,7 @@ order by (U.id);");
 	function numeroCodificadosMesPremio($id, $mes, $año){
 		
 		$consulta = " and MONTH(fecha) = ".$mes." and YEAR(fecha) = ".$año;
-		$q = $this->db->query("select count(*) as codificados from comision where id_afiliado = ".$id." ".$consulta);
+		$q = $this->db->query("select count(*) as codificados from comision where id_afiliado = ".$id." and tipo=3 ".$consulta);
 		$numeroCodificados = $q->result()[0]->codificados;
 		return $numeroCodificados;
 	}

@@ -179,7 +179,7 @@ class modelo_afiliado extends CI_Model{
 			$dato_afiliar = $this->dato_afiliar ( $id, $mi_red, $id_debajo, $lado, $directo );
 		}else{
 			
-			$this->insert_dato_afiliarCiclo($id, $mi_red, $id_debajo, $lado, $id_ciclo);
+			//$this->insert_dato_afiliarCiclo($id, $mi_red, $id_debajo, $lado, $id_ciclo);
 			
 			$lado = $this->consultarFrontalDisponible($directo, $mi_red);
 			

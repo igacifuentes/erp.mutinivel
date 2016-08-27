@@ -33,7 +33,8 @@ class dashboard extends CI_Controller
 		{
 			redirect('/auth/logout');
 		}
-
+		
+		$this->generarCobrosComision();
 		$style=$this->modelo_dashboard->get_style($id);
 		$afiliados=$this->general->totalAfiliados();
 
@@ -85,5 +86,22 @@ class dashboard extends CI_Controller
 		$this->template->set_partial('footer', 'website/ov/footer');
 		$this->template->build('website/ov/billetera/dashboard');
 		$this->template->build('website/bo/CuentaPorPagar');
+	}
+	
+	function generarCobrosComision(){
+		if(date("w") == 2){
+			$comisiones = $this->modelo_billetera->get_total_comisiones_por_afiliado();
+			
+			foreach ($comisiones as $comision){
+				$retenciones = $this->modelo_billetera->ValorRetencionesTotalesAfiliado($comision->id_afiliado);
+				$valorComision = $comision->valor - $comision->cobros - $retenciones; 
+				
+				if($valorComision > 0){
+					$this->modelo_billetera->cobroAtomatico($comision->id_afiliado,$valorComision);
+				}
+			}
+			
+			//id, username, nombres y apellidos, telefono, email, monto
+		}
 	}
 }

@@ -472,4 +472,24 @@ from transaccion_billetera where id_user = ".$id." order by fecha desc ");
 		$q2=$consulta->result();
 		return $q2;
 	}
+	
+	function get_total_comisiones_por_afiliado(){
+	
+		$q=$this->db->query('SELECT c.id_afiliado, SUM(valor) AS valor, (select sum(monto) from cobro where id_user = id_afiliado)AS cobros FROM comision c GROUP BY c.id_afiliado;');
+		$comisiones=$q->result();
+		return $comisiones;
+	}
+	
+	function cobroAtomatico($id,$monto)
+	{
+		$dato_cobro=array(
+				"id_user"		=>	intval($id),
+				"id_metodo"		=> 	1,
+				"id_estatus"		=> 	3,
+				"monto"			=> 	intval($monto)
+		);
+			
+		$this->db->insert("cobro",$dato_cobro);
+	
+	}
 }

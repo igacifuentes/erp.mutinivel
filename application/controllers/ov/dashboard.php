@@ -355,6 +355,7 @@ class dashboard extends CI_Controller {
 			$this->generearBonoCicloCliclajes ( $id_afiliado, $id_red, $profundidad_red, $id_venta, $mercancia );
 			return 0;
 		}
+		$this->registarCiclo ( $id_afiliado, $id_red, $profundidad_red, $id_venta, $mercancia );
 		
 		/*
 		 * $afiliado_padre = $this->model_perfil_red->ConsultarIdPadre($id_afiliado,$id_red)[0]->debajo_de;
@@ -397,9 +398,9 @@ class dashboard extends CI_Controller {
 		 * }
 		 * $afiliado_abuelo = $this->model_perfil_red->consultarIdPadreCiclo($afiliado_padre, $id_red, $id_ciclo)[0]->debajo_de;
 		 */
+		
 		$afiliado_abuelo = $id_afiliado;
 		$this->numeroAfiliadosActivos = 0;
-		
 		$this->verificarCiclaje ( $afiliado_abuelo, $id_ciclo, $id_red, $profundidad_red, 0 );
 
 		
@@ -434,6 +435,7 @@ class dashboard extends CI_Controller {
 			$contador = $this->consultarRedAfiliado ( $hijo->id_afiliado, $id_red, $profundidad_red, $contador + 1 );
 		}
 	}
+	
 	private function registarCiclo($id_afiliado, $id_red, $profundidad_red, $id_venta, $mercancia) {
 		$id_padre = $this->model_perfil_red->get_sponsor_id ( $id_afiliado, $id_red ) [0]->directo;
 		
@@ -491,6 +493,7 @@ class dashboard extends CI_Controller {
 			}
 		}
 	}
+	
 	private function buscarCicloPadre($id_afiliado, $id_red, $miCiclo) {
 		$ciclo = $this->model_perfil_red->consultarCiclo ( $id_afiliado, $id_red );
 		$id_padre = $this->model_perfil_red->ConsultarIdPadre ( $id_afiliado, $id_red ) [0]->debajo_de;
@@ -505,6 +508,7 @@ class dashboard extends CI_Controller {
 			return $ciclo [0]->id_ciclo;
 		}
 	}
+	
 	private function buscarEspacioCiclo($id, $profundidad_red, $contador) {
 		if ($profundidad_red <= $contador) {
 			return $contador - 1;
