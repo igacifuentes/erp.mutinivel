@@ -89,7 +89,7 @@ class dashboard extends CI_Controller
 	}
 	
 	function generarCobrosComision(){
-		if(date("w") == 2){
+		if(date("w") == 1){
 			$comisiones = $this->modelo_billetera->get_total_comisiones_por_afiliado();
 			
 			foreach ($comisiones as $comision){
@@ -100,8 +100,6 @@ class dashboard extends CI_Controller
 					$this->modelo_billetera->cobroAtomatico($comision->id_afiliado,$valorComision);
 				}
 			}
-			
-			//id, username, nombres y apellidos, telefono, email, monto
 		}
 	}
 }

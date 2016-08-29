@@ -11,7 +11,7 @@ class CuentasPagar extends CI_Controller
 		$this->load->library('security');
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');
-		$this->load->model('bo/modelo_dashboard');
+		$this->load->model('ov/modelo_dashboard');
 		$this->load->model('bo/general');
 		$this->load->model('bo/modelo_comercial');
 		$this->load->model('ov/model_perfil_red');
@@ -121,7 +121,22 @@ class CuentasPagar extends CI_Controller
 		
 		$cobros = $this->modelo_cobros->ConsultarCobrosFecha($fecha_inicio, $fecha_fin);
 		
-		$this->template->set("cobros",$cobros);
+		$listaCobros = array();
+		for($i = 0; $i < count($cobros); $i++){
+			$cobro = array(
+					'id'=>$cobros[$i]->id,
+					'fecha' => $cobros[$i]->fecha,
+					'username'=> $this->modelo_dashboard->get_user_name($cobros[$i]->id),
+					'nombres'=> $cobros[$i]->usuario,
+					'telefono'=> $this->modelo_dashboard->get_user_phone($cobros[$i]->id),
+					'email'=> $this->modelo_dashboard->get_user_email ($cobros[$i]->id),
+					'monto' => $cobros[$i]->monto,
+					'estado' => $cobros[$i]->estado,
+			);
+			array_push($listaCobros, $cobro);
+		}
+		
+		$this->template->set("cobros",$listaCobros);
 		$this->template->set_theme('desktop');
 		$this->template->build('website/bo/comercial/Cuentas/CobrosSinPagar');
 	}
@@ -134,6 +149,21 @@ class CuentasPagar extends CI_Controller
 		$fecha_fin = $_GET['fin'];
 		
 		$cobros = $this->modelo_cobros->ConsultarCobrosFecha($fecha_inicio, $fecha_fin);
+		
+		$listaCobros = array();
+		for($i = 0; $i < count($cobros); $i++){
+			$cobro = array(
+					'id'=>$cobros[$i]->id,
+					'fecha' => $cobros[$i]->fecha,
+					'username'=> $this->modelo_dashboard->get_user_name($cobros[$i]->id),
+					'nombres'=> $cobros[$i]->usuario,
+					'telefono'=> $this->modelo_dashboard->get_user_phone($cobros[$i]->id),
+					'email'=> $this->modelo_dashboard->get_user_email ($cobros[$i]->id),
+					'monto' => $cobros[$i]->monto,
+					'estado' => $cobros[$i]->estado,
+			);
+			array_push($listaCobros, $cobro);
+		}
 		
 		if(!$cobros){
 			redirect('/bo/CuentasPagar/PorPagar');
@@ -149,26 +179,21 @@ class CuentasPagar extends CI_Controller
 		for($i = 0;$i < sizeof($cobros);$i++)
 		{
 			$contador_filas = $contador_filas+1;
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(0, ($i+8), $cobros[$i]->id_cobro);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(1, ($i+8), $cobros[$i]->fecha);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(2, ($i+8), $cobros[$i]->usuario);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(3, ($i+8), $cobros[$i]->banco);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(4, ($i+8), $cobros[$i]->cuenta);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(5, ($i+8), $cobros[$i]->titular);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(6, ($i+8), $cobros[$i]->clabe);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(7, ($i+8), $cobros[$i]->pais);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(8, ($i+8), $cobros[$i]->swift);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(9, ($i+8), $cobros[$i]->otro);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(10, ($i+8), $cobros[$i]->postal);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(11, ($i+8), $cobros[$i]->metodo_pago);
-			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(12, ($i+8), $cobros[$i]->monto);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(0, ($i+8), $cobros[$i]["id"]);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(1, ($i+8), $cobros[$i]["username"]);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(2, ($i+8), $cobros[$i]["nombres"]);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(3, ($i+8), $cobros[$i]["telefono"]);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(4, ($i+8), $cobros[$i]["email"]);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(5, ($i+8), $cobros[$i]["fecha"]);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(6, ($i+8), $cobros[$i]["monto"]);
+			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(7, ($i+8), $cobros[$i]["estado"]);
 			$total = $total + $cobros[$i]->monto;
 			$ultima_fila = $i+8;
 			$usuario = $this->modelo_cobros->CambiarEstadoCobro($cobros[$i]->id_cobro);
 			$this->enviar_email($usuario[0]->email, $usuario);
 		}
 		
-		$subtitulos	=array("ID Solicitud","Fecha","Usuario","Banco","Cuenta","Titular","CLABE","Pais","Swift","ABA_IBAN_OTRO","Direccion_Postal","Metodo","Valor","Estado");
+		$subtitulos	=array("ID","Username","Nombre y Apellidp","Telefono","E-mail","Fecha","Valor","Estado");
 		
 		$this->model_excel->setTemplateExcelReport ("Cuentas Por Pagar",$subtitulos,$contador_filas,$this->excel);
 		
