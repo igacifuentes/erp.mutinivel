@@ -154,6 +154,7 @@ class CuentasPagar extends CI_Controller
 		for($i = 0; $i < count($cobros); $i++){
 			$cobro = array(
 					'id'=>$cobros[$i]->id,
+					'id_cobro'=>$cobros[$i]->id_cobro,
 					'fecha' => $cobros[$i]->fecha,
 					'username'=> $this->modelo_dashboard->get_user_name($cobros[$i]->id),
 					'nombres'=> $cobros[$i]->usuario,
@@ -169,7 +170,7 @@ class CuentasPagar extends CI_Controller
 			redirect('/bo/CuentasPagar/PorPagar');
 		}
 			
-		
+		$cobros = $listaCobros;
 		$this->load->library('excel');
 		$this->excel=PHPExcel_IOFactory::load(FCPATH."/application/third_party/templates/reporte_generico.xls");
 		
@@ -187,9 +188,9 @@ class CuentasPagar extends CI_Controller
 			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(5, ($i+8), $cobros[$i]["fecha"]);
 			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(6, ($i+8), $cobros[$i]["monto"]);
 			$this->excel->getActiveSheet()->setCellValueByColumnAndRow(7, ($i+8), $cobros[$i]["estado"]);
-			$total = $total + $cobros[$i]->monto;
+			$total = $total + $cobros[$i]["monto"];
 			$ultima_fila = $i+8;
-			$usuario = $this->modelo_cobros->CambiarEstadoCobro($cobros[$i]->id_cobro);
+			$usuario = $this->modelo_cobros->CambiarEstadoCobro($cobros[$i]['id_cobro']);
 			$this->enviar_email($usuario[0]->email, $usuario);
 		}
 		

@@ -151,7 +151,7 @@ function enviarDatos(){
 						label: "Ok!",
 						className: "btn-success",
 						callback: function() {
-							location.href="/ov/red/red_arbol1?id="+<?php echo $_GET['id']; ?>;
+							location.href="/ov/red/red_arbol_frontales?id="+<?php echo $_GET['id']; ?>;
 							FinalizarSpinner();
 							}
 						}

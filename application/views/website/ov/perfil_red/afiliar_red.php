@@ -139,7 +139,7 @@ function enviarDatos(){
 							label: "Ok!",
 							className: "btn-success",
 							callback: function() {
-								location.href="";
+								location.href="/ov/red/red_arbol_frontales?id="+<?php echo $_GET['id']; ?>;
 								FinalizarSpinner();
 								}
 							}
