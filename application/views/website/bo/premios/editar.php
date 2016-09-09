@@ -24,13 +24,13 @@
 								</div>
 											
 								<label class="input" required>
-									Meses Requeridos
-									<input style="width: 25rem;" required type="number" name="meses" value='<?php echo $premio[0]->meses?>' class="form-control" required>
+									Nivel de profundidad
+									<input style="width: 25rem;" required type="number" name="nivel" value='<?php echo $premio[0]->nivel?>' class="form-control" required>
 								</label>
 								<br>
 								<label class="input" required>
-									Cantidad de codificados necesarios
-									<input style="width: 25rem;" required type="number" name="codificados" value='<?php echo $premio[0]->codificados?>'class="form-control" required>
+									Cantidad de afiliados necesarios
+									<input style="width: 25rem;" required type="number" name="cantidad" value='<?php echo $premio[0]->num_afiliados?>'class="form-control" required>
 								</label>
 								<br>
 								Selecione Red
@@ -53,16 +53,10 @@
 									<?php if ($premio[0]->frecuencia=='Mensual'){?>
 										<option selected value="Mensual">Mensual</option>
 										<option value="Anual">Anual</option>
-										<option value="Unico">Unico</option>
-										<?php } else if ($premio[0]->frecuencia=='Anual'){?>
+										<?php } else{?>
 										<option value="Mensual">Mensual</option>
 										<option selected value="Anual">Anual</option>
-										<option value="Unico">Unico</option>
-										<?php } else {?>
-										<option value="Mensual">Mensual</option>
-										<option value="Anual">Anual</option>
-										<option selected value="Unico">Unico</option>
-										<?php } ?>
+										<?php }?>
 									</select> <i></i> 
 								</label>
 								
@@ -95,7 +89,7 @@
 								</section>
 								
 								<br>
-								<input type="hidden" value="<?php echo $premio[0]->imagen; ?>" name="file">
+								
 								<div class="row">
 									<section  id="div_subir" style="width: 25rem;">
 																									

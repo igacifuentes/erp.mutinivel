@@ -9,7 +9,6 @@
 										<option value="DES" <?php if($grupo[0]->tipo=="DES")echo 'selected="selected"';?>>Descargas</option>
 										<option value="EBO" <?php if($grupo[0]->tipo=="EBO")echo 'selected="selected"';?>>E-books</option>
 										<option value="NOT" <?php if($grupo[0]->tipo=="NOT")echo 'selected="selected"';?>>Noticias</option>
-										<option value="VID" <?php if($grupo[0]->tipo=="VID")echo 'selected="selected"';?>>Videos</option>
 									</select>
 								</label>
 								<br>

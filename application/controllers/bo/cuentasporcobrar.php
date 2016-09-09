@@ -66,6 +66,7 @@ class cuentasporcobrar extends compras{
 			
 			$id_afiliado_comprador=$datosCuentaPagar[0]->id_usuario;
 			$id_historial=$datosCuentaPagar[0]->id;
+			
 			$this->pagarComisionVenta($id_venta,$id_afiliado_comprador);
 			
 			$this->modelo_historial_consignacion->CambiarEstadoPago($id_venta, $datosCuentaPagar[0]->id);

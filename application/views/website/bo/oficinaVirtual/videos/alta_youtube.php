@@ -6,7 +6,7 @@
 						<a class="backHome" href="/bo"><i class="fa fa-home"></i> Menu</a>
 							<span>>
 								<a href="/bo/oficinaVirtual/"> Oficina Virtual</a> > <a href="/bo/oficinaVirtual/videos"> Videos</a> 
-								> <a href="/bo/videos/alta"> Alta</a> > Youtube
+								> <a href="/bo/videos/alta"> Alta</a> > Vimeo
 							</span>
 						</h1>
 					</div>
@@ -35,7 +35,7 @@
 										<div class="col col-lg-4 col-md-6 col-sm-8 col-xs-12" style="margin-bottom: 2rem;"	>
 <form class="smart-form" id="reporte-form" method="post" action="sube_video_youtube" enctype="multipart/form-data">
 
-												<label class="label">Grupo</label>
+												<label class="label">Clase</label>
 												<label class="select">
 													<select name="grupo_frm">
 														<?php
@@ -67,7 +67,7 @@
 											<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12" id="busquedatodos">
 												<label class="label">URL del Video</label>
 												<label class="input">	
-													<input name="url" placeholder="http://youtube.com/..." type="text" id="url" required>
+													<input name="url" placeholder="http://vimeo.com/..." type="text" id="url" required>
 												</label>	
 											</section>
 										</div>
@@ -79,6 +79,15 @@
 														<span class="button"><input id="file" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
 													</div>
 												</section>
+										</div><br>
+										<div class="row">
+										
+													<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<label class="label">PDF</label>
+														<div class="input input-file">
+															<span class="button"><input id="file_pdf" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
+														</div>
+													</section>
 										</div><br>
 										<input type="submit" class="btn btn-success" id="boton_subir" value="Subir video">
 									</form>

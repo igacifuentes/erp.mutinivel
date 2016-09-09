@@ -22,12 +22,20 @@ where c.id_user = up.user_id and c.id_metodo = cm.id_metodo and c.id_estatus = c
 	
 	function ConsultarCobrosFecha($fecha_inicio, $fecha_final){
 		$cobros = $this->db->query("select 
-										up.user_id as id,
 									    c.id_cobro,
-									    CONCAT(up.nombre,' ',up.apellido) usuario,
+									    CONCAT(c.id_user,'. ',up.nombre,' ',up.apellido) usuario,
+									    cm.descripcion metodo_pago,
 									    cs.descripcion estado,
 									    c.monto,
-									    c.fecha
+									    c.fecha,
+										c.titular,
+										(select `Name` from Country where `Code` =  c.pais) pais,
+									    c.cuenta,
+									    c.banco,
+									    c.swift,
+										c.otro,
+									    c.clabe,
+										c.postal
 									from
 									    cobro c,
 									    user_profiles up,

@@ -15,518 +15,560 @@
 				</div>
 				
 				<!-- widget grid -->
-				<section id="widget-grid" class="">
-				
-					<!-- row -->
+				<link href="/cart/HTML/assets/css/style.css" rel="stylesheet">
+<link href="/cart/HTML/assets/css/skin-3.css" rel="stylesheet">
+
+<!-- css3 animation effect for this template -->
+<link href="/cart/HTML/assets/css/animate.min.css" rel="stylesheet">
+
+<!-- styles needed by carousel slider -->
+<link href="/cart/HTML/assets/css/owl.carousel.css" rel="stylesheet">
+<link href="/cart/HTML/assets/css/owl.theme.css" rel="stylesheet">
+
+<!-- styles needed by checkRadio -->
+<link href="/cart/HTML/assets/css/ion.checkRadio.css" rel="stylesheet">
+<link href="/cart/HTML/assets/css/ion.checkRadio.cloudy.css" rel="stylesheet">
+
+<!-- styles needed by mCustomScrollbar -->
+<link href="/cart/HTML/assets/css/jquery.mCustomScrollbar.css" rel="stylesheet">
+
+<!-- Just for debugging purposes. -->
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+<!-- include pace script for automatic web page progress bar  -->
+
+<div id="content">
+ <div class="navbar navbar-tshop navbar-fixed-top megamenu" role="navigation" id="cart_cont" style="background: #2980b9 ! important;">
+    <div class="navbar-header">
+     
+      <a style="color : #fff;margin-left:4rem;" class="navbar-brand titulo_carrito" href="/ov/dashboard" > <i class="fa fa-arrow-circle-left"></i> Atras &nbsp;</a> 
+      
+      <!-- this part for mobile -
+      <div class="search-box pull-right hidden-lg hidden-md hidden-sm">
+        <div class="input-group">
+          <button class="btn btn-nobg getFullSearch" type="button"> <i class="fa fa-search"> </i> </button>
+        </div>
+        <!-- /input-group --
+        
+      </div> -->
+    </div>
+    <!-- this part is duplicate from cartMenu  keep it for mobile -->
+    <div class="navbar-cart  collapse">
+      <div class="cartMenu  hidden-lg col-xs-12 hidden-md hidden-sm">
+        <div class="w100 miniCartTable scroll-pane">
+          <table>
+            <tbody class="cartButton">
+
+             
+            </tbody>
+          </table>
+        </div>
+        <!--/.miniCartTable-->
+        
+        <div class="miniCartFooter  miniCartFooterInMobile text-right">
+         
+          <a class="btn btn-sm btn-danger" onclick="ver_cart()"> <i class="fa fa-shopping-cart"> </i> VER CARRITO </a> <a class="btn btn-sm btn-primary" onclick="a_comprar()"> <i class="fa fa-money fa"></i> PAGAR!  </a> </div>
+        <!--/.miniCartFooter--> 
+        
+      </div>
+      <!--/.cartMenu--> 
+    </div>
+    <!--/.navbar-cart-->
+    
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+      <?php if(isset($mostrarMercancia)){
+		      	if($mostrarMercancia==1)
+		      		echo ' <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a></li>';
+		      	if($mostrarMercancia==2)
+		      		echo '<li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a></li>';
+		        if($mostrarMercancia==3){
+		        	echo '<li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a></li>
+						  <li class="dropdown megamenu-80width "> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a></li>
+						  <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a></li>';
+		        }
+      	} else {?>
+        <li class="active"> <a onclick="show_todos()"> Todos </a> </li>
+        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a></li>
+        <li class="dropdown megamenu-80width "> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a></li>
+        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a></li>
+        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a></li>
+        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a></li>
+     	<?php }?>
+      </ul>
+      <!--- this part will be hidden for mobile version -->
+      <div class="nav navbar-nav navbar-right hidden-xs">
+      
+          <div class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
+            <div class="w100 miniCartTable scroll-pane">
+              <table> 
+                <tbody class="cartButton">
+                  
+                </tbody>
+              </table>
+            </div> 
+            <!--/.miniCartTable-->
+            
+            <div class="miniCartFooter text-right">
+              
+              <a class="btn btn-sm btn-danger" onclick="ver_cart()"> <i class="fa fa-shopping-cart"> </i> VER CARRITO </a> <a class="btn btn-sm btn-primary" onclick="a_comprar()"> <i class="fa fa-money fa"></i> PAGAR!  </a> </div>
+            <!--/.miniCartFooter--> 
+            
+          </div>
+          <!--/.dropdown-menu--> 
+        </div>
+        <!--/.cartMenu-->
+        <!--  
+        <div class="search-box">
+          <div class="input-group">
+            <button class="btn btn-nobg getFullSearch" type="button"> <i class="fa fa-search"> </i> </button>
+          </div>
+          <!-- /input-group 
+          
+        </div>
+        <!--/.search-box -->
+      </div>
+      <!--/.navbar-nav hidden-xs--> 
+    </div>
+    <!--/.nav-collapse --> 
+</div>
+</div>
+<div class="container main-container" style="background-color: #fff;min-height: auto ! important;padding-top: 10rem;padding-bottom: 10rem;"> 
+<div class="row">
+	<div class="breadcrumbDiv col-lg-12">
+      <ul class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Inicio</a> </li>
+        <li class="active"><i class="fa fa-graduation-cap"></i> Clases </li>
+      </ul>
+    </div>
+<article class="col-lg-12 col-sm-4 col-md-3 col-lg-3">
+	  			<div class="carousel-inner">
+				<!-- Slide 1 -->
+				<div class="item active" style="height: 100%; margin-bottom: 2rem;">
+					<img src="/media/imagenes/m3.jpg" alt="demo user">
+				</div>
+			</div>
+		
+				<div class="jarviswidget jarviswidget-color-darken" id="wid-id-2" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false">
+					<header>
+						<span class="widget-icon"> <i class="fa fa-graduation-cap "></i> </span>
+						<h2 class="font-md"><i>Niveles</i></h2>				
+					</header>
+
+					<!-- widget div-->
+					<div>
+						
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+
+						</div>
+						<!-- end widget edit box -->
+						
+						<!-- widget content -->
+						<div class="widget-body">
+								<h3>Categoria niveles</h3>
+								<div class="dropdown">
+								<?php if(isset($mostrarMercancia)){
+		      					if($mostrarMercancia==1)
+		      						echo ' <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a>';
+		      					if($mostrarMercancia==2)
+		      						echo '<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a>';
+		        				if($mostrarMercancia==3){
+		        					echo '<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a>
+						  				  <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a>
+						  				  <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a>';
+		        				}
+      							} else {?>
+									<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" onclick="show_todos()"> Todos </a> </li>
+       								<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a>
+        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a>
+        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a>
+        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a>
+        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a>
+								<?php }?>
+								</div>
+								<br>
+						</div>
+						<!-- end widget content -->
+						
+					</div>
+					<!-- end widget div -->
+					
+				</div>
+				<!-- end widget -->
+</article>
+<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+	    		<div class="">
+	      			<div class="row xsResponse" id="mercancias">
+	      									<!-- start row -->
 					<div class="row">
-						<article class="col-sm-12 col-md-12 col-lg-12">
+						<div class="col-sm-3">
+						</div>
+						<div class="col-sm-8">
 				
-							<!-- Widget ID (each widget will need unique ID)-->
-							<div class="jarviswidget jarviswidget-color-blueLight" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false">
-								<!-- widget options:
-								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+							<div class="row">
 				
-								data-widget-colorbutton="false"
-								data-widget-editbutton="false"
-								data-widget-togglebutton="false"
-								data-widget-deletebutton="false"
-								data-widget-fullscreenbutton="false"
-								data-widget-custombutton="false"
-								data-widget-collapsed="true"
-								data-widget-sortable="false"
+								<div class="col-sm-12 col-md-12 col-lg-12">
 				
-								-->
-								<header>
-									<div class="jarviswidget-ctrls" role="menu">   
-										<a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-toggle-btn" href="javascript:void(0);" data-original-title="Collapse">
-											<i class="fa fa-minus "></i>
-										</a> 
-										<a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-fullscreen-btn" href="javascript:void(0);" data-original-title="Fullscreen">
-											<i class="fa fa-expand "></i>
-										</a> 
-										<a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-delete-btn" href="javascript:void(0);" data-original-title="Delete">
-											<i class="fa fa-times"></i>
-										</a>
-									</div>
-									<span class="widget-icon"> <i class="fa fa-list-alt"></i> </span>
-									<h2>Videos</h2>
-				
-										
-				
-								</header>
-				
-								<!-- widget div-->
-								<div>
-								
-									<!-- widget edit box -->
-									<div class="jarviswidget-editbox">
-										<!-- This area used as dropdown edit box -->
-				
-									</div>
-									<!-- end widget edit box -->
-				
-									<!-- widget content -->
-									<div class="widget-body no-padding">
-										<!--<div class="widget-body-toolbar">
-											
-											<div class="row">
-												
-												<div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
-													<div class="input-group">
-														<input type="text" placeholder="Nuevo grupo" id="prepend" class="form-control">
+									<!-- well -->
+									<div class="well">
+										<div id="myCarousel-2" class="carousel slide">
+											<ol class="carousel-indicators">
+												<li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
+												<li data-target="#myCarousel-2" data-slide-to="1" class=""></li>
+												<li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
+											</ol>
+											<div class="carousel-inner">
+												<!-- Slide 1 -->
+												<div class="item active">
+													<img src="/media/imagenes/carrito/banner1.png" alt="">
+													<div class="carousel-caption caption-right">
+												<!--  		<h4>Title 1</h4>
+														<p>
+															Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+														</p>
+														<br>
+														<a href="javascript:void(0);" class="btn btn-info btn-sm">Read more</a> -->
 													</div>
 												</div>
-												<div class="col-xs-3 col-sm-7 col-md-7 col-lg-7 text-right">
-													
-													<button class="btn btn-success" id="anadir">
-														<i class="fa fa-plus"></i> <span class="hidden-mobile">Crear</span>
-													</button>
-													
+												<!-- Slide 2 -->
+												<div class="item">
+													<img src="/media/imagenes/carrito/banner2.png" alt="">
+													<div class="carousel-caption caption-left">
+													<!--  	<h4>Title 2</h4>
+														<p>
+															Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+														</p>
+														<br>
+														<a href="javascript:void(0);" class="btn btn-danger btn-sm">Read more</a> -->
+													</div>
 												</div>
-												
+												<!-- Slide 3 -->
+												<div class="item">
+													<img src="/media/imagenes/carrito/banner3.png" alt="">
+													<div class="carousel-caption caption-left">
+													<!--  	<h4>Title 2</h4>
+														<p>
+															Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+														</p>
+														<br>
+														<a href="javascript:void(0);" class="btn btn-danger btn-sm">Read more</a> -->
+													</div>
+												</div>
 											</div>
-											
-											
-
-										</div>-->
-										<div class="panel-group smart-accordion-default" id="accordion-2">
-											<?php for($i=0;$i<sizeof($grupos);$i++)
-											{
-												$j=0;	
-												
-												echo '<div class="panel panel-default">
-												<div class="panel-heading">
-													<h4 class="panel-title">
-														<a data-toggle="collapse" data-parent="#accordion-2" href="#collapse-'.$i.'" class="collapsed"> 
-															<i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i>'. 
-															$grupos[$i]->descripcion.
-														'</a>
-													</h4>
-												</div>
-												<div id="collapse-'.$i.'" class="panel-collapse collapse">
-													<div class="panel-body">';
-												for($j=0;$j<sizeof($videos);$j++)
-												{
-													if($videos[$j]->grupo==$grupos[$i]->descripcion)
-													{
-														echo '<div class="row" style="vertical-align:middle;">
-															<div class="col-lg-3 hidden-sm hidden-xs col-md-3">';
-															if($videos[$j]->tipo==2)
-															{
-																echo	'<a href="javascript:void(0);" onclick="video(\''.$videos[$j]->ruta.'\',\''.$videos[$j]->n_publico.'\')"><img class="col-lg-12 col-md-12 video_img" src="'.$videos[$j]->img.'"></a>';
-															}
-															if($videos[$j]->tipo==21)
-															{
-																echo	'<a href="javascript:void(0);" onclick="video_youtube(\''.$videos[$j]->ruta.'\',\''.$videos[$j]->n_publico.'\')"><img class="col-lg-12 col-md-12 video_img" src="'.$videos[$j]->img.'"></a>';
-															}															
-													echo '</div>
-															<div class="col-sm-3 hidden-lg hidden-md col-xs-6">
-																<a href="'.$videos[$j]->ruta.'"><img class="col-xs-12 col-sm-12 video_img" src="'.$videos[$j]->img.'"></a>
-															</div>
-															<div class="col-lg-3 col-sm-9 col-xs-6 col-md-3">';
-																if($videos[$j]->tipo==2)
-																{
-																	echo	'<p><strong>'.$videos[$j]->n_publico.'</strong></p>';
-																}
-																if($videos[$j]->tipo==21)
-																{
-																	echo	'<p><strong>'.$videos[$j]->n_publico.'</strong></p>';
-																}		
-																	echo '
-																	<p>'.$videos[$j]->usuario.'</p>
-																	
-																	<p>'.$videos[$j]->fecha.'</p>
-																	<p>'.$videos[$j]->descripcion.'</p>
-															</div>
-															<div class="col-sm-12 col-md-5 col-lg-5 col-xs-12">
-
-																<!-- new widget -->
-																<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-fullscreenbutton="false">							
-																	<header>
-																		<span class="widget-icon"> <i class="fa fa-comments txt-color-white"></i> </span>
-																		<h2> Comentarios </h2>
-																		<div class="widget-toolbar">								
-																		</div>
-																	</header>
-									
-																	<!-- widget div-->
-																	<div>
-																		<!-- widget edit box -->
-																		<div class="jarviswidget-editbox">
-																			<div>
-																				<label>Title:</label>
-																				<input type="text" />
-																			</div>
-																		</div>
-																		<!-- end widget edit box -->
-									
-																		<div class="widget-body widget-hide-overflow no-padding">
-																			<!-- content goes here -->
-																			<br>
-																			<div id="chat-body" class="col-lg-12 col-sm-12 col-xs-12 col-md-12 chat-body custom-scroll" style="height:150px;">';
-																			
-																				for($k=0;$k<sizeof($comentarios);$k++)
-																				{
-																					if($comentarios[$k]->id_video==$videos[$j]->id)
-																					{
-																						echo '<p class="alert alert-success"> 
-																									<i class="fa fa-comment-o"></i>'
-																									.$comentarios[$k]->comentario.
-																									'<br><strong>'.$comentarios[$k]->username.'</strong>
-																								</p>';
-																					}
-																				}
-																				
-																			echo '</div><!-- end content -->
-																		</div>
-									
-																	</div>
-																	<!-- end widget div -->
-																</div>
-																<!-- end widget -->
-															</div>
-														
-															<div class="col-lg-1 hidden-sm hidden-xs hidden-md" style="vertical-align:middle;">
-																<ul class="demo-btns hidden-xs hidden-sm" style="vertical-align:middle;">
-																	<li>';
-																	if($videos[$j]->tipo==2)
-																	{
-																		echo	'<a class="btn bg-color-greenLight txt-color-white" href="javascript:void(0);" onclick="video(\''.$videos[$j]->ruta.'\',\''.$videos[$j]->n_publico.'\')"><i class="fa fa-eye fa-4x"></i></a>';
-																	}
-																	if($videos[$j]->tipo==21)
-																	{
-																		echo	'<a class="btn bg-color-greenLight txt-color-white" href="javascript:void(0);" onclick="video_youtube(\''.$videos[$j]->ruta.'\',\''.$videos[$j]->n_publico.'\')"><i class="fa fa-eye fa-4x"></i></a>';
-																	}	
-																	echo '	
-																	</li>
-																</ul><br>
-							
-																<ul class="demo-btns" style="vertical-align:middle;">
-																	<li>
-																		<a class="btn bg-color-blue txt-color-white" href="javascript:void(0);" onclick="show_coment_panel('.$videos[$j]->id.')"><i class="fa fa-comment-o fa-4x"></i></a>
-																	</li>
-																</ul><br>
-															</div>
-															<div class="col-md-1 hidden-sm hidden-xs hidden-lg" style="vertical-align:middle;">
-																<ul class="demo-btns hidden-xs hidden-sm" style="vertical-align:middle;">
-																	<li>';
-																	if($videos[$j]->tipo==2)
-																	{
-																		echo	'<a class="btn bg-color-greenLight txt-color-white" href="javascript:void(0);" onclick="video(\''.$videos[$j]->ruta.'\',\''.$videos[$j]->n_publico.'\')"><i class="fa fa-eye fa-3x"></i></a>';
-																	}
-																	if($videos[$j]->tipo==21)
-																	{
-																		echo	'<a class="btn bg-color-greenLight txt-color-white" href="javascript:void(0);" onclick="video_youtube(\''.$videos[$j]->ruta.'\',\''.$videos[$j]->n_publico.'\')"><i class="fa fa-eye fa-3x"></i></a>';
-																	}
-																	echo '	
-																	</li>
-																</ul><br>
-							
-																<ul class="demo-btns" style="vertical-align:middle;">
-																	<li>
-																		<a class="btn bg-color-blue txt-color-white" href="javascript:void(0);" onclick="show_coment_panel('.$videos[$j]->id.')"><i class="fa fa-comment-o fa-3x"></i></a>
-																	</li>
-																</ul><br>
-															</div>
-															<div class="hidden-lg col-sm-12 col-xs-12 hidden-md" style="vertical-align:middle;">
-																<ul class="demo-btns hidden-lg hidden-md" style="vertical-align:middle;">
-																	<li>
-																		<a class="btn bg-color-greenLight txt-color-white" href="'.$videos[$j]->ruta.'"><i class="fa fa-eye"></i>Ver video</a>
-																	</li>
-									
-																	<li>
-																		<a class="btn bg-color-blue txt-color-white" href="javascript:void(0);" onclick="show_coment_panel('.$videos[$j]->id.')"><i class="fa fa-comment-o"></i>Comentar</a>
-																	</li>
-																</ul>
-															</div>
-														</div>
-														<hr>';
-													}
-												}	
-							
-												echo '</div>
-												</div>
-											</div>';
-											} ?>
-											
+											<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
+											<a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
 										</div>
 				
 									</div>
-									<!-- end widget content -->
+									<!-- end well-->
 				
 								</div>
-								<!-- end widget div -->
 				
 							</div>
-							<!-- end widget -->
 				
-						</article>
-						<!-- NEW WIDGET START -->
-						
-						
-						<!-- WIDGET END -->
+						</div>
 				
 					</div>
-				
-				</section>
-				<!-- end widget grid -->
+				        
+				        <!--/.item--> 
+	      			</div>
+	      <!-- /.row -->
+	      
+	      			
+	    		</div>
+	    	<!--/.container--> 
+	  		</div>
+	  <!--/.featuredPostContainer-->
+	  
+	  
+	  <!--/.section-block-->
+	  
+	  
+	  <!--/.section-block--> 
+	  
+	</div>
+</div>
+</div>
+</div>
 
-			</div>
-			<!-- END MAIN CONTENT -->
-			<div class="row">         
-         <!-- a blank row to get started -->
-	    	<div class="col-sm-12">
-	        	<br />
-	        	<br />
-	        </div>
-        </div>
-		<!-- PAGE RELATED PLUGIN(S) -->
-		<script src="/template/js/plugin/datatables/jquery.dataTables.min.js"></script>
-		<script src="/template/js/plugin/datatables/dataTables.colVis.min.js"></script>
-		<script src="/template/js/plugin/datatables/dataTables.tableTools.min.js"></script>
-		<script src="/template/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
-		<script src="/template/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
-		<script src="/template/js/plugin/bootbox/bootbox.min.js"></script>
-		
+
+<script>
+    paceOptions = {
+      elements: true
+    };
+</script>
+<script src="/cart/HTML/assets/js/pace.min.js"></script>
+<!--<script type="text/javascript" src="/cart/HTML/assets/js/smoothproducts.min.js"></script> -->
+<!--<script src="/template/js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>  -->
+<script src="/template/js/plugin/fuelux/wizard/wizard.min.js"></script>
+<script type="text/javascript">
+			function detalles(id,tipo)
+			{
+				var datos={'id':id,'tipo':tipo};
+				$.ajax({
+					data: {info:JSON.stringify(datos)},
+					type: "get",
+					url: "muestra_mercancia",
+					success: function(msg){
+				             
+				             bootbox.dialog({
+								message: msg,
+								title: "Descripción",
+								className: "div_info_merc",
+								buttons: {
+									success: {
+										label: "Cerrar",
+										className: "btn-danger",
+										callback: function() {
+											}
+									}
+								}
+							})
+				    }
+				});
+			}
+			
+			function compra_prev(id,tipo,desc)
+			{
+				var datos={'id':id,'tipo':tipo,'desc':desc};
+				$.ajax({
+					data: {info:JSON.stringify(datos)},
+					type: "get",
+					url: "add_carrito",
+					success: function(msg){
+				            
+				             bootbox.dialog({
+								message: msg,
+								title: "Descripcion",
+								className: "div_info_merc",
+								buttons: {
+									danger: {
+										label: "Cancelar",
+										className: "btn-danger",
+										callback: function() {
+											}
+									}
+								}
+							})
+				    }
+				});
+			}
+		</script>
 		<script type="text/javascript">
-			function video(vid,name)
+
+			function show_todos_categoria(idTipoRed)
 			{
-				bootbox.dialog({
-					message: '<div style="text-align:center;"><video style="width:60%;" controls><source src="'+vid+'" type="video/mp4">No es soportado por su navegador</video></div>',
-					title: ""+name+"",
-					className: "video-bootbox",
+				iniciarSpinner();
+				$.ajax({
+					type: "get",
+					url: "show_todos_categoria",
+					data: { id: idTipoRed},
+					success:function(msg){
+						FinalizarSpinner();
+						$("#mercancias").html(msg);
+				
+					}
 				});
 			}
-			function video_youtube(url,nombre)
+					
+			function show_todos(idTipoRed)
 			{
-				var igual=url.indexOf('=');
-				var andversa=url.indexOf('&');
-				if(andversa==-1)
-				{
-					var video=url.substring(igual+1);
-				}
-				else
-				{
-					var video=url.substring(igual+1,andversa);
-				}
-				bootbox.dialog({
-					message: '<div style="text-align:center;"><iframe style="width:100%; height:45rem;" src="http://www.youtube.com/embed/'+video+'"></iframe></div>',
-					title: ""+nombre+"",
-					className: "video-bootbox",
+				iniciarSpinner();
+				$.ajax({
+					type: "get",
+					url: "show_todos",
+					data: { id: idTipoRed},
+					success:function(msg){
+						FinalizarSpinner();
+						$("#mercancias").html(msg);
+				
+					}
 				});
 			}
+
+			function show_todos_tipo_mercancia(tipoMercancia)
+			{
+				iniciarSpinner();
+				$.ajax({
+					type: "get",
+					url: "show_todos_tipo_mercancia",
+					data: { tipoMercancia: tipoMercancia},
+					success:function(msg){
+						FinalizarSpinner();
+						$("#mercancias").html(msg);
+				
+					}
+				});
+			}
+
 		</script>
 		<script>
-			function show_coment_panel(id)
+			function comprar(id,tipo)
 			{
-				bootbox.dialog({
-					message: '<div class="jarviswidget jarviswidget-color-purple" id="wid-id" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false" data-widget-deletebutton="false">'
-								+'<header>'
-									+'<h2><strong>Comentario</strong> </h2>'		
-								+'</header>'
-								+'<div>'
-								+'<!-- widget edit box -->'
-									+'<div class="jarviswidget-editbox">'
-									+'<!-- This area used as dropdown edit box -->'
-									+'</div>'
-									+'<!-- end widget edit box -->'
-									+'<!-- widget content -->'
-										+'<div class="widget-body no-padding">'
-											+'<textarea class="form-control no-border" placeholder="" id="coment" rows="4"> Escribe tu comentario. Máximo 140 caracteres.</textarea>'
-											+'<div class="widget-footer">'
-												+'<button class="btn btn-sm btn-primary" type="button" onclick="add_coment('+id+')">'
-													+'Publicar'
-												+'</button>'								
-											+'</div>'
-										+'</div>'
-									+'</div>'
-								+'</div>'
-							+'</div>',
-					title: "Agregue su comentario",	
+				
+				var qty=$("#cantidad").val();
+
+					var datos={'id':id,'tipo':tipo,'qty':qty};
+					$.ajax({
+						data:{info:JSON.stringify(datos)},
+						type: 'get',
+						url: 'add_merc',
+						success: function(msg){
+							if(msg=="Error")
+							{
+								bootbox.dialog({
+									message: "¡Ooops! El producto se ha agotado, intente mas tarde porfavor.",
+									title: "Error",
+									className: "",
+									buttons: {
+										danger: {
+										label: "Ok!",
+										className: "btn-danger",
+										callback: function() {
+											}
+										}
+									}
+								});
+							}
+							else
+							{
+								bootbox.dialog({
+									message: "El producto se ha añadido al carrito",
+									title: "Exito",
+									className: "",
+									buttons: {
+										success: {
+										label: "Ok!",
+										className: "btn-success",
+										callback: function() {
+												bootbox.hideAll();
+											}
+										}
+									}
+								});
+								update_cart_button();
+							}			
+						}
+					});
+			}
+			function ver_cart()
+			{
+				$.ajax({
+					type: 'get',
+					url: 'ver_carrito',
+					success: function(msg){
+			 			bootbox.dialog({
+								message: msg,
+								title: "Ver carro",
+								className: "",
+								buttons: {
+									success: {
+									label: "Aceptar",
+									className: "btn-success",
+									callback: function() {
+										}
+									}
+								}
+							})
+					}
 				});
+			}
+
+			function update_cart_button()
+			{
+				$.ajax({
+					type: "get",
+					url: "printContentCartButton",
+					success:function(msg){
+						$(".cartButton").html(msg);
+						
+					}
+				});
+			}
+			
+
+			function quitar_producto(id)
+			{
+				
+				$.ajax({
+					type: "POST",
+					url: "/auth/show_dialog",
+					data: {message: '¿ Esta seguro que desea Eliminar la mercancia ?'},
+				})
+				.done(function( msg )
+				{
+					bootbox.dialog({
+						message: msg,
+						title: 'Eliminar Mercancia',
+						buttons: {
+							success: {
+							label: "Aceptar",
+							className: "btn-success",
+							callback: function() {
+								
+									$.ajax({
+										type: "POST",
+										url: "/ov/compras/quitar_producto",
+										data: {id:id}
+									})
+									.done(function( msg )
+									{
+										window.location.href='/ov/compras/carrito'
+									});//Fin callback bootbox
+								}
+					
+							},
+								danger: {
+								label: "Cancelar!",
+								className: "btn-danger",
+								callback: function() {
+
+									}
+							}
+						}
+					})
+				});
+				
+			}
+
+		function a_comprar()
+			{
+				window.location.href="DatosEnvio";						
 			}
 		</script>
 		<script type="text/javascript">
-			function add_coment(id)
-			{
-				var coment=$("#coment").val();
-				var datos={'comentario':coment,'video':id};
-				$.ajax({
-					 data:{info:JSON.stringify(datos)},
-			         type: "get",
-			         url: "insert_coment",
-			         success: function(){
-			              alert("Tu comentario fue añadido con exito");
-			              location.href="/ov/escuela_negocios/videos";
-			         }
-				});
-			}
-		</script>
-		<!-- Scripts de la imaginacion chevre del autor de la pagina-->
-			<script type="text/javascript">
 		
 		// DO NOT REMOVE : GLOBAL FUNCTIONS!
+		
 		$(document).ready(function() {
 			
 			pageSetUp();
 			
-			/* // DOM Position key index //
+			/*
+			 * Autostart Carousel
+			 */
+			$('.carousel.slide').carousel({
+				interval : 3000,
+				cycle : true
+			});
+			$('.carousel.fade').carousel({
+				interval : 3000,
+				cycle : true
+			});
 		
-			l - Length changing (dropdown)
-			f - Filtering input (search)
-			t - The Table! (datatable)
-			i - Information (records)
-			p - Pagination (paging)
-			r - pRocessing 
-			< and > - div elements
-			<"#id" and > - div with an id
-			<"class" and > - div with a class
-			<"#id.class" and > - div with an id and class
+			// Fill all progress bars with animation
 			
-			Also see: http://legacy.datatables.net/usage/features
-			*/		
-			
-			
-			
-			
-			/* BASIC ;*/
-				var responsiveHelper_dt_basic = undefined;
-				var responsiveHelper_datatable_fixed_column = undefined;
-				var responsiveHelper_datatable_col_reorder = undefined;
-				var responsiveHelper_datatable_tabletools = undefined;
-				
-				var breakpointDefinition = {
-					tablet : 1024,
-					phone : 480
-				};
-	
-				$('#dt_basic').dataTable({
-					"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>"+
-						"t"+
-						"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-					"autoWidth" : true,
-					"preDrawCallback" : function() {
-						// Initialize the responsive datatables helper once.
-						if (!responsiveHelper_dt_basic) {
-							responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-						}
-					},
-					"rowCallback" : function(nRow) {
-						responsiveHelper_dt_basic.createExpandIcon(nRow);
-					},
-					"drawCallback" : function(oSettings) {
-						responsiveHelper_dt_basic.respond();
-					}
-				});
-	
-			/* END BASIC */
-			
-			/* COLUMN FILTER  */
-		    var otable = $('#datatable_fixed_column').DataTable({
-		    	//"bFilter": false,
-		    	//"bInfo": false,
-		    	//"bLengthChange": false
-		    	//"bAutoWidth": false,
-		    	//"bPaginate": false,
-		    	//"bStateSave": true // saves sort state using localStorage
-				"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
-						"t"+
-						"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-				"autoWidth" : true,
-				"preDrawCallback" : function() {
-					// Initialize the responsive datatables helper once.
-					if (!responsiveHelper_datatable_fixed_column) {
-						responsiveHelper_datatable_fixed_column = new ResponsiveDatatablesHelper($('#datatable_fixed_column'), breakpointDefinition);
-					}
-				},
-				"rowCallback" : function(nRow) {
-					responsiveHelper_datatable_fixed_column.createExpandIcon(nRow);
-				},
-				"drawCallback" : function(oSettings) {
-					responsiveHelper_datatable_fixed_column.respond();
-				}		
-			
-		    });
-		    
-		    // custom toolbar
-		    $("div.toolbar").html('<div class="text-right"><img src="/template/img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
-		    	   
-		    // Apply the filter
-		    $("#datatable_fixed_column thead th input[type=text]").on( 'keyup change', function () {
-		    	
-		        otable
-		            .column( $(this).parent().index()+':visible' )
-		            .search( this.value )
-		            .draw();
-		            
-		    } );
-		    /* END COLUMN FILTER */   
-	    
-			/* COLUMN SHOW - HIDE */
-			$('#datatable_col_reorder').dataTable({
-				"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>"+
-						"t"+
-						"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-				"autoWidth" : true,
-				"preDrawCallback" : function() {
-					// Initialize the responsive datatables helper once.
-					if (!responsiveHelper_datatable_col_reorder) {
-						responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#datatable_col_reorder'), breakpointDefinition);
-					}
-				},
-				"rowCallback" : function(nRow) {
-					responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
-				},
-				"drawCallback" : function(oSettings) {
-					responsiveHelper_datatable_col_reorder.respond();
-				}			
+			$('.progress-bar').progressbar({
+				display_text : 'fill'
 			});
 			
-			/* END COLUMN SHOW - HIDE */
-	
-			/* TABLETOOLS */
-			$('#datatable_tabletools').dataTable({
 				
-				// Tabletools options: 
-				//   https://datatables.net/extensions/tabletools/button_options
-				"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>"+
-						"t"+
-						"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-		        "oTableTools": {
-		        	 "aButtons": [
-		             "copy",
-		             "csv",
-		             "xls",
-		                {
-		                    "sExtends": "pdf",
-		                    "sTitle": "SmartAdmin_PDF",
-		                    "sPdfMessage": "SmartAdmin PDF Export",
-		                    "sPdfSize": "letter"
-		                },
-		             	{
-	                    	"sExtends": "print",
-	                    	"sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
-	                	}
-		             ],
-		            "sSwfPath": "/template/js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
-		        },
-				"autoWidth" : true,
-				"preDrawCallback" : function() {
-					// Initialize the responsive datatables helper once.
-					if (!responsiveHelper_datatable_tabletools) {
-						responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
-					}
-				},
-				"rowCallback" : function(nRow) {
-					responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
-				},
-				"drawCallback" : function(oSettings) {
-					responsiveHelper_datatable_tabletools.respond();
-				}
-			});
-			
-			/* END TABLETOOLS */
-		
 		})
 
 		</script>

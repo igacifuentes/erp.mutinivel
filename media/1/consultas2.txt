@@ -1,0 +1,75 @@
+<?if ($servs==null) {?>
+													
+													<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="servs">
+													<div id="<?= $i2=$i2+1?>a">
+												        <section class="col col-8"  style="width: 50%">Servicios
+												            <label class="select">
+												                <select class="custom-scroll" name="servicio[]">
+												                        <?foreach ($servicio as $key){?>
+													                    	
+																				<option value='<? echo $key->id?>'>
+													                            	<? echo $key->nombre ?>
+													                            </option>
+																		<?}?>
+													            </select>
+													        </label>
+													    </section>
+													    
+													    <section class="col col-4"  style="width: 50%">
+													       <label class="input">Cantidad de servicios
+													            <input type="number" min="1" name="n_servicios[]" id="serv_qty" >
+													        </label>
+													    </section>
+								<div  class=" text-center row">
+													<a class='txt-color-red' onclick="delete_service(<?=$i2?>)" style='cursor: pointer;'>Eliminar servicio 
+														<i class="fa fa-minus">
+														</i>
+													</a>  
+													</div>
+													</div>
+													</div>
+												<?}
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  <?if ($prods==null) {?>
+												
+										        	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="prods">
+										        	<div id="<?= $i1=$i1+1?>b">
+														<section class="col col-8"  style="width: 50%">Productos
+												           	<label class="select">
+												               	<select class="custom-scroll"  name="producto[]">
+												                   	<?foreach ($producto as $key){
+												                    	?>
+																			<option value= '<? echo $key->id?>'>
+												                            	<? echo $key->nombre?>
+												                            </option>
+																		<?
+												                   	}?>
+																				
+											                	</select>
+											            	</label>
+											        	</section>
+											        
+											        	<section class="col col-4"  style="width: 50%">
+											           		<label class="input">Cantidad de productos
+											                	<input type="number" min="1" name="n_productos[]" id="prod_qty" >
+											            	</label>
+											        	</section>
+											        												        						<div class=" text-center row">
+
+													<a class='txt-color-red' onclick="delete_product(<?=$i1?>)" style='cursor: pointer;'>Eliminar producto 
+														<i class="fa fa-minus">
+														</i>
+													</a>  
+												</div>
+											        </div>
+											        </div>
+											        <?
+										        }
