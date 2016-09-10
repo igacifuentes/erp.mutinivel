@@ -187,24 +187,53 @@ class escuela_negocios extends CI_Controller
 		$this->template->build('website/ov/escuela_negocios/videos',$data);
 	}
 	function get_videos(){
-
-		if(!isset($_GET['id_afiliado'])){
-				$id = $this->tank_auth->get_user_id();
-			}
-			else{
-				$id = $_GET['id_afiliado'];
-			}
-		
-			if (!$this->tank_auth->is_logged_in())
-			{																		// logged in
-				redirect('/auth');
-			}
+		if (!$this->tank_auth->is_logged_in()) 
+		{																		// logged in
+			redirect('/auth');
+		}
+		$id=$this->tank_auth->get_user_id();
+		$usuario=$this->general->get_username($id);
+		$style=$this->general->get_style($id);
+  		$this->template->set("style",$style);
+		$this->template->set("usuario",$usuario);
 			$clase=$this->modelo_comercial->get_clase();
 			$video=$this->modelo_comercial->get_vimeo();
 			$nivel=$this->modelo_comercial->get_nivel();
+			$venta=$this->modelo_comercial->venta($id);
+			$cross_venta_mercancia=$this->modelo_comercial->cross_venta_mercancia();
+
+
+
+
+
+			$rf='';
+			$nivel_id=$this->modelo_comercial->get_nivel1($_GET['idClase']);
+			foreach ($nivel_id as $key ) {
+				$rf=$key->id_Nivel;
+			}
+
+			$id_merc='';
+			$mercancia_id=$this->modelo_comercial->get_mercancia($rf);
+			foreach ($mercancia_id as $Mercancia_id) {
+				$id_merc=$Mercancia_id->id_mercancia;
+			}
+			$igualdad=FALSE;
+
+if((is_null($venta) && is_null($cross_venta_mercancia) && is_null($id_merc)) && (isset($venta) && isset($cross_venta_mercancia) && isset($id_merc))){
+foreach ($venta as $Venta) {
+	foreach ($cross_venta_mercancia as $Cross_venta_mercancia) {
+		if($Venta->id_venta==$Cross_venta_mercancia->id_venta && $id_merc==$Cross_venta_mercancia->id_mercancia){
+				$igualdad=TRUE;
+
+		}
+		
+	}
+}
+}
+
 			$imprimir='';
 			foreach ($video as $Video) {
-				if($Video->id_clase==$_GET['idClase']){
+				if($Video->id_clase==$_GET['idClase'] && $igualdad==TRUE){
 
 			$imprimir .='<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
   <div class="row">
@@ -217,8 +246,27 @@ class escuela_negocios extends CI_Controller
 </div>
     </div>
     <div class="col-sm-6"></div>';
-    }}
-			echo $imprimir;
+    }else{
+    	if($Video->tipo==1 && $Video->id_clase==$_GET['idClase']){
+    					$imprimir .='<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+   
+      <h2>'.$Video->Titulo.'</h2>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe src="https://player.vimeo.com/video/58340810" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p><a href="https://vimeo.com/58340810">L&#039;uomo d&#039;acqua e la sua fontana</a> from <a href="https://vimeo.com/user12742413">Sang hyun</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+</div>
+    </div>
+    <div class="col-sm-6"></div>';
+
+
+    	}
+
+
+    }
+}
+			echo $imprimir.var_dump($venta).var_dump($igualdad);
 	}
 	
 	function descargas()

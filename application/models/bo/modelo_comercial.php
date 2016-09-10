@@ -469,4 +469,31 @@ WHERE A.id_archivo = '.$id.' and A.id_tipo = CTA.id_tipo');
 		return $q->result();
 
 	}
+
+	function get_nivel1($idClase){
+
+		$q=$this->db->query('select id_Nivel from Clase where id_Clase='.$idClase);
+		//$r=$this->db->query('select id_mercancia from Nivel_Clase where id_Nivel="'.$q["id_Nivel"].'"');
+		return $q->result();
+
+
+	}
+
+	function get_mercancia($nivel_id){
+
+
+		$q=$this->db->query('select id_mercancia from Nivel_Clase where id_Nivel="'.$nivel_id.'"');
+		return $q->result();
+	}
+	function cross_venta_mercancia(){
+		$q=$this->db->query('select * from cross_venta_mercancia');
+		return $q->result();
+
+	}
+
+	function venta($id){
+		$q=$this->db->query('select * from venta where id_user='.$id);
+		return $q->result();
+
+	}
 }
