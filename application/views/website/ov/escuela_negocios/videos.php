@@ -98,17 +98,20 @@
 						<div class="widget-body">
 								<h3>Categoria niveles</h3>
 								<div class="dropdown">
+								
 								<?php if(isset($nivel)){
+									
 									foreach ($nivel as $Nivel ) {
-									echo "<ul>";
+									
 										
-		      						echo ' <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" "> '.$Nivel->Nombre.'</a>';
+		      						echo ' <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" > <span class="menu-item-parent">'.$Nivel->Nombre.'</span></a>';
+		      						echo '<ul>';
 		      						foreach ($clase as $Clase) {
 		      								if($Nivel->id_Nivel== $Clase->id_Nivel){
 
 		      							echo '<li>';
 
-		      							echo '<a href="#">'.$Clase->Nombre.'</a>';
+		      							echo '<a onclick="ver_videos('.$Clase->id_Clase.')">'.$Clase->Nombre.'</a>';
 		      							echo '</li>';
 
 
@@ -117,8 +120,10 @@
 
 		      						echo "</ul>";
 		      					}
+		      					
 		        				
       							} ?>
+      				
 									
 								</div>
 								<br>
@@ -328,6 +333,20 @@
 					type: "get",
 					url: "show_todos_tipo_mercancia",
 					data: { tipoMercancia: tipoMercancia},
+					success:function(msg){
+						FinalizarSpinner();
+						$("#mercancias").html(msg);
+				
+					}
+				});
+			}
+
+			function ver_videos(idClase){
+				iniciarSpinner();
+				$.ajax({
+					type: "get",
+					url: "get_videos",
+					data: { idClase: idClase},
 					success:function(msg){
 						FinalizarSpinner();
 						$("#mercancias").html(msg);

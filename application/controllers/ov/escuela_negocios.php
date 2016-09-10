@@ -186,6 +186,40 @@ class escuela_negocios extends CI_Controller
         $this->template->set_partial('footer', 'website/ov/footer');
 		$this->template->build('website/ov/escuela_negocios/videos',$data);
 	}
+	function get_videos(){
+
+		if(!isset($_GET['id_afiliado'])){
+				$id = $this->tank_auth->get_user_id();
+			}
+			else{
+				$id = $_GET['id_afiliado'];
+			}
+		
+			if (!$this->tank_auth->is_logged_in())
+			{																		// logged in
+				redirect('/auth');
+			}
+			$clase=$this->modelo_comercial->get_clase();
+			$video=$this->modelo_comercial->get_vimeo();
+			$nivel=$this->modelo_comercial->get_nivel();
+			$imprimir='';
+			foreach ($video as $Video) {
+				if($Video->id_clase==$_GET['idClase']){
+
+			$imprimir .='<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+   
+      <h2>'.$Video->Titulo.'</h2>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe src="https://player.vimeo.com/video/58340810" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p><a href="https://vimeo.com/58340810">L&#039;uomo d&#039;acqua e la sua fontana</a> from <a href="https://vimeo.com/user12742413">Sang hyun</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+</div>
+    </div>
+    <div class="col-sm-6"></div>';
+    }}
+			echo $imprimir;
+	}
 	
 	function descargas()
 	{
