@@ -42,85 +42,10 @@
 <!-- include pace script for automatic web page progress bar  -->
 
 <div id="content">
- <div class="navbar navbar-tshop navbar-fixed-top megamenu" role="navigation" id="cart_cont" style="background: #2980b9 ! important;">
+ 
     <div class="navbar-header">
      
-      <a style="color : #fff;margin-left:4rem;" class="navbar-brand titulo_carrito" href="/ov/dashboard" > <i class="fa fa-arrow-circle-left"></i> Atras &nbsp;</a> 
-      
-      <!-- this part for mobile -
-      <div class="search-box pull-right hidden-lg hidden-md hidden-sm">
-        <div class="input-group">
-          <button class="btn btn-nobg getFullSearch" type="button"> <i class="fa fa-search"> </i> </button>
-        </div>
-        <!-- /input-group --
-        
-      </div> -->
-    </div>
-    <!-- this part is duplicate from cartMenu  keep it for mobile -->
-    <div class="navbar-cart  collapse">
-      <div class="cartMenu  hidden-lg col-xs-12 hidden-md hidden-sm">
-        <div class="w100 miniCartTable scroll-pane">
-          <table>
-            <tbody class="cartButton">
-
-             
-            </tbody>
-          </table>
-        </div>
-        <!--/.miniCartTable-->
-        
-        <div class="miniCartFooter  miniCartFooterInMobile text-right">
-         
-          <a class="btn btn-sm btn-danger" onclick="ver_cart()"> <i class="fa fa-shopping-cart"> </i> VER CARRITO </a> <a class="btn btn-sm btn-primary" onclick="a_comprar()"> <i class="fa fa-money fa"></i> PAGAR!  </a> </div>
-        <!--/.miniCartFooter--> 
-        
-      </div>
-      <!--/.cartMenu--> 
-    </div>
-    <!--/.navbar-cart-->
-    
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-      <?php if(isset($mostrarMercancia)){
-		      	if($mostrarMercancia==1)
-		      		echo ' <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a></li>';
-		      	if($mostrarMercancia==2)
-		      		echo '<li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a></li>';
-		        if($mostrarMercancia==3){
-		        	echo '<li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a></li>
-						  <li class="dropdown megamenu-80width "> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a></li>
-						  <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a></li>';
-		        }
-      	} else {?>
-        <li class="active"> <a onclick="show_todos()"> Todos </a> </li>
-        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a></li>
-        <li class="dropdown megamenu-80width "> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a></li>
-        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a></li>
-        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a></li>
-        <li class="dropdown megamenu-fullwidth"> <a data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a></li>
-     	<?php }?>
-      </ul>
-      <!--- this part will be hidden for mobile version -->
-      <div class="nav navbar-nav navbar-right hidden-xs">
-      
-          <div class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
-            <div class="w100 miniCartTable scroll-pane">
-              <table> 
-                <tbody class="cartButton">
-                  
-                </tbody>
-              </table>
-            </div> 
-            <!--/.miniCartTable-->
-            
-            <div class="miniCartFooter text-right">
-              
-              <a class="btn btn-sm btn-danger" onclick="ver_cart()"> <i class="fa fa-shopping-cart"> </i> VER CARRITO </a> <a class="btn btn-sm btn-primary" onclick="a_comprar()"> <i class="fa fa-money fa"></i> PAGAR!  </a> </div>
-            <!--/.miniCartFooter--> 
-            
-          </div>
-          <!--/.dropdown-menu--> 
-        </div>
+  
         <!--/.cartMenu-->
         <!--  
         <div class="search-box">
@@ -173,24 +98,28 @@
 						<div class="widget-body">
 								<h3>Categoria niveles</h3>
 								<div class="dropdown">
-								<?php if(isset($mostrarMercancia)){
-		      					if($mostrarMercancia==1)
-		      						echo ' <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a>';
-		      					if($mostrarMercancia==2)
-		      						echo '<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a>';
-		        				if($mostrarMercancia==3){
-		        					echo '<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a>
-						  				  <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a>
-						  				  <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a>';
-		        				}
-      							} else {?>
-									<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" onclick="show_todos()"> Todos </a> </li>
-       								<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(1)"> Productos </a>
-        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(2)"> Servicios </a>
-        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(3)"> Combinados </a>
-        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(5)"> Membresia </a>
-        							<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" onclick="show_todos_tipo_mercancia(4)"> Paquetes de Inscripción </a>
-								<?php }?>
+								<?php if(isset($nivel)){
+									foreach ($nivel as $Nivel ) {
+									echo "<ul>";
+										
+		      						echo ' <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-toggle="dropdown" class="dropdown-toggle" "> '.$Nivel->Nombre.'</a>';
+		      						foreach ($clase as $Clase) {
+		      								if($Nivel->id_Nivel== $Clase->id_Nivel){
+
+		      							echo '<li>';
+
+		      							echo '<a href="#">'.$Clase->Nombre.'</a>';
+		      							echo '</li>';
+
+
+		      						}
+		      						}
+
+		      						echo "</ul>";
+		      					}
+		        				
+      							} ?>
+									
 								</div>
 								<br>
 						</div>
