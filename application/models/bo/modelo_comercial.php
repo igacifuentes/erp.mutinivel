@@ -416,4 +416,57 @@ FROM archivo A, cat_tipo_archivo CTA
 WHERE A.id_archivo = '.$id.' and A.id_tipo = CTA.id_tipo');
 		return $q->result();
 	}
+
+	function mercancia(){
+
+		$q=$this->db->query('select * from mercancia');
+		return $q->result();
+	}
+
+		function producto(){
+
+		$q=$this->db->query('select * from producto');
+		return $q->result();
+	}
+
+		function servicio(){
+
+		$q=$this->db->query('select * from servicio');
+		return $q->result();
+	}
+
+		function paquete_inscripcion(){
+
+		$q=$this->db->query('select * from paquete_inscripcion');
+		return $q->result();
+	}
+
+		function membresia(){
+
+		$q=$this->db->query('select * from membresia');
+		return $q->result();
+	}
+
+			function combinado(){
+
+		$q=$this->db->query('select * from combinado');
+		return $q->result();
+	}
+
+	function get_nivel(){
+
+		$q=$this->db->query('select * from Nivel_Clase');
+		return $q->result();
+	}
+
+	function get_clase(){
+		$q=$this->db->query('select * from Clase');
+		return $q->result();
+
+	}
+		function get_vimeo(){
+		$q=$this->db->query('select * from Video');
+		return $q->result();
+
+	}
 }

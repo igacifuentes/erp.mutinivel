@@ -13,7 +13,7 @@ class modelo_premios extends CI_Model
 	}
 	
 	function getPremiosActivos($id_red){
-		$q = $this->db->query("select id, meses, codificados, frecuencia from premios where id_red =".$id_red." and estatus = 'ACT'");
+		$q = $this->db->query("select id, nivel, num_afiliados, frecuencia from premios where id_red =".$id_red." and estatus = 'ACT'");
 		return $q->result();
 	}
 	
@@ -46,8 +46,8 @@ class modelo_premios extends CI_Model
 					'nombre' => $nombre,
 					'descripcion' => $descripcion,
 					'imagen' => $imagen,
-					'meses' => $nivel,
-					'codificados' => $num_afiliados,
+					'nivel' => $nivel,
+					'num_afiliados' => $num_afiliados,
 					'id_red' => $id_red,
 					'frecuencia' => $frecuencia
 			);
@@ -57,12 +57,10 @@ class modelo_premios extends CI_Model
 	}
 	
 	function consultar_premio_afiliado($id_premio,$id_afiliado,$frecuencia){
-		
-		$consulta = "";
 		if ($frecuencia=='Mensual'){
 			$mes = date("m");
-			$año = date("Y");
-			$consulta = "and MONTH(fecha) = ".$mes." and YEAR(fecha) = ".$año;
+			
+			$consulta = "and MONTH(fecha) = ".$mes;
 		}
 		
 		else if ($frecuencia=='Anual'){
@@ -79,33 +77,6 @@ class modelo_premios extends CI_Model
 			return false;
 		}
 	}
-	
-	function cambiarEstadoPremioAfiliado($id_afiliado, $id_premio ,$estado, $frecuencia){
-		$consulta = "";
-		if ($frecuencia=='Mensual'){
-			$mes = date("m");
-			$año = date("Y");
-			$consulta = "and MONTH(fecha) = ".$mes." and YEAR(fecha) = ".$año;
-		}
-		
-		else if ($frecuencia=='Anual'){
-			$ano = date("Y");
-			$consulta = "and YEAR(fecha) = ".$ano;
-		}
-		
-		$q = $this->db->query("select id from cross_premio_usuario where id_premio = ".$id_premio." and id_afiliado = ".$id_afiliado." ".$consulta);
-		$premio = $q->result();
-		
-		if(isset($premio[0]->id)){
-			$fecha = date("Y-m-d");
-			$datos = array(
-					'estado' =>  $estado,
-					'fecha_entrega' => $fecha
-			);
-			$this->db->update('cross_premio_usuario',$datos,array('id' => $premio[0]->id));
-		}
-	}
-	
 	
 	function PremiosPendientes(){
 		$q = $this->db->query('select cpu.id, u.username, concat(up.nombre," ",up.apellido) as nombre, u.email, concat(ctu.numero) as telefono, concat(c.Name,", ",cdu.estado,", ",cdu.municipio,", ",cdu.colonia,", ",cdu.calle) as direccion, p.nombre as premio, cpu.fecha, cpu.estado
@@ -193,17 +164,5 @@ where p.id = cpu.id_premio and cpu.id_afiliado = u.id and u.id = up.user_id and 
 		}else{
 			return false;
 		}
-	}
-	
-	function consultarPremioObtenido($id_premio, $id_afiliado){
-		$q = $this->db->query("select cpu.* from premios p, cross_premio_usuario cpu where p.id = cpu.id_premio and p.id = ".$id_premio." and cpu.id_afiliado = ".$id_afiliado);
-		$premio =  $q->result();
-		return $premio;
-	}
-	
-	function consultarPremiosObtenido($id_afiliado){
-		$q = $this->db->query("select p.* , cpu.fecha, cpu.estado from premios p, cross_premio_usuario cpu where p.id = cpu.id_premio and cpu.estado <> 'Embarcado' and cpu.id_afiliado = ".$id_afiliado);
-		$premios =  $q->result();
-		return $premios;
 	}
 }

@@ -1421,20 +1421,6 @@ where a.id_paquete = e.id_paquete and d.sku= a.id_paquete and d.estatus="ACT" an
 		$this->db->insert("comision",$dato);
 	}
 	
-	function set_comision_afiliadoTipo($id_venta,$id_red_mercancia,$id_afiliado,$valor_comision,$tipo){
-		$dato=array(
-				"id_venta"       => $id_venta ,
-				"id_afiliado"    => $id_afiliado,
-				"id_red"         => $id_red_mercancia ,
-				"puntos"         => 0,
-				"valor"          => $valor_comision,
-				"tipo"           => $tipo
-	
-		);
-	
-		$this->db->insert("comision",$dato);
-	}
-	
 	function set_puntos_padre($id_afiliado,$puntos){
 		$q = $this->db->query("SELECT * FROM puntos_padre where id_user=".$id_afiliado);
 		$p_paquete = $q->result();
@@ -1462,8 +1448,8 @@ where a.id_paquete = e.id_paquete and d.sku= a.id_paquete and d.estatus="ACT" an
 	
 	function ComprovarCompraProducto($id_usuario, $id_red, $frecuencia){
 		if ($frecuencia=='Mensual'){
-			$mes = date("m");
-			$consulta = "and MONTH(v.fecha) = ".$mes;	
+		$mes = date("m");
+		$consulta = "and MONTH(v.fecha) = ".$mes;	
 		}
 		
 		else if ($frecuencia=='Anual'){
@@ -1661,21 +1647,5 @@ where a.id_paquete = e.id_paquete and d.sku= a.id_paquete and d.estatus="ACT" an
 		$q = $this->db->query("SELECT id_tipo_mercancia FROM mercancia where id=".$id_mercancia);
 		return $q->result();
 	
-	}
-	
-	function compraMercanciaMenbresia($id){
-		$q = $this->db->query("select v.id_venta, v.id_user, v.id_estatus, cvm.id_mercancia 
-from venta v, cross_venta_mercancia cvm, mercancia m 
-where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.id_tipo_mercancia = 5 and v.id_estatus = 'ACT' and v.id_user = ".$id);
-		return $q->result();
-	}
-	
-	function yaSedioComision($id_venta){
-		$q = $this->db->query("select * from comision where id_venta = ".$id_venta);
-		if(isset($q->result()[0]->id_venta)){
-			return true;
-		}else{
-			return false;
-		}
 	}
 }

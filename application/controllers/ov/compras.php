@@ -32,10 +32,7 @@ class compras extends CI_Controller
 	}
 	
 	private $afiliados = array();
-	private $numeroAfiliadosActivos=0;
-	private $ciclo;
 	private $afiliadosEstadisticas = array();
-	private $hayEspacio=false;
 	
 function index()
 {
@@ -370,7 +367,7 @@ function index()
 			
 		
 		$id_venta = $this->modelo_compras->registrar_ventaConsignacion($id,$fecha);
-		
+	
 		$this->registrarFacturaDatosDefaultAfiliado ($id,$id_venta);
 		
 		$this->registrarFacturaMercancia ( $contenidoCarrito ,$id_venta);
@@ -899,8 +896,7 @@ function index()
 		foreach ($telefonos as $telefono){
 			$tel.="-Numero ".$telefono->tipo."[".$telefono->numero."]\n";
 		}
-		
-		
+			  
 		$this->modelo_compras->registrar_factura_datos_usuario
 			  						($id_venta,$datos_afiliado[0]->nombre,$datos_afiliado[0]->apellido,$datos_afiliado[0]->keyword,
 			  						 $direccion[0]->codigo_postal,$direccion[0]->pais,$direccion[0]->estado,$direccion[0]->municipio,
@@ -4123,20 +4119,12 @@ function index()
 		$UNILEVEL='UNI';	
 		 
 		$mercancias = $this->modelo_compras->consultarMercanciaTotalVenta($id_venta);
-		
+	
 		foreach ($mercancias as $mercancia){
-			
-			
+				
 			$id_red_mercancia = $this->modelo_compras->ObtenerCategoriaMercancia($mercancia->id);
 			$valor_punto_comisionable=$this->model_tipo_red->traerValorPuntoComisionableRed($id_red_mercancia);
 			$tipo_plan_compensacion=$this->modelo_compras->obtenerPlanDeCompensacion($id_red_mercancia);
-			
-			$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
-			$costoVenta = 30;
-			
-			if($mercancia->id == 2){
-				$this->generarBonoResidual($id_venta,$id_red_mercancia,$costoVenta,$id_afiliado_comprador);
-			}
 			
 			if($tipo_plan_compensacion[0]->plan==$MATRICIAL||$tipo_plan_compensacion[0]->plan==$UNILEVEL){
 
@@ -4149,11 +4137,11 @@ function index()
 	}
 	
 	public function calcularComisionAfiliado($id_venta,$id_red_mercancia,$costoVenta,$id_afiliado){
-		
 	
 		$valor_comision_por_nivel = $this->modelo_compras->ValorComision($id_red_mercancia);
 		$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
 		$profundidadRed=$capacidad_red[0]->profundidad;
+	
 	
 		for($i=0;$i<$profundidadRed;$i++){
 				
@@ -4173,65 +4161,4 @@ function index()
 	
 	}
 	
-
-	private function consultarRedAfiliado($id_afiliado,$id_red,$profundidad_red,$contador){
-		if($profundidad_red <= $contador)
-		{
-			return $contador-1;
-		}
-		
-		$hijos = $this->model_perfil_red->ConsultarHijos($id_afiliado,$id_red);
-		
-		foreach ($hijos as $hijo){
-			if($this->modelo_compras->is_afiliado_activo($hijo->id_afiliado,$id_red)){
-				$this->numeroAfiliadosActivos++;
-				
-			}
-			
-			$contador = $this->consultarRedAfiliado($hijo->id_afiliado,$id_red,$profundidad_red,$contador+1);
-		}
-	}
-	
-	private function generarBonoResidual($id_venta,$id_red_mercancia,$costoVenta,$id_afiliado){
-	
-		$capacidad_red = $this->model_tipo_red->CapacidadRed($id_red_mercancia);
-		$profundidadRed=$capacidad_red[0]->profundidad;
-	
-	
-		$id_padre = $this->model_perfil_red->get_sponsor_id ( $id_afiliado, $id_red_mercancia ) [0]->directo;
-	
-		if(!$id_padre|| $id_padre == 1){
-			return false;
-		}
-	
-		$valor_comision=8;
-		$this->setBonoCodificado($id_afiliado, $id_red_mercancia, $id_venta, $valor_comision);
-		if(! $this->modelo_compras->ComprobarCompraMercancia($id_padre, 2)){
-			$valor_comision = 0;	
-		}
-		$tipo = 4; //Bono codificado de Igualdad
-		$this->modelo_compras->set_comision_afiliadoTipo($id_venta,$id_red_mercancia,$id_padre,$valor_comision, $tipo);
-	}
-	
-	private function setBonoCodificado($id_afiliado, $id_red,$id_venta,$valor_comision){
-		$tipo = 3; //Bono Codificado
-		if($id_afiliado == 2){
-			$this->modelo_compras->set_comision_afiliadoTipo($id_venta,$id_red,2,$valor_comision,$tipo);
-			return 0;
-		}
-		$id_padre = $this->model_perfil_red->get_sponsor_id ( $id_afiliado, $id_red ) [0]->directo;
-		
-		$lado = $this->model_perfil_red->Consultarlado($id_afiliado, $id_red)[0]->lado;
-		
-		if($lado <= 1){
-			$this->setBonoCodificado($id_padre, $id_red,$id_venta,$valor_comision);
-			return 0;
-		}else{
-			if($this->modelo_compras->ComprobarCompraMercancia($id_padre, 2)){
-				$this->modelo_compras->set_comision_afiliadoTipo($id_venta,$id_red,$id_padre,$valor_comision,$tipo);
-			}else{
-				$this->setBonoCodificado($id_padre, $id_red,$id_venta,$valor_comision);
-			}
-		}
-	}
 }

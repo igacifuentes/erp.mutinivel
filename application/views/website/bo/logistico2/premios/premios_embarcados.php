@@ -14,7 +14,7 @@
 							<?php }else{?>
 								<a class="backHome" href="/bo"><i class="fa fa-home"></i> Menu</a>
 							<span>
-								> <a href="/bo/administracion/"> Administrativo</a>
+								> <a href="/bol/dashboard/">Log&iacute;stico</a> 
 								> <a href="/bo/premios/index">Premios / Entrega</a>
 								> Premios Entregados
 							</span>

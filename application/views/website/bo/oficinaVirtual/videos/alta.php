@@ -32,26 +32,45 @@
                 <fieldset>
                   <div class="contenidoBotones">
 										<div class="row">
-											<div class="col-sm-3 link">
+											<div class="col-sm-1 link">
 											</div>
-											<div class="col-sm-6 link">
-												<div class="col-sm-4 link">
-												<a href="/bo/videos/alta_normal">
-													<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_2_color?>;">
-														<i class="fa fa-file-video-o fa-3x"></i>
-														<h1>Video</h1>
-													</div>
-												</a>
+
+												<div class="col-sm-2 link">
+													<a href="/bo/videos/nivel">
+														<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_2_color?>">
+															<i class="fa fa-institution fa-3x"></i>
+															<h1>Nivel</h1>
+														</div>
+													</a>
+												</div>												
+												<div class="col-sm-2 link">
+													<a href="/bo/videos/alta_clase">
+														<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_1_color?>">
+															<i class="fa fa-graduation-cap fa-3x"></i>
+															<h1>Clase</h1>
+														</div>
+													</a>
 												</div>
-												<div class="col-sm-4 link">
-												<a href="/bo/videos/alta_youtube">
-													<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_1_color?>">
-														<i class="fa fa-youtube fa-3x"></i>
-														<h1>Youtube</h1>
-													</div>
-												</a>
+
+
+												<div class="col-sm-2 link">
+													<a href="/bo/videos/alta_vimeo">
+														<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_2_color?>">
+															<i class="fa fa-vimeo-square fa-3x"></i>
+															<h1>Vimeo</h1>
+														</div>
+													</a>
 												</div>
-											</div>
+
+												<div class="col-sm-2 link">
+													<a href="/bo/videos/alta_normal">
+														<div class="minh well well-sm txt-color-white text-center link_dashboard" style="background:<?=$style[0]->btn_1_color?>;">
+															<i class="fa fa-file-video-o fa-3x"></i>
+															<h1>Video</h1>
+														</div>
+													</a>
+												</div>
+
 										 </div>
 									</div>
 								</fieldset>

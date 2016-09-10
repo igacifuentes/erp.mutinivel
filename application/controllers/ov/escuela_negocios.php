@@ -13,6 +13,7 @@ class escuela_negocios extends CI_Controller
 		$this->lang->load('tank_auth');
 		$this->load->model('ov/general');
 		$this->load->model('ov/modelo_escuela_negocios');
+		$this->load->model('bo/modelo_comercial');
 		$this->load->model('bo/model_bonos');
 		$this->load->model('bo/model_planes');
 		if (!$this->tank_auth->is_logged_in())
@@ -167,8 +168,14 @@ class escuela_negocios extends CI_Controller
 		$this->template->set("usuario",$usuario);
 		
 		$videos=$this->modelo_escuela_negocios->get_video_activos();
+		$nivel=$this->modelo_comercial->get_nivel();
+		$clase=$this->modelo_comercial->get_clase();
+		$video=$this->modelo_comercial->get_vimeo();
 		$data=array();
 		$data['videos']=$videos;
+		$this->template->set("nivel",$nivel);
+		$this->template->set("clase",$clase);
+		$this->template->set("video",$video);
 		$grupos = $this->modelo_escuela_negocios->Grupos('VID');
 		$data['grupos']=$grupos;
 		$comentarios=$this->modelo_escuela_negocios->get_comments();

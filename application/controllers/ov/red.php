@@ -140,7 +140,7 @@ class red extends CI_Controller
 			redirect('/auth');
 		}
 		
-		$id = $this->tank_auth->get_user_id();
+		$id            = $this->tank_auth->get_user_id();
 		
 		if($this->general->isActived($id)!=0){
 			redirect('/ov/compras/carrito');
@@ -152,18 +152,7 @@ class red extends CI_Controller
 
 		$style         = $this->general->get_style($id);
 		//$afiliados     = $this->model_perfil_red->get_afiliados_($id_red, $id);
-		
-		$afiliadostree = array();
-		if($this->model_perfil_red->isCiclaje($id,$id_red))
-		{
-			$ciclo = $this->model_perfil_red->consultarCiclo($id, $id_red)[0]->id_ciclo;
-			$afiliadostree = $this->model_perfil_red->get_afiliadosCiclo($id_red, $id, $ciclo);
-			$this->template->set("ciclo",$ciclo);
-		}
-		else{
-			$afiliadostree = $this->model_perfil_red->get_afiliados($id_red, $id);
-			$this->template->set("ciclo",0);
-		}
+		$afiliadostree = $this->model_perfil_red->get_afiliados($id_red, $id);
 	
 		$image=$this->model_perfil_red->get_images($id);
 		$user="/template/img/empresario.jpg";

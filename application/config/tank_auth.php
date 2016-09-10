@@ -7,7 +7,7 @@
 | These details are used in emails sent by authentication library.
 |--------------------------------------------------------------------------
 */
-$config['website_name'] = 'Educate Network';
+$config['website_name'] = 'NetworkSoft';
 $config['webmaster_email'] = 'noreply@networksoft.co';
 
 /*
