@@ -230,9 +230,14 @@ foreach ($venta as $Venta) {
 	}
 }
 }
+			$dividir='';
 
 			$imprimir='';
 			foreach ($video as $Video) {
+				$dividir=explode("/",$Video->ruta_Video);
+
+
+
 				if($Video->id_clase==$_GET['idClase'] && $igualdad==TRUE){
 
 			$imprimir .='<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
@@ -241,21 +246,22 @@ foreach ($venta as $Venta) {
    
       <h2>'.$Video->Titulo.'</h2>
 <div class="embed-responsive embed-responsive-16by9">
-<iframe src="https://player.vimeo.com/video/58340810" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p><a href="https://vimeo.com/58340810">L&#039;uomo d&#039;acqua e la sua fontana</a> from <a href="https://vimeo.com/user12742413">Sang hyun</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 </div>
     </div>
     <div class="col-sm-6"></div>';
     }else{
     	if($Video->tipo==1 && $Video->id_clase==$_GET['idClase']){
+
     					$imprimir .='<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
   <div class="row">
     <div class="col-sm-6">
    
       <h2>'.$Video->Titulo.'</h2>
 <div class="embed-responsive embed-responsive-16by9">
-<iframe src="https://player.vimeo.com/video/58340810" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p><a href="https://vimeo.com/58340810">L&#039;uomo d&#039;acqua e la sua fontana</a> from <a href="https://vimeo.com/user12742413">Sang hyun</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 </div>
     </div>
     <div class="col-sm-6"></div>';
@@ -266,7 +272,7 @@ foreach ($venta as $Venta) {
 
     }
 }
-			echo $imprimir.var_dump($venta).var_dump($igualdad);
+			echo $imprimir;
 	}
 	
 	function descargas()
