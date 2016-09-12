@@ -246,7 +246,9 @@ foreach ($venta as $Venta) {
       <h2>'.$Video->Titulo.'</h2>
 <div class="embed-responsive embed-responsive-16by9">
 <iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
+</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
+</p>
 </div>
     </div>
      ';
@@ -260,7 +262,9 @@ $imprimir .='
       <h2>'.$Video->Titulo.'</h2>
 <div class="embed-responsive embed-responsive-16by9">
 <iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
+</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
+</p>
 </div>
 
     </div>
