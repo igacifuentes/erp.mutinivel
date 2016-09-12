@@ -151,54 +151,23 @@
 				
 									<!-- well -->
 									<div class="well">
-										<div id="myCarousel-2" class="carousel slide">
-											<ol class="carousel-indicators">
-												<li data-target="#myCarousel-2" data-slide-to="0" class="active"></li>
-												<li data-target="#myCarousel-2" data-slide-to="1" class=""></li>
-												<li data-target="#myCarousel-2" data-slide-to="2" class=""></li>
-											</ol>
-											<div class="carousel-inner">
-												<!-- Slide 1 -->
-												<div class="item active">
-													<img src="/media/imagenes/carrito/banner1.png" alt="">
-													<div class="carousel-caption caption-right">
-												<!--  		<h4>Title 1</h4>
-														<p>
-															Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-														</p>
-														<br>
-														<a href="javascript:void(0);" class="btn btn-info btn-sm">Read more</a> -->
+										<?php foreach ( $videos as $video ) { 
+											if($video->tipo == 1){
+										?>
+											<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
+											  <div class="row">
+											    <div class="col-sm-6">
+											   
+											      <h2><?php echo $video->Titulo; ?></h2>
+													<div class="embed-responsive embed-responsive-16by9">
+													<iframe src="<?php echo $video->ruta_Video; ?>" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+													<p><a href="https://vimeo.com/58340810">L&#039;uomo d&#039;acqua e la sua fontana</a> from <a href="https://vimeo.com/user12742413">Sang hyun</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 													</div>
-												</div>
-												<!-- Slide 2 -->
-												<div class="item">
-													<img src="/media/imagenes/carrito/banner2.png" alt="">
-													<div class="carousel-caption caption-left">
-													<!--  	<h4>Title 2</h4>
-														<p>
-															Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-														</p>
-														<br>
-														<a href="javascript:void(0);" class="btn btn-danger btn-sm">Read more</a> -->
-													</div>
-												</div>
-												<!-- Slide 3 -->
-												<div class="item">
-													<img src="/media/imagenes/carrito/banner3.png" alt="">
-													<div class="carousel-caption caption-left">
-													<!--  	<h4>Title 2</h4>
-														<p>
-															Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-														</p>
-														<br>
-														<a href="javascript:void(0);" class="btn btn-danger btn-sm">Read more</a> -->
-													</div>
-												</div>
-											</div>
-											<a class="left carousel-control" href="#myCarousel-2" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a>
-											<a class="right carousel-control" href="#myCarousel-2" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
-										</div>
-				
+											    </div>
+											    <div class="col-sm-6"></div>
+											    </div>
+											    </div>
+										<?php } }?>
 									</div>
 									<!-- end well-->
 				
