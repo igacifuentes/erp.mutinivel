@@ -240,8 +240,7 @@ foreach ($venta as $Venta) {
 
 				if($Video->id_clase==$_GET['idClase'] && $igualdad==TRUE){
 
-			$imprimir .='<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
-  <div class="row">
+			$imprimir .='
     <div class="col-sm-6">
    
       <h2>'.$Video->Titulo.'</h2>
@@ -250,12 +249,12 @@ foreach ($venta as $Venta) {
 <p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 </div>
     </div>
-    <div class="col-sm-6"></div>';
+     ';
     }else{
     	if($Video->tipo==1 && $Video->id_clase==$_GET['idClase']){
 
-    					$imprimir .='<div class="item col-lg-3 col-md-3 col-sm-3 col-xs-3"><div class="container">
-  <div class="row">
+$imprimir .='
+    
     <div class="col-sm-6">
    
       <h2>'.$Video->Titulo.'</h2>
@@ -263,8 +262,10 @@ foreach ($venta as $Venta) {
 <iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 <p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 </div>
+
     </div>
-    <div class="col-sm-6"></div>';
+  
+      ';
 
 
     	}
