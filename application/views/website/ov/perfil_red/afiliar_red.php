@@ -47,44 +47,57 @@ $(document).ready(function() {
 					var validacion=valida_vacios(ids,mensajes);
 					if(validacion&&validacion_)
 					{
-						$( ".steps" ).slideUp();
-						$( ".steps" ).remove();
-						$( ".actions" ).slideUp();
-						$( ".actions" ).remove();
-						$("#myWizard").append('<div class="progress progress-sm progress-striped active"><div id="progress" class="progress-bar bg-color-darken"  role="progressbar" style=""></div></div>');
-						
-						$.ajax({
-							type: "POST",
-							url: "/auth/register",
-							data: $('#register').serialize()
-						})
-						.done(function( msg1 ) {
-							
-							$("#progress").attr('style','width: 40%');
-							var email=$("#email").val();
-							$("#checkout-form").append("<input value='"+email+"' type='hidden' name='mail_important'>");
-							$.ajax({
-								type: "POST",
-								url: "/ov/perfil_red/afiliar_nuevo",
-								data: $('#checkout-form').serialize()
-								})
-								.done(function( msg ) {
-									$("#progress").attr('style','width: 100%');
-									bootbox.dialog({
-										message: msg,
-										title: "Atención",
-										buttons: {
-											success: {
-											label: "Ok!",
-											className: "btn-success",
-											callback: function() {
-												location.href="/ov/red/red_arbol1?id="+<?php echo $_GET['id']; ?>;
-												}
-											}
+						bootbox.dialog({
+							message: "<h2>Términos y Condiciones </h2>"+
+						"<p >"+
+						"CONDICIONES - Contrato de Distribuidor  Independiente de Productos y Servicios  Digitales "+
+						"El Distribuidor  Independiente en Productos y Servicios  Digitales  (DIPSD) y Educate Network (EN) acuerdan por la presente las siguientes condiciones: <br>"+
+						"</p>"+
+						"<ol type='1'>"+
+						"<li>Capacidad legal. El DIPSD  certifica que es adulto y que tiene capacidad legal para celebrar el presente Contrato.</li>"+
+						"<li>Totalidad del Contrato. Esta Solicitud de DIPSD  y el Manual de Políticas deEducate Network  junto con sus anexos (todos ellos integrados en la presente para su referencia) constituyen la totalidad del contrato (“el Contrato”) entre Educate Network  y el DIPSD . Ninguna otra promesa, manifestación, garantía o acuerdos de otro tipo que no se efectúen de conformidad con los procedimientos de modificación descritos en el Manual de Políticas de Educate Network tendrán validez a menos que se realicen por escrito y que estén firmados por ambas partes. Las palabras y expresiones definidas en el Manual de Políticas de Educate Network  tendrán el mismo significado en esta Solicitud de DIPSD </li>"+
+						"<li>Aceptación. El Contrato entrará en vigor a partir de la firma de la Solicitud de DIPSD  por parte de Educate Network  y el DIPSD . La Fecha de Entrada en Vigor del Contrato será la fecha en la que la última de las dos partes firme la Solicitud de DIPSD . La persona o entidad jurídica no se convertirá en DIPSD  de Educate Network  hasta la Fecha de entrada en Vigor. Ninguna de las partes del presente Contrato tendrá ningún tipo de obligación ni compromiso hasta la Fecha de entrada en Vigor. El DIPSD  se compromete a enviar a Educate Network su documento legal de identificación y una copia de su Solicitud de DIPSD  en un plazo de 60 días a partir de la Fecha de entrada en Vigor del presente Contrato. En caso de no ser así, se cancelará automáticamente el Contrato. </li>"+
+						"<li>Una vez que el DIPSD  ha recibido el Contrato refrendado por Educate Network  en la Solicitud de DIPSD , éste tendrá derecho a adquirir los Productos por su valor al por mayor, vender los productos de Educate Network , y participar en el plan de compensaciones de Educate Network  (que se adjunta al Manual de Políticas de Educate Network  ), sujeto a las condiciones establecidas en el Contrato.</li>"+
+						"<li>Declaración de Obligaciones Financieras. Las únicas obligaciones financieras del DIPSD durante el periodo de 12 (doce) meses a partir de la fecha de inicio del presente Contrato será abonar una cuota de afiliación (actualmente de 60.00 dólares , los cuales le dan derecho a un año de las servicios educativos , la administración y tramitación de la solicitud de DIPSD  por parte de Edúcate Network  y el envío de los boletines de información y servicios de ayuda ) así como pagar los productos que el DISPD  decida adquirir a Edúcate Network .  El DIPSD  no tiene ninguna obligación financiera y en concreto puede decidir libremente sobre la compra de los productos y/o servicios  a  Edúcate Network, el pago de los 60.00 dólares también incluyen la inscripción del distribuidor al sistema de compensación vigente que es una matriz 2x2 la cual al ser completada, ya sea personalmente o por derrame  paga una comisión de 60.00 dólares, siempre y cuando se cumplan los siguientes requisitos  a) haber patrocinados 2 personas personalmente. b) Estar participando en el plan residual mensual de 30.00 dólares  , lo primero que ocurra , si después de que se llenó la matriz en 90 días no se tiene movimientos en la cuenta de la persona que lleno la matriz (mínimo una persona inscripta personalmente)  , se le excluye de la red y solo queda como un usuario del sistema educativo básico por el que pago los 60.00 dólares , el  tiempo que reste  de los 12 meses pactados.</li>"+
+						"<li>Duración del Contrato. Conforme a las disposiciones de la sección 12 y el Manual de Políticas, el Contrato tendrá una duración de un año, comenzando desde la Fecha de Entrada en Vigor y finalizando un año después. La renovación del contrato estará sujeta a las condiciones establecidas en el Manual de Políticas de Educate Network  tal como esté dispuesto en el momento de la renovación.</li>"+
+						"<li>Condición de Distribuidor Independiente. El DIPSD  comprende y reconoce su condición de Distribuidor  independiente, y no de empleado, representante, franquiciador, socio, asociado o propietario de Educate Network . El DIPSD  no tendrá potestad para obligar a Edúcate Network  ni incurrir en ninguna obligación en nombre de Edúcate Network. El DIPSD  será el único responsable del cumplimiento de todas las leyes y normativas relacionadas con las actividades comerciales del DIPSD  en todas las jurisdicciones con competencias sobre dichas actividades. El Manual de Políticas de Edúcate Network  contiene otras disposiciones adicionales relacionadas con la condición de Distribuidor independiente del DIPSD . A la hora de promocionar y vender los productos de Edúcate Network  el  DIPSD  actuará de forma independiente, vendiendo exclusivamente a través de su propia cuenta.</li>"+
+						"<li>Derechos de marca / Uso de materiales de la empresa. El DIPSD  acepta no utilizar los nombres de marcas registradas, marcas comerciales o material con derechos de autor propiedad de Edúcate Network, o de cualquier otra entidad perteneciente a Edúcate Network  (de acuerdo con la definición incluida en el Manual de Políticas de Edúcate Network) sin el previo consentimiento por escrito de la entidad pertinente perteneciente a Edúcate Network. Edúcate Network  dispone  de derechos de marca sobre su red de Distribuidores  independientes, listas de nombres, correos electrónicos, números telefónicos y cualquiera otra forma de comunicación  confidencial. El DIPSD  acepta no usar ninguna red, listas de DIPSD , o información confidencial perteneciente a Edúcate Network   para promocionar la venta o uso de productos o servicios, salvo los que se ofrezcan a través de alguna entidad de Edúcate Network . El DIPSD  acepta que el uso de los materiales con derecho de marca de Edúcate Network, cuando éste suponga el incumplimiento del Contrato, podrá generar graves daños y perjuicios a Edúcate Network  o a cualquier entidad de la Organización Edúcate Network.</li>"+
+						"<li>Cancelación. El DIPSD  tiene derecho a enviar a Edúcate Network  una notificación por escrito (a la dirección que aparece en el dorso) a fin de cancelar el presente Contrato por cualquier motivo en un plazo de 14 (catorce) días a partir de la fecha de entrada en vigor. Tras su cancelación, El DIPSD  podrá devolver a Edúcate Network  cualquier producto que Que esté usando y  recuperar la totalidad del importe abonado por dichos productos,  y se devuelvan a Edúcate Network  antes de 14 (catorce) días desde la fecha de entrada en vigor del presente Contrato. El DIPSD  reconoce que es libre de cancelar el Contrato en cualquier momento y por cualquier motivo siempre y cuando envíe una notificación escrita a la dirección de Edúcate Network  que aparece al final del contrato. Edúcate Network podrá cancelar el Contrato mediante notificación por escrito al DIPSD  por los siguientes motivos: (a) incumplimiento de cualquier condición, que en el Contrato (o en cualquier modificación del Contrato) esté definido como incumplimiento “material”; o (b) incumplimiento del DIPSD  de cualquier condición del Contrato que no se pueda corregir. A su única discreción, en el caso de cualquier otro incumplimiento de cualquier condición del Contrato, Edúcate Network  tendrá derecho a entregar al DIPSD , con una antelación no inferior a sesenta (60) días, una notificación en la que se exija que se corrija dicho incumplimiento. Si el DIPSD  no lo corrige, Edúcate Network tendrá derecho a cancelar el Contrato, tras los sesenta (60) días, entregando una notificación adicional que tendrá efecto inmediato. Tal como se explica en el Manual de Políticas de Edúcate Network, inmediatamente después de la cancelación del Contrato, el DIPSD  perderá sus derechos y privilegios, salvo los que se indican a continuación, relacionados con su condición de DIPSD  de Edúcate Network.</li>"+
+						"<li>Derechos tras la cancelación. Si Edúcate Network  o el DIPSD  cancelan el contrato, el DIPSD  tendrá los siguientes derechos: (a) no estará sometido a ninguna obligación contractual futura de conformidad con el presente contrato; (b) tendrá derecho, en un plazo de 21 días tras la cancelación, a devolver a Edúcate Network todos los productos y servicios adquiridos 90 días antes de la cancelación por el DIPSD  a Edúcate Network y a recuperar los importes  abonados a Edúcate Network  por dichos productos y servicios ,  El Código de la Federación mundial  de Asociaciones de Venta Directa ()  WFDSA  concede al DIPSD  ciertos derechos de devolución y reclamación del  DIPSD  en  la cancelación del contrato. Edúcate Network  respetará dichos derechos.</li>"+
+						"<li>Modificación. El DIPSD  comprende que Edúcate Network  puede modificar el presente Contrato, junto con los documentos que lo acompañan en cualquier momento, sometiéndose a condiciones sobre los precios de los Productos y a las obligaciones financieras del DIPSD . En el Manual de Políticas encontrará más detalles. Las modificaciones o variaciones se publicarán en la página web de Edúcate Network y entrarán en vigor en la fecha de publicación en la página web y/o en cualquier otro medio de comunicación, lo que suceda antes. Si alguna modificación o variación entra en conflicto con las condiciones del Contrato, las modificaciones o variaciones tendrán prioridad.</li>"+
+						"<li>Recuperación de las comisiones. El DIPSD  podrá conservar las comisiones y bonificaciones recibidas después de la cancelación del Contrato, excepto cuando Edúcate Network  reclame cualquier comisión y bonificación que tenga relación con el producto o servicio  devuelto. Edúcate Network no tendrá derecho a reclamar ninguna comisión o bonificación después de 120 días de la fecha de pago de la misma.</li>"+
+						"<li>Legislación aplicable. Las partes aceptan que el presente Contrato se rija e intérprete de conformidad con la legislación de los Estados Unidos De Norte América (USA)  Cualquier disputa que surja en relación con este contrato será dirimida por los tribunales de Los Estados Unidos de Norte América  (USA) .</li>"+
+						"<li>Productos de la competencia: El Consultor Independiente en Productos y servicios no podrá promocionar, solicitar o comercializar productos y servicios  de empresas competidoras de productos y servicios similares o del mismo ramo. No se podrá promocionar en ningún tipo de eventos, reuniones, convenciones u otro tipo de actividades de Edúcate Network productos que no sean de Edúcate Network.</li>"+
+						"<li>Cambios en la Información Personal. El distribuidor  Independiente en Productos y servicios  ha de notificar a Edúcate Network todo cambio relativo a su dirección postal, información bancaria o fiscal. Edúcate Network  no será responsable de ninguna pérdida incurrida por el DIPSD  debida a la falta de notificación de dicho cambio a Edúcate Network </li>"+
+						"<li>Protección de datos. El DIPS , y si fuera aplicable, el co-solicitante que firma el presente contrato, por la presente dan su consentimiento a Edúcate Network  para que procese los datos personales detallados en la solicitud/ contrato y para que los ceda, junto con información sobre futuras actividades de venta del DIPSD  a Edúcate Network  en Oakdale , Ca , Estados Unidos de América, y a sus filiales y empresas asociadas en todo el mundo, y a otros DIPSD  dentro la misma organización de ventas o cadena de distribución que el DIPSD , con el único objeto de administrar las ventas y distribución de los productos de Edúcate Network y aportar informes a sus DIPSDs  sobre las ventas dentro de su organización de ventas. El DIPSD , y si fuera aplicable, el co-solicitante que firma el contrato, comprenden y aceptan que esta cesión de datos personales se puede efectuar a países sin un nivel legal de protección de la privacidad equivalente al que protege al DISPD  en su país de origen. El DIPSD , y si fuera aplicable, el co-solicitante que firma el contrato, tendrán derecho de acceso a sus datos personales y podrán solicitar a Edúcate Network  que corrija, elimine o bloquee cualquier dato incorrecto. El DIPSD y si fuera aplicable, el co-solicitante que firma el contrato, recibirán informes de ventas con datos personales de otros DIPSDs , y comprenden y aceptan no usar dichos datos salvo para la administración y desarrollo de su organización de ventas, así como que en el momento de la cancelación del presente Contrato, el DIPSD  y el co-solicitante eliminarán inmediatamente dichos datos personales de sus archivos, salvo cuando la legislación pertinente disponga lo contrario. Las partes aceptan que esta obligación perdurará tras la cancelación del Contrato.</li>"+
+						"<li>División del contrato. En caso de que cualquier disposición del Contrato pueda llegar a perder su validez o legalidad por cualquier motivo, dicha disposición se eliminará del Contrato, pero la validez, legalidad y ejecución del resto de disposiciones del Contrato no se verán afectadas ni dañadas por esta división</li>"+
+						"</ol>"+
+						"<br>"+
+						"<p>"+
+						"Edúcate Network"+
+						"135 S. Sierra St , Oakdale ,  Ca. USA."+
+						"Todos los derechos reservados."+
+						"</p>",
+						title: "Términos y Condiciones",
+						buttons: {
+							success: {
+								label: "Aceptar",
+								className: "btn-success",
+								callback: function(){
+									enviarDatos();
+									}
+								},
+								danger: {
+									label: "Cancelar",
+									className: "btn-danger",
+									callback: function() {
+
 										}
-									});
-								});
-						});//fin Done ajax
+								}
+							}
+
+							});
+						
 					}
 					else
 					{
@@ -101,6 +114,41 @@ $(document).ready(function() {
 	
 	pageSetUp(); 
 });
+
+function enviarDatos(){
+	setiniciarSpinner();
+	$('.btn-next').attr('disabled','disabled');
+	$('.btn-prev').attr('disabled','disabled');
+	var id=$("#id").val();
+	$.ajax({
+           url:"/auth/register",
+           data:$("#register").serialize(),
+           type:"POST" }).done(function( msg1 ) {
+           	
+           	var email=$("#email").val();
+			$("#afiliar_red").append("<input value='"+email+"' type='hidden' name='mail_important'>");
+			$.ajax({
+               url:"/ov/perfil_red/afiliar_nuevo",
+               data:$("#afiliar_red").serialize(),
+               type:"POST"}).done(function( msg ) {
+               	bootbox.dialog({
+						message: msg,
+						title: "Atención",
+						buttons: {
+							success: {
+							label: "Ok!",
+							className: "btn-success",
+							callback: function() {
+								location.href="/ov/red/red_arbol_frontales?id="+<?php echo $_GET['id']; ?>;
+								FinalizarSpinner();
+								}
+							}
+						}
+					});
+
+               } );//Fin ajax Profile
+       });//Fin ajax register
+}
 
 function codpos()
 {
@@ -233,8 +281,12 @@ function subred(id,profundidad)
 	$.ajax({
 		type: "POST",
 		url: "/ov/perfil_red/get_red_afiliar",
-		data: {id: id,
-				red: <?php echo $_GET['id']; ?>,profundidad: profundidad,},
+		data: {
+			id: id,
+			red: <?php echo $_GET['id']; ?>,
+			profundidad: profundidad,
+			ciclo: <?php echo $ciclo; ?>,
+			},	
 	})
 	.done(function( msg )
 	{
@@ -455,6 +507,7 @@ function botbox(nombre, id, lado)
 							+'</div>'
 						+'</fieldset>'
 						+'<input class="hide" type="text" name="red" id="red" value="<?php echo $_GET['id']; ?>" placeholder="">'
+						+'<input class="hide" type="text" name="ciclo" id="ciclo" value="<?php echo $ciclo; ?>" placeholder="">'
 						+'<input type="text" class="hide" name="id" value="<?php echo $id; ?>" placeholder="">'
 					+'</form>'
 				+'</div>'
@@ -596,7 +649,8 @@ function botbox(nombre, id, lado)
 			+'numberOfMonths: 2,'
 			+'maxDate: año+"-12-31",'
 			+'dateFormat:"yy-mm-dd",'
-			+'changeYear: true'
+			+'changeYear: true,'
+			+'yearRange: "-99:+0",'
 			+'});'
 		+'});',
 		title: "Afiliar a "+nombre,
@@ -638,41 +692,57 @@ function botbox(nombre, id, lado)
 					var validacion=valida_vacios(ids,mensajes);
 					if(validacion&&validacion_)
 					{
-						setiniciarSpinner();
-						$('.btn-next').attr('disabled','disabled');
-						$('.btn-prev').attr('disabled','disabled');
-						var id=$("#id").val();
-						$.ajax({
-		                       url:"/auth/register",
-		                       data:$("#register").serialize(),
-		                       type:"POST" }).done(function( msg1 ) {
-		                       	
-		                       	var email=$("#email").val();
-								$("#afiliar_red").append("<input value='"+email+"' type='hidden' name='mail_important'>");
-								$.ajax({
-			                       url:"/ov/perfil_red/afiliar_nuevo",
-			                       data:$("#afiliar_red").serialize(),
-			                       type:"POST"}).done(function( msg ) {
-			                       	bootbox.dialog({
-											message: msg,
-											title: "Atención",
-											buttons: {
-												success: {
-												label: "Ok!",
-												className: "btn-success",
-												callback: function() {
-													location.href="";
-													FinalizarSpinner();
-													}
-												}
-											}
-										});
+						bootbox.dialog({
+							message: "<h2>Términos y Condiciones </h2>"+
+						"<p >"+
+						"CONDICIONES - Contrato de Distribuidor  Independiente de Productos y Servicios  Digitales "+
+						"El Distribuidor  Independiente en Productos y Servicios  Digitales  (DIPSD) y Educate Network (EN) acuerdan por la presente las siguientes condiciones: <br>"+
+						"</p>"+
+						"<ol type='1'>"+
+						"<li>Capacidad legal. El DIPSD  certifica que es adulto y que tiene capacidad legal para celebrar el presente Contrato.</li>"+
+						"<li>Totalidad del Contrato. Esta Solicitud de DIPSD  y el Manual de Políticas deEducate Network  junto con sus anexos (todos ellos integrados en la presente para su referencia) constituyen la totalidad del contrato (“el Contrato”) entre Educate Network  y el DIPSD . Ninguna otra promesa, manifestación, garantía o acuerdos de otro tipo que no se efectúen de conformidad con los procedimientos de modificación descritos en el Manual de Políticas de Educate Network tendrán validez a menos que se realicen por escrito y que estén firmados por ambas partes. Las palabras y expresiones definidas en el Manual de Políticas de Educate Network  tendrán el mismo significado en esta Solicitud de DIPSD </li>"+
+						"<li>Aceptación. El Contrato entrará en vigor a partir de la firma de la Solicitud de DIPSD  por parte de Educate Network  y el DIPSD . La Fecha de Entrada en Vigor del Contrato será la fecha en la que la última de las dos partes firme la Solicitud de DIPSD . La persona o entidad jurídica no se convertirá en DIPSD  de Educate Network  hasta la Fecha de entrada en Vigor. Ninguna de las partes del presente Contrato tendrá ningún tipo de obligación ni compromiso hasta la Fecha de entrada en Vigor. El DIPSD  se compromete a enviar a Educate Network su documento legal de identificación y una copia de su Solicitud de DIPSD  en un plazo de 60 días a partir de la Fecha de entrada en Vigor del presente Contrato. En caso de no ser así, se cancelará automáticamente el Contrato. </li>"+
+						"<li>Una vez que el DIPSD  ha recibido el Contrato refrendado por Educate Network  en la Solicitud de DIPSD , éste tendrá derecho a adquirir los Productos por su valor al por mayor, vender los productos de Educate Network , y participar en el plan de compensaciones de Educate Network  (que se adjunta al Manual de Políticas de Educate Network  ), sujeto a las condiciones establecidas en el Contrato.</li>"+
+						"<li>Declaración de Obligaciones Financieras. Las únicas obligaciones financieras del DIPSD durante el periodo de 12 (doce) meses a partir de la fecha de inicio del presente Contrato será abonar una cuota de afiliación (actualmente de 60.00 dólares , los cuales le dan derecho a un año de las servicios educativos , la administración y tramitación de la solicitud de DIPSD  por parte de Edúcate Network  y el envío de los boletines de información y servicios de ayuda ) así como pagar los productos que el DISPD  decida adquirir a Edúcate Network .  El DIPSD  no tiene ninguna obligación financiera y en concreto puede decidir libremente sobre la compra de los productos y/o servicios  a  Edúcate Network, el pago de los 60.00 dólares también incluyen la inscripción del distribuidor al sistema de compensación vigente que es una matriz 2x2 la cual al ser completada, ya sea personalmente o por derrame  paga una comisión de 60.00 dólares, siempre y cuando se cumplan los siguientes requisitos  a) haber patrocinados 2 personas personalmente. b) Estar participando en el plan residual mensual de 30.00 dólares  , lo primero que ocurra , si después de que se llenó la matriz en 90 días no se tiene movimientos en la cuenta de la persona que lleno la matriz (mínimo una persona inscripta personalmente)  , se le excluye de la red y solo queda como un usuario del sistema educativo básico por el que pago los 60.00 dólares , el  tiempo que reste  de los 12 meses pactados.</li>"+
+						"<li>Duración del Contrato. Conforme a las disposiciones de la sección 12 y el Manual de Políticas, el Contrato tendrá una duración de un año, comenzando desde la Fecha de Entrada en Vigor y finalizando un año después. La renovación del contrato estará sujeta a las condiciones establecidas en el Manual de Políticas de Educate Network  tal como esté dispuesto en el momento de la renovación.</li>"+
+						"<li>Condición de Distribuidor Independiente. El DIPSD  comprende y reconoce su condición de Distribuidor  independiente, y no de empleado, representante, franquiciador, socio, asociado o propietario de Educate Network . El DIPSD  no tendrá potestad para obligar a Edúcate Network  ni incurrir en ninguna obligación en nombre de Edúcate Network. El DIPSD  será el único responsable del cumplimiento de todas las leyes y normativas relacionadas con las actividades comerciales del DIPSD  en todas las jurisdicciones con competencias sobre dichas actividades. El Manual de Políticas de Edúcate Network  contiene otras disposiciones adicionales relacionadas con la condición de Distribuidor independiente del DIPSD . A la hora de promocionar y vender los productos de Edúcate Network  el  DIPSD  actuará de forma independiente, vendiendo exclusivamente a través de su propia cuenta.</li>"+
+						"<li>Derechos de marca / Uso de materiales de la empresa. El DIPSD  acepta no utilizar los nombres de marcas registradas, marcas comerciales o material con derechos de autor propiedad de Edúcate Network, o de cualquier otra entidad perteneciente a Edúcate Network  (de acuerdo con la definición incluida en el Manual de Políticas de Edúcate Network) sin el previo consentimiento por escrito de la entidad pertinente perteneciente a Edúcate Network. Edúcate Network  dispone  de derechos de marca sobre su red de Distribuidores  independientes, listas de nombres, correos electrónicos, números telefónicos y cualquiera otra forma de comunicación  confidencial. El DIPSD  acepta no usar ninguna red, listas de DIPSD , o información confidencial perteneciente a Edúcate Network   para promocionar la venta o uso de productos o servicios, salvo los que se ofrezcan a través de alguna entidad de Edúcate Network . El DIPSD  acepta que el uso de los materiales con derecho de marca de Edúcate Network, cuando éste suponga el incumplimiento del Contrato, podrá generar graves daños y perjuicios a Edúcate Network  o a cualquier entidad de la Organización Edúcate Network.</li>"+
+						"<li>Cancelación. El DIPSD  tiene derecho a enviar a Edúcate Network  una notificación por escrito (a la dirección que aparece en el dorso) a fin de cancelar el presente Contrato por cualquier motivo en un plazo de 14 (catorce) días a partir de la fecha de entrada en vigor. Tras su cancelación, El DIPSD  podrá devolver a Edúcate Network  cualquier producto que Que esté usando y  recuperar la totalidad del importe abonado por dichos productos,  y se devuelvan a Edúcate Network  antes de 14 (catorce) días desde la fecha de entrada en vigor del presente Contrato. El DIPSD  reconoce que es libre de cancelar el Contrato en cualquier momento y por cualquier motivo siempre y cuando envíe una notificación escrita a la dirección de Edúcate Network  que aparece al final del contrato. Edúcate Network podrá cancelar el Contrato mediante notificación por escrito al DIPSD  por los siguientes motivos: (a) incumplimiento de cualquier condición, que en el Contrato (o en cualquier modificación del Contrato) esté definido como incumplimiento “material”; o (b) incumplimiento del DIPSD  de cualquier condición del Contrato que no se pueda corregir. A su única discreción, en el caso de cualquier otro incumplimiento de cualquier condición del Contrato, Edúcate Network  tendrá derecho a entregar al DIPSD , con una antelación no inferior a sesenta (60) días, una notificación en la que se exija que se corrija dicho incumplimiento. Si el DIPSD  no lo corrige, Edúcate Network tendrá derecho a cancelar el Contrato, tras los sesenta (60) días, entregando una notificación adicional que tendrá efecto inmediato. Tal como se explica en el Manual de Políticas de Edúcate Network, inmediatamente después de la cancelación del Contrato, el DIPSD  perderá sus derechos y privilegios, salvo los que se indican a continuación, relacionados con su condición de DIPSD  de Edúcate Network.</li>"+
+						"<li>Derechos tras la cancelación. Si Edúcate Network  o el DIPSD  cancelan el contrato, el DIPSD  tendrá los siguientes derechos: (a) no estará sometido a ninguna obligación contractual futura de conformidad con el presente contrato; (b) tendrá derecho, en un plazo de 21 días tras la cancelación, a devolver a Edúcate Network todos los productos y servicios adquiridos 90 días antes de la cancelación por el DIPSD  a Edúcate Network y a recuperar los importes  abonados a Edúcate Network  por dichos productos y servicios ,  El Código de la Federación mundial  de Asociaciones de Venta Directa ()  WFDSA  concede al DIPSD  ciertos derechos de devolución y reclamación del  DIPSD  en  la cancelación del contrato. Edúcate Network  respetará dichos derechos.</li>"+
+						"<li>Modificación. El DIPSD  comprende que Edúcate Network  puede modificar el presente Contrato, junto con los documentos que lo acompañan en cualquier momento, sometiéndose a condiciones sobre los precios de los Productos y a las obligaciones financieras del DIPSD . En el Manual de Políticas encontrará más detalles. Las modificaciones o variaciones se publicarán en la página web de Edúcate Network y entrarán en vigor en la fecha de publicación en la página web y/o en cualquier otro medio de comunicación, lo que suceda antes. Si alguna modificación o variación entra en conflicto con las condiciones del Contrato, las modificaciones o variaciones tendrán prioridad.</li>"+
+						"<li>Recuperación de las comisiones. El DIPSD  podrá conservar las comisiones y bonificaciones recibidas después de la cancelación del Contrato, excepto cuando Edúcate Network  reclame cualquier comisión y bonificación que tenga relación con el producto o servicio  devuelto. Edúcate Network no tendrá derecho a reclamar ninguna comisión o bonificación después de 120 días de la fecha de pago de la misma.</li>"+
+						"<li>Legislación aplicable. Las partes aceptan que el presente Contrato se rija e intérprete de conformidad con la legislación de los Estados Unidos De Norte América (USA)  Cualquier disputa que surja en relación con este contrato será dirimida por los tribunales de Los Estados Unidos de Norte América  (USA) .</li>"+
+						"<li>Productos de la competencia: El Consultor Independiente en Productos y servicios no podrá promocionar, solicitar o comercializar productos y servicios  de empresas competidoras de productos y servicios similares o del mismo ramo. No se podrá promocionar en ningún tipo de eventos, reuniones, convenciones u otro tipo de actividades de Edúcate Network productos que no sean de Edúcate Network.</li>"+
+						"<li>Cambios en la Información Personal. El distribuidor  Independiente en Productos y servicios  ha de notificar a Edúcate Network todo cambio relativo a su dirección postal, información bancaria o fiscal. Edúcate Network  no será responsable de ninguna pérdida incurrida por el DIPSD  debida a la falta de notificación de dicho cambio a Edúcate Network </li>"+
+						"<li>Protección de datos. El DIPS , y si fuera aplicable, el co-solicitante que firma el presente contrato, por la presente dan su consentimiento a Edúcate Network  para que procese los datos personales detallados en la solicitud/ contrato y para que los ceda, junto con información sobre futuras actividades de venta del DIPSD  a Edúcate Network  en Oakdale , Ca , Estados Unidos de América, y a sus filiales y empresas asociadas en todo el mundo, y a otros DIPSD  dentro la misma organización de ventas o cadena de distribución que el DIPSD , con el único objeto de administrar las ventas y distribución de los productos de Edúcate Network y aportar informes a sus DIPSDs  sobre las ventas dentro de su organización de ventas. El DIPSD , y si fuera aplicable, el co-solicitante que firma el contrato, comprenden y aceptan que esta cesión de datos personales se puede efectuar a países sin un nivel legal de protección de la privacidad equivalente al que protege al DISPD  en su país de origen. El DIPSD , y si fuera aplicable, el co-solicitante que firma el contrato, tendrán derecho de acceso a sus datos personales y podrán solicitar a Edúcate Network  que corrija, elimine o bloquee cualquier dato incorrecto. El DIPSD y si fuera aplicable, el co-solicitante que firma el contrato, recibirán informes de ventas con datos personales de otros DIPSDs , y comprenden y aceptan no usar dichos datos salvo para la administración y desarrollo de su organización de ventas, así como que en el momento de la cancelación del presente Contrato, el DIPSD  y el co-solicitante eliminarán inmediatamente dichos datos personales de sus archivos, salvo cuando la legislación pertinente disponga lo contrario. Las partes aceptan que esta obligación perdurará tras la cancelación del Contrato.</li>"+
+						"<li>División del contrato. En caso de que cualquier disposición del Contrato pueda llegar a perder su validez o legalidad por cualquier motivo, dicha disposición se eliminará del Contrato, pero la validez, legalidad y ejecución del resto de disposiciones del Contrato no se verán afectadas ni dañadas por esta división</li>"+
+						"</ol>"+
+						"<br>"+
+						"<p>"+
+						"Edúcate Network"+
+						"135 S. Sierra St , Oakdale ,  Ca. USA."+
+						"Todos los derechos reservados."+
+						"</p>",
+						title: "Términos y Condiciones",
+						buttons: {
+							success: {
+								label: "Aceptar",
+								className: "btn-success",
+								callback: function(){
+									enviarDatos();
+									}
+								},
+								danger: {
+									label: "Cancelar",
+									className: "btn-danger",
+									callback: function() {
 
-			                       } );//Fin ajax Profile
-				           });//Fin ajax register
-							
-					}//Fin ajaxs
-				else
+										}
+								}
+							}
+
+							});
+				}else
 				{
 					$.smallBox({
 				      title: "<h1>Atención</h1>",
@@ -811,13 +881,13 @@ function detalles(id)
 					> <a href="/bo/comercial">Comercial</a> 
 					> <a href="/bo/comercial/red">Red</a>
 					> <a href="/bo/usuarios/afiliar">Tipo de Afiliacion</a>
-					> Afiliacion Red
+					> Afiliacion Red - Ciclo <?php echo $ciclo; ?>
 				</span>
 				<?php }else {?>
 				<span> 
 				> <a href="/ov/perfil_red/afiliar?tipo=1">Red</a>
 				> <a href="/ov/perfil_red/nuevo_afilido?id=<?php echo $_GET['id']; ?>">Afiliar</a>
-				> Red
+				> Red - Ciclo <?php echo $ciclo; ?>
 				</span>
 				<?php }?>
 
@@ -887,8 +957,15 @@ function detalles(id)
 															<div onclick="detalles(<?=$key->id_afiliado?>)" class="<?=($key->directo==$id) ? 'todo1' : 'todo'?>"><?=$key->afiliado?> <?=$key->afiliado_p?><br />Detalles</div>
 														</li>
 														<?}
-													}?>
-												
+													}
+													
+													for( $i = $aux; $i < $red_frontales[0]->frontal; $i++ ){ ?>
+														<li>
+															<a onclick="botbox('<?php echo $sponsor[0]->nombre; ?>','<?php echo $id; ?>','<?php echo $i ?>')" href='javascript:void(0)'>Afiliar Aqui</a>
+														 </li>
+												<?php }
+													?>
+													
 													</ul>
 												</li>
 											</ul>

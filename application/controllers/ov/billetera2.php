@@ -18,6 +18,7 @@ class billetera2 extends CI_Controller
 		$this->load->model('bo/model_bonos');
 		$this->load->model('model_tipo_red');
 		$this->load->model('ov/model_perfil_red');
+		$this->load->model('ov/modelo_compras');
 		
 		if (!$this->tank_auth->is_logged_in())
 		{																		// logged in
@@ -43,8 +44,7 @@ class billetera2 extends CI_Controller
 		if($this->general->isActived($id)!=0){
 			redirect('/ov/compras/carrito');
 		}
-
-
+		
 		$usuario=$this->general->get_username($id);
 		$style=$this->general->get_style($id);
 
@@ -104,21 +104,16 @@ class billetera2 extends CI_Controller
 		$usuario=$this->general->get_username($id);
 		$style=$this->general->get_style($id);
 	
-		$historial=$this->modelo_billetera->get_historial_cuenta($id);
+		$historial=$this->modelo_billetera->getComisionPorMeses($id);
+		
 		$ganancias=$this->modelo_billetera->get_monto($id);
 		$ganancias=$ganancias[0]->monto;
 		$años = $this->modelo_billetera->anosCobro($id);
 
-	/*	foreach ($historial as $comision){
-				if($comision->fecha == $mes->fecha){
-					$mes->valor+=$comision->valor;
-				}
-		}*/
-		$this->template->set("historial",$historial);
 		
 		$this->template->set("style",$style);
 		$this->template->set("usuario",$usuario);
-		//$this->template->set("historial",$historial);
+		$this->template->set("historial",$historial);
 		$this->template->set("ganancias",$ganancias);
 		$this->template->set("años",$años);
 	
@@ -503,7 +498,7 @@ class billetera2 extends CI_Controller
 		$fecha =isset($_POST['fecha']) ? $_POST['fecha'] : null;
 	
 		//echo "dentro de historial : ".$id;
-	
+		
 		$ventas = ($fecha)
 		? $this->modelo_billetera->get_ventas_comision_fecha($id,$fecha)
 		: $this->modelo_billetera->get_ventas_comision_id($id);
@@ -518,7 +513,7 @@ class billetera2 extends CI_Controller
 				<thead id='tablacabeza'>
 					<th data-class='expand'>ID Venta</th>
 					<th data-hide='phone,tablet'>Afiliado</th>
-					<th data-hide='phone,tablet'>Red</th>
+					<th data-hide='phone,tablet'>Bono</th>
 					<th data-hide='phone,tablet'>Items</th>
 					<th data-hide='phone,tablet'>Total</th>
 					<th data-hide='phone,tablet'>Comision</th>
@@ -528,16 +523,43 @@ class billetera2 extends CI_Controller
 	
 		foreach($ventas as $venta)
 		{
+			if($venta->tipo == 5)
+			{
+				$ventas_table .= "<td COLSPAN='5' >Premio de liderazgo</td>
+				<td> $	".number_format($venta->comision, 2)."</td>";
+			}else if($venta->tipo == 5)
+			{
+				$ventas_table .= "<td COLSPAN='5' >Bono Navideño</td>
+				<td> $	".number_format($venta->comision, 2)."</td>";
+			}else {
 				
-			$ventas_table .= "<tr>
-			<td class='sorting_1'>".$venta->id_venta."</td>
-			<td>".$venta->nombres."</td>
-			<td>".$venta->red."</td>
-			<td>".$venta->items."</td>
-			<td>".number_format($venta->total, 2)."</td>
-			<td> $	".number_format($venta->comision, 2)."</td>
-			</tr>";
-	
+				if($venta->comision > 0){		
+					$ventas_table .= "<tr>
+					<td class='sorting_1'>".$venta->id_venta."</td>
+					<td>".$venta->nombres."</td>";
+					switch ($venta->tipo){
+						case 1:
+							$ventas_table .="<td>Bono Ciclo (".$venta->red.")</td>";
+							break;
+						case 2:
+							$ventas_table .="<td>Bono de Igualdad Ciclo (".$venta->red.")</td>";
+							break;
+						case 3:
+							$ventas_table .="<td>Bono Codificado (".$venta->red.")</td>";
+							break;
+						case 4:
+							$ventas_table .="<td>Bono de Igualdad Codificado (".$venta->red.")</td>";
+							break;
+						default:
+							$ventas_table .="<td>".$venta->red.")</td>";
+							break;
+					}
+					$ventas_table .="<td>".$venta->items."</td>
+					<td>".number_format($venta->total, 2)."</td>
+					<td> $	".number_format($venta->comision, 2)."</td>
+					</tr>";
+				}
+			}
 			$total += ($venta->comision);
 	
 		}

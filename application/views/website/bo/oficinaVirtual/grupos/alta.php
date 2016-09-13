@@ -42,7 +42,7 @@
 														<option value="DES">Descargas</option>
 														<option value="EBO">E-books</option>
 														<option value="NOT">Noticias</option>
-														
+														<option value="VID">Videos</option>
 													</select>
 											</label><br>
 											<label class="input">

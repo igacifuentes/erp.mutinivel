@@ -143,9 +143,16 @@ class modelo_afiliado extends CI_Model{
 		}
 		
 		$mi_red=$_POST['red'];		
-		$id_debajo = $this->definir_debajo ();				
-		$lado = $this->definir_lado ($id_debajo,$mi_red);		
+		$id_debajo = $this->definir_debajo ();
+		$id_ciclo = $_POST['ciclo'];
+		$lado = 0;		
 		$directo = $this->definir_sponsor ($id_debajo);
+		
+		if($id_ciclo == 0){
+			$lado = $this->definir_lado ($id_debajo,$mi_red);
+		}else{
+			$lado = $this->definir_ladoCiclo($id_debajo,$mi_red,$id_ciclo);
+		}
 		
 		$fijos = $_POST["fijo"];
 		$moviles = $_POST["movil"];
@@ -166,7 +173,19 @@ class modelo_afiliado extends CI_Model{
 		($fijos&&$moviles) ? $this->insert_dato_tels($id,$fijos,$moviles) : '' ; 
 		
 		$dato_perfil=$this->Perfil($id); # USER_PROFILES
-		$dato_afiliar=$this->dato_afiliar ( $id, $mi_red, $id_debajo, $lado, $directo ); # AFILIAR 
+		
+		$dato_afiliar = array();
+		if($id_ciclo == 0){
+			$dato_afiliar = $this->dato_afiliar ( $id, $mi_red, $id_debajo, $lado, $directo );
+		}else{
+			
+			//$this->insert_dato_afiliarCiclo($id, $mi_red, $id_debajo, $lado, $id_ciclo);
+			
+			$lado = $this->consultarFrontalDisponible($directo, $mi_red);
+			
+			$dato_afiliar = $this->dato_afiliar ( $id, $mi_red, $directo , $lado, $directo );
+		}
+		
 		//$dato_permiso=$this->Perfil($id); # USER_PERMISSIONS
 		$dato_estilo=$this->EstiloUsuario($id);	# ESTILO_USUARIO
 		$dato_coaplicante=$this->Coaplicante($id);# COAPLICANTE
@@ -191,7 +210,6 @@ class modelo_afiliado extends CI_Model{
 		);	
 		
 		# TELEFONOS $dato_tels dato_tels($id)
-		
 		return $afiliar ? $id /*var_dump()."|".var_dump($_POST["movil"])*/ : null;#; #;
 	}
 	
@@ -312,7 +330,18 @@ class modelo_afiliado extends CI_Model{
  		return $dato_afiliar;#true;
  		#echo "afiliar si|";
 	}
-
+	
+	private function insert_dato_afiliarCiclo($id, $mi_red, $id_debajo, $lado, $ciclo) { #dato_afiliar
+		$dato_afiliar =array(
+				"id_red"      => $mi_red,
+				"id_afiliado" => $id,
+				"debajo_de"   => $id_debajo,
+				"id_ciclo"     => $ciclo,
+				"lado"        => $lado
+		);
+	
+		$this->db->insert("ciclos",$dato_afiliar);
+	}
 	
 	private function definir_sponsor($id_debajo) {
 		if(isset($_POST['sponsor']))
@@ -327,10 +356,20 @@ class modelo_afiliado extends CI_Model{
 	
 	private function definir_lado($id_debajo,$mi_red) {
 		
-		if(isset($_POST['lado'])){
+		if(isset($_POST['lado']) && $_POST['ciclo'] == 0){
 			return $_POST['lado'];
 		}else {
 			return $this->consultarFrontalDisponible($id_debajo, $mi_red);
+		}
+		echo "lado si|";
+	}
+	
+	private function definir_ladoCiclo($id_debajo,$mi_red,$ciclo) {
+	
+		if(isset($_POST['lado'])){
+			return $_POST['lado'];
+		}else {
+			return $this->consultarFrontalDisponibleCiclo($id_debajo, $mi_red, $ciclo);
 		}
 		echo "lado si|";
 	}
@@ -417,6 +456,27 @@ class modelo_afiliado extends CI_Model{
 				}
 			$aux++;
 			$lado_disponible++;
+			}
+		}
+		return $lado_disponible;
+	}
+	
+	function consultarFrontalDisponibleCiclo($id_debajo, $red, $ciclo){
+	
+		$query = $this->db->query('select * from ciclos where debajo_de = '.$id_debajo.' and id_red = '.$red.' and id_ciclo='.$ciclo.' order by lado');
+	
+		$lados = $query->result();
+		$lado_disponible=0;
+	
+		if(isset($lados[0]->id)){
+			$aux=0;
+			foreach ($lados as $filaLado){
+				if($filaLado->lado!=$aux){
+					$lado_disponible = $aux;
+					return $lado_disponible;
+				}
+				$aux++;
+				$lado_disponible++;
 			}
 		}
 		return $lado_disponible;

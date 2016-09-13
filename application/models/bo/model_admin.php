@@ -186,7 +186,8 @@ class model_admin extends CI_Model
 		$this->kill_ventas_afiliado($id);
 		
 		$i=0;
-		$redes_afiliado = $this->model_perfil_red->ConsultarRedAfiliado($id);	
+		$redes_afiliado = $this->model_perfil_red->ConsultarRedAfiliado($id);
+		
 		if ($red==0){
 			foreach($redes_afiliado as $red_afiliado){
 			//echo "red: ".$red_afiliado->id_red." ";
@@ -207,19 +208,21 @@ class model_admin extends CI_Model
 		}
 
 	}
-		
 	
 	function flowCompress($id,$red){
 		
 		//echo "dentro de flow compress ";
 		$hijos = $this->model_perfil_red->ConsultarHijos($id,$red);
+		
 		$lados = $this->model_tipo_red->ObtenerFrontalesRed($red);
+		
 		$espacio = ($hijos) ? $this->buscarEspacios($id,$red,$lados[0]->frontal,count($hijos)) : 2;
+		
 		//echo "padre: ".$espacio."	";
 		$setHijos = $this->model_perfil_red->ConsultarRedDebajo($id,$red);
 		$failure = ($hijos) ? $this->model_perfil_red->actualizarHijos($id,$espacio,$setHijos[0]->hijos,$red,$hijos) : true;
 		return $failure;
-		
+	
 	}
 	
 	function buscarEspacios($id,$red,$espacios,$cupos){

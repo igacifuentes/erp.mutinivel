@@ -22,7 +22,7 @@
 									class="well well-sm txt-color-white text-center link_dashboard"
 									style="background: <?=$style[0]->btn_1_color?>">
 									<i class="fa fa-sitemap fa-3x"></i>
-									<h5>Arbol de mi red</h5>
+									<h5>Arbol de mi red Actual (2x2)</h5>
 								</div>
 							</a>
 						</div>		

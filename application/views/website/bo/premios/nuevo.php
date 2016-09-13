@@ -98,16 +98,14 @@
 									</select> <i></i> 
 								</label>
 								<br>
-								Nivel de profundidad
-								
+								Meses Requeridos
 								<label class="input" required>
-									
-									<input style="width: 25rem;" required type="number" name="nivel" placeholder="Nivel"class="form-control" required>
+									<input style="width: 25rem;" required type="number" name="meses" placeholder="Meses"class="form-control" required>
 								</label>
 								<br>
 								<label class="input" required>
-									Cantidad de afiliados necesarios
-									<input style="width: 25rem;" required type="number" name="cantidad" placeholder="Cantidad"class="form-control" required>
+									Cantidad de codificados necesarios
+									<input style="width: 25rem;" required type="number" name="codificados" placeholder="Cantidad"class="form-control" required>
 								</label>
 								<br>		
 								Frecuencia
@@ -115,6 +113,7 @@
 									<select style="width: 25rem;" name="frecuencia" required>
 										<option value="Mensual">Mensual</option>
 										<option value="Anual">Anual</option>
+										<option value="Unico">Unico</option>
 									</select> <i></i> 
 								</label>
 								

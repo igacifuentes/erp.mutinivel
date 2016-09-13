@@ -104,13 +104,10 @@
 															<br>
 														</div>
 														<div class="col-sm-4">
-														<h1><small>Puntos Comisionables Personales</small>  <i class='fa fa-user'></i></h1>
+														<h1><small>Codificados </small>  <i class='fa fa-user'></i></h1>
 															<ul class="list-inline friends-list">
-																<li><span class="font-md"><i>Semana :</i></span> <?=intval($puntos_semana)?>
-																</li>
-																<li><span class="font-md"><i>Mes :</i></span> <?=intval($puntos_semana)?>
-																</li>
-																<li><span class="font-md"><i>Total :</i></span> <?=intval($puntos_total)?>
+																<li>
+																	<span class="font-md"><i>Actuales :</i></span> <?=intval($codificadosMes)?>
 																</li>
 															</ul>
 														<h1><small>Puntos Comisionables Red </small>  <i class='fa fa-sitemap'></i></h1>
@@ -246,16 +243,35 @@
 																		</div>
 																	</li>';
 																		}
-																	?>																
-																	
-																	
+																	?>
+																	<?php foreach ($premios as $premio){ ?>
+																		<li class="message">
+																			<img src="<?php echo $premio->imagen; ?>" style="width: 5rem; height: 5rem;" class="online" alt="">
+																		<div class="message-text">
+																			<time><?php echo $premio->fecha; ?></time>
+																			<a href="javascript:void(0);" class="username">Felicitaciones</a> 
+																			<span>Has obtenido el premio de <?php echo $premio->nombre; ?> - <?php echo $premio->descripcion; ?></span>
+																			<span>Por obtener <?php echo $premio->codificados; ?> codificados y mantenerlos por <?php echo $premio->meses; ?> meses.</span>
+																			<br>
+																			<?php  if ($premio->id == 2){ ?>
+																				<span><b>Recuerda: </b> Este premio sera entregado en Enero o Septiembre</span>
+																			<?php } ?>
+																			<?php  if ($premio->id == 3){ ?>
+																				<span><b>Recuerda: </b> Este premio sera entregado en Marzo</span>
+																			<?php } ?>
+																			</div>
+																		</li>
+																	<?php }	
+																	if(isset($premios[0]->nombre)){ ?>
+																		<span><b>Nota: </b> Verifica tus datos personales, seran importantes para que tus premios te llegen.</span>
+																	<?php }?>
 																</ul>
 															</div>
 															</div>
 														</div>
 													</div>
 												</div>                                                                                      
-												</div>
+											</div>
 									</fieldset>
 									<!--Termina la secciion de perfil y red-->
 								</div>

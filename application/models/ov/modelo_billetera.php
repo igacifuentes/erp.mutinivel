@@ -330,7 +330,7 @@ from transaccion_billetera t, users u, user_profiles p
 	}
 	
 	function get_ventas_comision_id($id){
-		$q=$this->db->query("SELECT c.id_venta, v.fecha, t.nombre as red, c.id_afiliado,
+		$q=$this->db->query("SELECT c.id_venta, v.fecha , c.puntos, t.nombre as red, c.id_afiliado, c.tipo,
 								concat(p.nombre,' ',p.apellido) as nombres,
 								(select group_concat(
 										concat((
@@ -360,7 +360,7 @@ from transaccion_billetera t, users u, user_profiles p
 	}
 	
 	function get_ventas_comision_fecha($id,$fecha){
-		$q=$this->db->query("SELECT c.id_venta, v.fecha, t.nombre as red, c.id_afiliado,
+		$q=$this->db->query("SELECT c.id_venta, v.fecha , c.puntos, t.nombre as red, c.id_afiliado, c.tipo,
 								concat(p.nombre,' ',p.apellido) as nombres,
 								(select group_concat(
 										concat((
@@ -466,4 +466,30 @@ from transaccion_billetera where id_user = ".$id." order by fecha desc ");
 		return $q3;		
 	}
 	
+	function getComisionPorMeses($id){
+		$q = "SELECT fecha, sum(valor) as comision from comision where id_afiliado = ".$id." group by month(fecha)";
+		$consulta = $this->db->query($q);
+		$q2=$consulta->result();
+		return $q2;
+	}
+	
+	function get_total_comisiones_por_afiliado(){
+	
+		$q=$this->db->query('SELECT c.id_afiliado, SUM(valor) AS valor, (select sum(monto) from cobro where id_user = id_afiliado)AS cobros FROM comision c GROUP BY c.id_afiliado;');
+		$comisiones=$q->result();
+		return $comisiones;
+	}
+	
+	function cobroAtomatico($id,$monto)
+	{
+		$dato_cobro=array(
+				"id_user"		=>	intval($id),
+				"id_metodo"		=> 	1,
+				"id_estatus"		=> 	3,
+				"monto"			=> 	intval($monto)
+		);
+			
+		$this->db->insert("cobro",$dato_cobro);
+	
+	}
 }
