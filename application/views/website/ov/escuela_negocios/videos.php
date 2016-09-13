@@ -138,7 +138,10 @@
 </article>
 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 	    		<div class="">
-	      			<div class="row xsResponse" id="mercancias">
+	      			<div class="row xsResponse" >
+	      			     <div class="row" id="mercancias">
+	      			     	
+	      			     </div>
 	      									<!-- start row -->
 					<div class="row">
 						<div class="col-sm-3">
