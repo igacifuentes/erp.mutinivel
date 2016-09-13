@@ -464,12 +464,25 @@ WHERE A.id_archivo = '.$id.' and A.id_tipo = CTA.id_tipo');
 		return $q->result();
 
 	}
-		function get_vimeo(){
+	
+	function get_vimeo(){
 		$q=$this->db->query('select * from Video');
 		return $q->result();
 
 	}
-
+	
+	function get_vimeoClase($id_clase){
+		$q=$this->db->query('select * from Video where id_clase ='.$id_clase);
+		return $q->result();
+	
+	}
+	
+function get_idMercanciaClase($id_clase){
+		$q=$this->db->query('select nc.id_mercancia from Clase c, Nivel_Clase nc where c.id_Nivel = nc.id_Nivel and c.id_Clase ='.$id_clase);
+		return $q->result()[0]->id_mercancia;
+	
+	} 
+	
 	function get_nivel1($idClase){
 
 		$q=$this->db->query('select id_Nivel from Clase where id_Clase='.$idClase);

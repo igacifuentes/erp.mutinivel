@@ -1509,6 +1509,19 @@ where a.id_paquete = e.id_paquete and d.sku= a.id_paquete and d.estatus="ACT" an
 		}
 	}
 	
+	function ComprobarCompraMercanciaUnica($id_usuario, $id_mercancia){
+		
+		$q = $this->db->query("select count(*) as cantidad
+			from venta v, cross_venta_mercancia cvm, mercancia m
+			where v.id_venta = cvm.id_venta and cvm.id_mercancia = m.id and m.id = ".$id_mercancia."  and v.id_user = ".$id_usuario);
+		$mercancia = $q->result();
+		if($mercancia[0]->cantidad > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	function ComprovarCompraProductoRed($id_usuario, $id_categoria){
 		$mes = date("m");
 		$q = $this->db->query("select count(*) as cantidad from venta v, cross_venta_mercancia cvm, servicio s, mercancia m

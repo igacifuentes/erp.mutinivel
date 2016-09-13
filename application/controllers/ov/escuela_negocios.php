@@ -14,6 +14,7 @@ class escuela_negocios extends CI_Controller
 		$this->load->model('bo/modelo_comercial');
 		$this->load->model('bo/model_bonos');
 		$this->load->model('bo/model_planes');
+		$this->load->model("ov/modelo_compras");
 		if (!$this->tank_auth->is_logged_in())
 		{																		// logged in
 		redirect('/auth');
@@ -188,70 +189,56 @@ class escuela_negocios extends CI_Controller
 		$id=$this->tank_auth->get_user_id();
 		$usuario=$this->general->get_username($id);
 		$style=$this->general->get_style($id);
-  		$this->template->set("style",$style);
+  		
+		$this->template->set("style",$style);
 		$this->template->set("usuario",$usuario);
-			$clase=$this->modelo_comercial->get_clase();
-			$video=$this->modelo_comercial->get_vimeo();
-			$nivel=$this->modelo_comercial->get_nivel();
-			$venta=$this->modelo_comercial->venta($id);
-			$cross_venta_mercancia=$this->modelo_comercial->cross_venta_mercancia();
-			$rf='';
-			$nivel_id=$this->modelo_comercial->get_nivel1($_GET['idClase']);
-			foreach ($nivel_id as $key ) {
-				$rf=$key->id_Nivel;
-			}
-			$id_merc='';
-			$mercancia_id=$this->modelo_comercial->get_mercancia($rf);
-			foreach ($mercancia_id as $Mercancia_id) {
-				$id_merc=$Mercancia_id->id_mercancia;
-			}
-			$igualdad=FALSE;
-if((is_null($venta) && is_null($cross_venta_mercancia) && is_null($id_merc)) && (isset($venta) && isset($cross_venta_mercancia) && isset($id_merc))){
-foreach ($venta as $Venta) {
-	foreach ($cross_venta_mercancia as $Cross_venta_mercancia) {
-		if($Venta->id_venta==$Cross_venta_mercancia->id_venta && $id_merc==$Cross_venta_mercancia->id_mercancia){
-				$igualdad=TRUE;
-		}
 		
-	}
-}
-}
-			$dividir='';
-			$imprimir='';
+		
+		$video = $this->modelo_comercial->get_vimeoClase($_GET['idClase']);
+		$id_mercancia = $this->modelo_comercial->get_idMercanciaClase($_GET['idClase']);
+		
+		$dividir='';
+		$imprimir='';
+		$permiso = false;
+		if($id_mercancia == 1){
+			$permiso = $this->modelo_compras->ComprobarCompraMercanciaUnica($id, $id_mercancia);
+		}else{
+			$permiso = $this->modelo_compras->ComprobarCompraMercancia($id, $id_mercancia);
+		}
+		if($permiso){
 			foreach ($video as $Video) {
 				$dividir=explode("/",$Video->ruta_Video);
-				if($Video->id_clase==$_GET['idClase'] && $igualdad==TRUE){
-			$imprimir .='
-    <div class="col-sm-6">
-   
-      <h2>'.$Video->Titulo.'</h2>
-<div class="embed-responsive embed-responsive-16by9">
-<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
-</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
-</p>
-</div>
-    </div>
-     ';
-    }else{
-    	if($Video->tipo==1 && $Video->id_clase==$_GET['idClase']){
-$imprimir .='
-    
-    <div class="col-sm-6">
-   
-      <h2>'.$Video->Titulo.'</h2>
-<div class="embed-responsive embed-responsive-16by9">
-<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
-</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
-</p>
-</div>
-    </div>
-  
-      ';
-    	}
-    }
-}
+				if($Video->tipo == 2){
+					$imprimir .='
+					    <div class="col-sm-6">
+					  		<h2>'.$Video->Titulo.'</h2>
+							<div class="embed-responsive embed-responsive-16by9">
+								<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+								<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
+									</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
+								</p>
+							</div>
+					    </div>';
+				}
+			}
+		}else{
+			foreach ($video as $Video) {
+				$dividir=explode("/",$Video->ruta_Video);
+				if($Video->tipo == 1){
+					$imprimir .='
+					    <div class="col-sm-6">
+					  		<h2>'.$Video->Titulo.'</h2>
+							<div class="embed-responsive embed-responsive-16by9">
+								<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+								<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
+									</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
+								</p>
+							</div>
+					    </div>';
+				}
+			}
+		}
+		
 			echo $imprimir;
 	}
 	

@@ -97,31 +97,24 @@
 						<!-- widget content -->
 						<div class="widget-body">
 								<h3>Categoria niveles</h3>
-								<div class="dropdown">
+								<div class="dropdown open">
 								
 								<?php if(isset($nivel)){
-									
-									foreach ($nivel as $Nivel ) {
-									
-										
-		      						echo ' <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" > <span class="menu-item-parent">'.$Nivel->Nombre.'</span></a>';
-		      						echo '<ul>';
-		      						foreach ($clase as $Clase) {
-		      								if($Nivel->id_Nivel== $Clase->id_Nivel){
+									foreach ($nivel as $Nivel ) { ?>
+										<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-target="#" href="javascript:void(0);"> 
+											<span class="menu-item-parent"> <?php echo $Nivel->Nombre; ?></span>
+										</a>
+		      								<ul>
+		      									<?php foreach ($clase as $Clase) {
+		      										if($Nivel->id_Nivel== $Clase->id_Nivel){?>
+														<li>
+															<a class="btn btn-sm btn-block" onclick="ver_videos('<?php echo $Clase->id_Clase; ?>')"><?php echo $Clase->Nombre; ?></a>
+							      						</li>
+							      					<?php }
+							      					} ?>
 
-		      							echo '<li>';
-
-		      							echo '<a onclick="ver_videos('.$Clase->id_Clase.')">'.$Clase->Nombre.'</a>';
-		      							echo '</li>';
-
-
-		      						}
-		      						}
-
-		      						echo "</ul>";
-		      					}
-		      					
-		        				
+		      								</ul>
+		      						<?php } 
       							} ?>
       				
 									
@@ -298,20 +291,7 @@
 				});
 			}
 
-			function show_todos_tipo_mercancia(tipoMercancia)
-			{
-				iniciarSpinner();
-				$.ajax({
-					type: "get",
-					url: "show_todos_tipo_mercancia",
-					data: { tipoMercancia: tipoMercancia},
-					success:function(msg){
-						FinalizarSpinner();
-						$("#mercancias").html(msg);
-				
-					}
-				});
-			}
+		
 
 			function ver_videos(idClase){
 				iniciarSpinner();
@@ -327,140 +307,6 @@
 				});
 			}
 
-		</script>
-		<script>
-			function comprar(id,tipo)
-			{
-				
-				var qty=$("#cantidad").val();
-
-					var datos={'id':id,'tipo':tipo,'qty':qty};
-					$.ajax({
-						data:{info:JSON.stringify(datos)},
-						type: 'get',
-						url: 'add_merc',
-						success: function(msg){
-							if(msg=="Error")
-							{
-								bootbox.dialog({
-									message: "¡Ooops! El producto se ha agotado, intente mas tarde porfavor.",
-									title: "Error",
-									className: "",
-									buttons: {
-										danger: {
-										label: "Ok!",
-										className: "btn-danger",
-										callback: function() {
-											}
-										}
-									}
-								});
-							}
-							else
-							{
-								bootbox.dialog({
-									message: "El producto se ha añadido al carrito",
-									title: "Exito",
-									className: "",
-									buttons: {
-										success: {
-										label: "Ok!",
-										className: "btn-success",
-										callback: function() {
-												bootbox.hideAll();
-											}
-										}
-									}
-								});
-								update_cart_button();
-							}			
-						}
-					});
-			}
-			function ver_cart()
-			{
-				$.ajax({
-					type: 'get',
-					url: 'ver_carrito',
-					success: function(msg){
-			 			bootbox.dialog({
-								message: msg,
-								title: "Ver carro",
-								className: "",
-								buttons: {
-									success: {
-									label: "Aceptar",
-									className: "btn-success",
-									callback: function() {
-										}
-									}
-								}
-							})
-					}
-				});
-			}
-
-			function update_cart_button()
-			{
-				$.ajax({
-					type: "get",
-					url: "printContentCartButton",
-					success:function(msg){
-						$(".cartButton").html(msg);
-						
-					}
-				});
-			}
-			
-
-			function quitar_producto(id)
-			{
-				
-				$.ajax({
-					type: "POST",
-					url: "/auth/show_dialog",
-					data: {message: '¿ Esta seguro que desea Eliminar la mercancia ?'},
-				})
-				.done(function( msg )
-				{
-					bootbox.dialog({
-						message: msg,
-						title: 'Eliminar Mercancia',
-						buttons: {
-							success: {
-							label: "Aceptar",
-							className: "btn-success",
-							callback: function() {
-								
-									$.ajax({
-										type: "POST",
-										url: "/ov/compras/quitar_producto",
-										data: {id:id}
-									})
-									.done(function( msg )
-									{
-										window.location.href='/ov/compras/carrito'
-									});//Fin callback bootbox
-								}
-					
-							},
-								danger: {
-								label: "Cancelar!",
-								className: "btn-danger",
-								callback: function() {
-
-									}
-							}
-						}
-					})
-				});
-				
-			}
-
-		function a_comprar()
-			{
-				window.location.href="DatosEnvio";						
-			}
 		</script>
 		<script type="text/javascript">
 		
