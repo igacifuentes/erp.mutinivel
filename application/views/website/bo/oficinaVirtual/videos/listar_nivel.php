@@ -249,7 +249,7 @@ $(document).ready(function() {
 function editar(id){
 	$.ajax({
 		type: "POST",
-		url: "/bo/grupos/editar_grupo",
+		url: "/bo/videos/editar_nivel",
 		data: {
 			id: id
 			}
@@ -258,7 +258,7 @@ function editar(id){
 	.done(function( msg ) {
 		bootbox.dialog({
 			message: msg,
-			title: 'Modificar Grupo',
+			title: 'Modificar nivel',
 				});
 	});//fin Done ajax
 }

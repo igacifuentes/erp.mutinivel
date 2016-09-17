@@ -464,6 +464,12 @@ WHERE A.id_archivo = '.$id.' and A.id_tipo = CTA.id_tipo');
 		return $q->result();
 
 	}
+
+		function get_clase2($id){
+		$q=$this->db->query('select * from Clase where id_Clase='.$id);
+		return $q->result();
+
+	}
 	
 	function get_vimeo(){
 		$q=$this->db->query('select * from Video');
@@ -508,5 +514,24 @@ function get_idMercanciaClase($id_clase){
 		$q=$this->db->query('select * from venta where id_user='.$id);
 		return $q->result();
 
+	}
+
+	function get_nivel_clase($id){
+
+		$q=$this->db->query('select * from Clase where id_Nivel='.$id);
+		return $q->result();
+	}
+
+	function get_nivel2($id){
+		$q=$this->db->query('select * from Nivel_Clase where id_Nivel='.$id);
+		return $q->result();
+
+
+	}
+
+
+	function actualizar_nivel(){
+		$this->db->query('UPDATE Nivel_Clase SET Nombre="'.$_POST['nombre'].'",id_mercancia="'.$_POST['tipo'].'" WHERE id_Nivel="'.$_POST['id'].'"');
+		return true;
 	}
 }

@@ -93,7 +93,7 @@
 														</td>
 														<td></td>
 														<td>
-															<a title="Editar" style="cursor: pointer;" class="txt-color-blue" onclick="editar('<?php echo $Nivel->id_Nivel; ?>');"><i class="fa fa-pencil fa-3x"></i></a>
+															<a title="Editar" style="cursor: pointer;" class="txt-color-blue" onclick="editar('<?php echo $Clase->id_Clase; ?>');"><i class="fa fa-pencil fa-3x"></i></a>
 															<a title="Eliminar" style="cursor: pointer;" class="txt-color-red" onclick="eliminar('<?php echo $Nivel->id_Nivel; ?>');"><i class="fa fa-trash-o fa-3x"></i></a>
 															<?php if($Nivel->id_Nivel == 'ACT'){ ?>
 																<a style="cursor: pointer;" title="Desactivar" onclick="estado('DES','<?php echo $Nivel->id_Nivel; ?>')" class="txt-color-green"><i class="fa fa-check-square-o fa-3x"></i></a>
@@ -222,7 +222,7 @@ $(document).ready(function() {
 function editar(id){
 	$.ajax({
 		type: "POST",
-		url: "/bo/grupos/editar_grupo",
+		url: "/bo/videos/editar_clase",
 		data: {
 			id: id
 			}
@@ -231,7 +231,7 @@ function editar(id){
 	.done(function( msg ) {
 		bootbox.dialog({
 			message: msg,
-			title: 'Modificar Grupo',
+			title: 'Modificar clase',
 				});
 	});//fin Done ajax
 }

@@ -637,6 +637,39 @@ function sube_video_youtube()
 
 	}
 
+
+	function editar_nivel(){
+		$id              = $this->tank_auth->get_user_id();
+		$style           = $this->general->get_style($id);
+		$nivel= $this->modelo_comercial->get_nivel2($_POST['id']);
+		$mercancia=$this->modelo_comercial->mercancia();
+		$producto=$this->modelo_comercial->producto();
+		$servicio=$this->modelo_comercial->servicio();
+		$paquete_inscripcion=$this->modelo_comercial->paquete_inscripcion();
+		$membresia=$this->modelo_comercial->membresia();
+		$combinado=$this->modelo_comercial->combinado();
+
+		$this->template->set("mercancia",$mercancia);
+		$this->template->set("producto",$producto);//1
+		$this->template->set("servicio",$servicio);//2
+		$this->template->set("paquete_inscripcion",$paquete_inscripcion);//3
+		$this->template->set("membresia",$membresia);//5
+		$this->template->set("combinado",$combinado);//4
+		$this->template->set("nivel",$nivel);
+		$this->template->build('website/bo/oficinaVirtual/videos/editar_nivel');
+	}
+
+	function actualizar_nivel(){
+		$correcto = $this->modelo_comercial->actualizar_nivel();
+		if($correcto){
+			echo "Nivel Actualizado";
+		}
+		else{
+			echo "No se logro actualizar el nivel";
+		}
+	
+	}
+
 	function listar_clase(){
 					if (!$this->tank_auth->is_logged_in())
 		{																		// logged in
@@ -664,6 +697,22 @@ function sube_video_youtube()
 		$this->template->set_partial('header', 'website/bo/header');
 		$this->template->set_partial('footer', 'website/bo/footer');
 		$this->template->build('website/bo/oficinaVirtual/videos/listar_clase',$data);
+
+	}
+
+	function editar_clase(){
+		$id              = $this->tank_auth->get_user_id();
+		$style           = $this->general->get_style($id);
+		$nivel=$this->modelo_comercial->get_nivel();
+		$clase=$this->modelo_comercial->get_clase2($_POST['id']);
+		$this->template->set("nivel",$nivel);
+		$this->template->set("clase",$clase);
+
+		$this->template->build('website/bo/oficinaVirtual/videos/editar_clase');
+
+	}
+
+	function actualizar_clase(){
 
 	}
 

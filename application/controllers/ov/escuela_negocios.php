@@ -241,6 +241,7 @@ class escuela_negocios extends CI_Controller
 		
 			echo $imprimir;
 	}
+
 	
 	function descargas()
 	{
