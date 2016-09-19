@@ -94,7 +94,7 @@
 														<td></td>
 														<td>
 															<a title="Editar" style="cursor: pointer;" class="txt-color-blue" onclick="editar('<?php echo $Clase->id_Clase; ?>');"><i class="fa fa-pencil fa-3x"></i></a>
-															<a title="Eliminar" style="cursor: pointer;" class="txt-color-red" onclick="eliminar('<?php echo $Nivel->id_Nivel; ?>');"><i class="fa fa-trash-o fa-3x"></i></a>
+															<a title="Eliminar" style="cursor: pointer;" class="txt-color-red" onclick="eliminar('<?php echo $Clase->id_Clase; ?>');"><i class="fa fa-trash-o fa-3x"></i></a>
 															<?php if($Nivel->id_Nivel == 'ACT'){ ?>
 																<a style="cursor: pointer;" title="Desactivar" onclick="estado('DES','<?php echo $Nivel->id_Nivel; ?>')" class="txt-color-green"><i class="fa fa-check-square-o fa-3x"></i></a>
 															<?php } else {?>
@@ -241,13 +241,13 @@ function eliminar(id) {
 	$.ajax({
 		type: "POST",
 		url: "/auth/show_dialog",
-		data: {message: '¿ Esta seguro que desea Eliminar El grupo ?'},
+		data: {message: '¿ Esta seguro que desea Eliminar La clase ?'},
 	})
 	.done(function( msg )
 	{
 		bootbox.dialog({
 		message: msg,
-		title: 'Eliminar Grupo',
+		title: 'Eliminar clase',
 		buttons: {
 			success: {
 			label: "Aceptar",
@@ -256,20 +256,20 @@ function eliminar(id) {
 
 					$.ajax({
 						type: "POST",
-						url: "/bo/grupos/kill_grupo",
+						url: "/bo/videos/eliminar_clase",
 						data: {id: id}
 					})
 					.done(function( msg )
 					{
 						bootbox.dialog({
-						message: "Se ha eliminado el Grupo.",
+						message: msg,
 						title: 'Felicitaciones',
 						buttons: {
 							success: {
 							label: "Aceptar",
 							className: "btn-success",
 							callback: function() {
-								location.href="/bo/grupos/listar";
+								location.href="/bo/videos/listar_clase";
 								}
 							}
 						}

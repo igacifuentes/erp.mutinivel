@@ -528,10 +528,28 @@ function get_idMercanciaClase($id_clase){
 
 
 	}
+	function get_vimeo2($id){
+		$q=$this->db->query('select * from Video where id_Video='.$id);
+		return $q->result();
+
+	}
 
 
 	function actualizar_nivel(){
 		$this->db->query('UPDATE Nivel_Clase SET Nombre="'.$_POST['nombre'].'",id_mercancia="'.$_POST['tipo'].'" WHERE id_Nivel="'.$_POST['id'].'"');
 		return true;
 	}
+function get_vimeo_clase($id){
+		$q=$this->db->query('select * from Video where id_clase='.$id);
+		return $q->result();
+
+
+}
+
+function get_clase_nivel($id){
+		$q=$this->db->query('select * from Clase where id_Nivel='.$id);
+		return $q->result();
+
+}
+
 }

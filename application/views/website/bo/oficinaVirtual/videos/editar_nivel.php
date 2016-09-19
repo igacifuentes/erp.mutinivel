@@ -61,7 +61,6 @@
 <script src="/template/js/plugin/fuelux/wizard/wizard.min.js"></script>
 <script type="text/javascript">
 function enviar() {
-	alert("hola mundo");
 	
 	 $.ajax({
 							type: "POST",

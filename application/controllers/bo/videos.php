@@ -453,6 +453,34 @@ function subir_video_vimeo(){
 
 
 }
+
+function editar_vimeo(){
+		$id              = $this->tank_auth->get_user_id();
+		$style           = $this->general->get_style($id);
+		$video=$this->modelo_comercial->get_vimeo2($_POST['id']);
+		$clase=$this->modelo_comercial->get_clase();
+
+		$this->template->set("video",$video);
+		$this->template->set("clase",$clase);
+		$this->template->build('website/bo/oficinaVirtual/videos/editar_vimeo');
+
+
+}
+
+function eliminar_vimeo_comprobacion(){
+
+		/*$id              = $this->tank_auth->get_user_id();
+		$style           = $this->general->get_style($id);
+		$video=$this->modelo_comercial->get_vimeo2($_POST['id']);
+		$clase=$this->modelo_comercial->get_clase();
+
+		$this->template->set("video",$video);
+		$this->template->set("clase",$clase);
+		$this->template->build('website/bo/oficinaVirtual/videos/eliminar_vimeo');*/
+
+		$this->db->query('delete from Video where id_Video='.$_POST['id']);
+
+}
 function sube_video_youtube()
 	{
 		if (!$this->tank_auth->is_logged_in())
@@ -763,6 +791,44 @@ function sube_video_youtube()
 			}
 			echo $mensaje;
 
+	}
+
+	function eliminar_clase(){
+
+		$video=$this->modelo_comercial->get_vimeo_clase($_POST['id']);
+		$Mensaje='No se ha podido eliminar la clase, esta asociado a un video.';
+		$comprobacion=False;
+		if(isset($video)){
+		foreach ($video as $Video) {
+			$comprobacion=True;
+		}
+		}
+
+		if($comprobacion==True){
+
+			$this->db->query('delete from Clase where id_Clase='.$_POST['id']);
+			$Mensaje='La clase se ha eliminado con exito.';
+		}
+		echo $Mensaje;
+	}
+
+	function eliminar_nivel(){
+
+		$nivel=$this->modelo_comercial->get_clase_nivel($_POST['id']);
+		$Mensaje='No se ha podido eliminar el nivel, esta asociado a una clase.';
+		$comprobacion=False;
+		if(isset($nivel)){
+		foreach ($nivel as $Nivel) {
+			$comprobacion=True;
+		}
+		}
+
+		if($comprobacion==True){
+
+			$this->db->query('delete from Nivel_Clase where id_Nivel='.$_POST['id']);
+			$Mensaje='El nivel se ha eliminado con exito.';
+		}
+		echo $Mensaje;
 	}
 
 	function listar_vimeo(){

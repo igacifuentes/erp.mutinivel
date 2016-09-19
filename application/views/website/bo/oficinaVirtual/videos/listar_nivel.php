@@ -268,13 +268,13 @@ function eliminar(id) {
 	$.ajax({
 		type: "POST",
 		url: "/auth/show_dialog",
-		data: {message: '¿ Esta seguro que desea Eliminar El grupo ?'},
+		data: {message: '¿ Esta seguro que desea Eliminar El nivel ?'},
 	})
 	.done(function( msg )
 	{
 		bootbox.dialog({
 		message: msg,
-		title: 'Eliminar Grupo',
+		title: 'Eliminar Nivel',
 		buttons: {
 			success: {
 			label: "Aceptar",
@@ -283,20 +283,20 @@ function eliminar(id) {
 
 					$.ajax({
 						type: "POST",
-						url: "/bo/grupos/kill_grupo",
+						url: "/bo/videos/eliminar_nivel",
 						data: {id: id}
 					})
 					.done(function( msg )
 					{
 						bootbox.dialog({
-						message: "Se ha eliminado el Grupo.",
-						title: 'Felicitaciones',
+						message: msg,
+						title: 'Atención',
 						buttons: {
 							success: {
 							label: "Aceptar",
 							className: "btn-success",
 							callback: function() {
-								location.href="/bo/grupos/listar";
+								location.href="/bo/videos/listar_nivel";
 								}
 							}
 						}
