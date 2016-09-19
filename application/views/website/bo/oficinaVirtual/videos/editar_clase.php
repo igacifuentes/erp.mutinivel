@@ -25,7 +25,7 @@
 												<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<label class="label">Imagen</label>
 													<div class="input input-file">
-														<span class="button"><input id="file" value="<?php echo $clase[0]->ruta_Imagen; ?>" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
+														<span class="button"><input id="file"  onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text" >
 													</div>
 												</section>
 										</div>
@@ -72,7 +72,7 @@ function enviar() {
 											label: "Ok!",
 											className: "btn-success",
 											callback: function() {
-												location.href="/bo/videos/listar_nivel";
+												location.href="/bo/videos/listar_clase";
 												}
 											}
 										}
