@@ -208,7 +208,7 @@ class escuela_negocios extends CI_Controller
 		if($permiso){
 			foreach ($video as $Video) {
 				$dividir=explode("/",$Video->ruta_Video);
-				if($Video->tipo == 2){
+				if($Video->tipo == 2 && $Video->estatus=='ACT'){
 					$imprimir .='
 					    <div class="col-sm-6">
 					  		<h2>'.$Video->Titulo.'</h2>
@@ -224,7 +224,7 @@ class escuela_negocios extends CI_Controller
 		}else{
 			foreach ($video as $Video) {
 				$dividir=explode("/",$Video->ruta_Video);
-				if($Video->tipo == 1){
+				if($Video->tipo == 1 && $Video->estatus=='ACT'){
 					$imprimir .='
 					    <div class="col-sm-6">
 					  		<h2>'.$Video->Titulo.'</h2>

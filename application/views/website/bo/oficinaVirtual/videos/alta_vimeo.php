@@ -74,10 +74,11 @@
 												<label class="select">
 													<select name="clase">
 													<?php foreach ($clase as $Clase) {
+														if($Clase->estatus=='ACT'){
 
 														?>
 														<option value="<?php echo $Clase->id_Clase; ?>"><?php echo $Clase->Nombre; ?></option>
-														<?php } ?>
+														<?php }} ?>
 													
 														 
 													</select> 

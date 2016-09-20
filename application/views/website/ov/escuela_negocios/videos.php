@@ -100,18 +100,22 @@
 								<div class="dropdown open">
 								
 								<?php if(isset($nivel)){
-									foreach ($nivel as $Nivel ) { ?>
+									foreach ($nivel as $Nivel ) { 
+
+										if($Nivel->estatus=='ACT'){
+										?>
 										<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary btn-block" data-target="#" href="javascript:void(0);"> 
 											<span class="menu-item-parent"> <?php echo $Nivel->Nombre; ?></span>
 										</a>
 		      								<ul>
 		      									<?php foreach ($clase as $Clase) {
+		      										if($Clase->estatus=='ACT'){
 		      										if($Nivel->id_Nivel== $Clase->id_Nivel){?>
 														<li>
 															<a class="btn btn-sm btn-block" onclick="ver_videos('<?php echo $Clase->id_Clase; ?>')"><?php echo $Clase->Nombre; ?></a>
 							      						</li>
-							      					<?php }
-							      					} ?>
+							      					<?php }}
+							      					} } ?>
 
 		      								</ul>
 		      						<?php } 

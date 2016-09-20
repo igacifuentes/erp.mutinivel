@@ -64,10 +64,10 @@
 													<label class="label">Seleccione el nivel al que pertenece la clase:</label>
 													<select name="tipo" id="tipo" required="">
 													<?php foreach ($nivel as $Nivel) {
-
+															if($Nivel->estatus=='ACT'){
 														?>
 														<option value="<?php echo $Nivel->id_Nivel; ?>"><?php echo $Nivel->Nombre; ?></option>
-														<?php } ?>
+														<?php }} ?>
 														
 													</select>
 											</label>
