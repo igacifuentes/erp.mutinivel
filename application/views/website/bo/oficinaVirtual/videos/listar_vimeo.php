@@ -111,10 +111,10 @@
 														<td>
 															<a title="Editar" style="cursor: pointer;" class="txt-color-blue" onclick="editar('<?php echo $Video->id_Video; ?>');"><i class="fa fa-pencil fa-3x"></i></a>
 															<a title="Eliminar" style="cursor: pointer;" class="txt-color-red" onclick="eliminar('<?php echo $Video->id_Video; ?>');"><i class="fa fa-trash-o fa-3x"></i></a>
-															<?php if($Clase->id_Clase == 'ACT'){ ?>
-																<a style="cursor: pointer;" title="Desactivar" onclick="estado('DES','<?php echo $Clase->id_Clase; ?>')" class="txt-color-green"><i class="fa fa-check-square-o fa-3x"></i></a>
+															<?php if($Video->estatus == 'ACT'){ ?>
+																<a style="cursor: pointer;" title="Desactivar" onclick="estado('DES','<?php echo $Video->id_Video; ?>')" class="txt-color-green"><i class="fa fa-check-square-o fa-3x"></i></a>
 															<?php } else {?>
-																<a style="cursor: pointer;" title="Activar" onclick="estado('ACT','<?php echo $Clase->id_Clase; ?>')" class="txt-color-green"><i class="fa fa-square-o fa-3x"></i></a>
+																<a style="cursor: pointer;" title="Activar" onclick="estado('ACT','<?php echo $Video->id_Video; ?>')" class="txt-color-green"><i class="fa fa-square-o fa-3x"></i></a>
 															<?php } ?>
 														</td>
 													</tr>
@@ -311,14 +311,14 @@ function estado(estatus, id)
 		
 	$.ajax({
 		type: "POST",
-		url: "/bo/grupos/cambiar_estado_grupo",
+		url: "/bo/videos/cambiar_estado_vimeo",
 		data: {
 			id:id, 
 			estado: estatus
 		},
 		}).done(function( msg )
 				{
-					location.href = "/bo/grupos/listar";
+					location.href = "/bo/videos/listar_vimeo";
 				
 			})
 	}

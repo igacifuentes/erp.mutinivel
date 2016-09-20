@@ -122,7 +122,7 @@
 														<td>
 															<a title="Editar" style="cursor: pointer;" class="txt-color-blue" onclick="editar('<?php echo $Nivel->id_Nivel; ?>');"><i class="fa fa-pencil fa-3x"></i></a>
 															<a title="Eliminar" style="cursor: pointer;" class="txt-color-red" onclick="eliminar('<?php echo $Nivel->id_Nivel; ?>');"><i class="fa fa-trash-o fa-3x"></i></a>
-															<?php if($Nivel->id_Nivel == 'ACT'){ ?>
+															<?php if($Nivel->estatus == 'ACT'){ ?>
 																<a style="cursor: pointer;" title="Desactivar" onclick="estado('DES','<?php echo $Nivel->id_Nivel; ?>')" class="txt-color-green"><i class="fa fa-check-square-o fa-3x"></i></a>
 															<?php } else {?>
 																<a style="cursor: pointer;" title="Activar" onclick="estado('ACT','<?php echo $Nivel->id_Nivel; ?>')" class="txt-color-green"><i class="fa fa-square-o fa-3x"></i></a>
@@ -322,14 +322,14 @@ function estado(estatus, id)
 		
 	$.ajax({
 		type: "POST",
-		url: "/bo/grupos/cambiar_estado_grupo",
+		url: "/bo/videos/cambiar_estado_nivel",
 		data: {
 			id:id, 
 			estado: estatus
 		},
 		}).done(function( msg )
 				{
-					location.href = "/bo/grupos/listar";
+					location.href = "/bo/videos/listar_nivel";
 				
 			})
 	}

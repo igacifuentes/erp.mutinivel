@@ -861,4 +861,14 @@ function sube_video_youtube()
 
 
 	}
+
+	function cambiar_estado_clase(){
+		$this->db->query("update Clase set estatus = '".$_POST['estado']."' where id_Clase=".$_POST["id"]);
+	}
+	function cambiar_estado_nivel(){
+		$this->db->query("update Nivel_Clase set estatus = '".$_POST['estado']."' where id_Nivel=".$_POST["id"]);
+	}
+	function cambiar_estado_vimeo(){
+		$this->db->query("update Video set estatus = '".$_POST['estado']."' where id_Video=".$_POST["id"]);
+	}
 }
