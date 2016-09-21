@@ -301,13 +301,13 @@ class cgeneral extends CI_Controller
 		$username = $afiliado[0]->username;
 		$datos_web_personal = $this->model_user_webs_personales->listar_por_afiliado($username);
 		
-	    $consultar_datos_compra=$this->model_web_personal_reporte->consultar_ventas_web_personal_listar($id);
+	    //$consultar_datos_compra=$this->model_web_personal_reporte->consultar_ventas_web_personal_listar($id);
 		
 	    $this->template->set("style",$style);
 		$this->template->set("username",$username);
 		$this->template->set("datos_web_personal",$datos_web_personal);
 		
-	    $this->template->set("datos_compra",$consultar_datos_compra);
+	    //$this->template->set("datos_compra",$consultar_datos_compra);
 	    
 		$this->template->set_theme('desktop');
 		$this->template->set_layout('website/main');
@@ -373,13 +373,11 @@ class cgeneral extends CI_Controller
 		
 		$acceso = $this->model_user_webs_personales->traer_acceso_web_personal_afiliado($username);
 		
-		$mensaje = "Para tener acceso a mi tienda virtual debes acceder por medio de los siguientes datos:<br><br>
-				 Username: ".$acceso[0]->username."<br>
-				  Clave: ".$acceso[0]->clave;
+		$mensaje = "Quiero que conoscas esta red, ingresa a : <a href='http://erp.multinivel/ov/web/index'>EducateNetwork</a>";
 		
 		$this->email->message($mensaje);
 		
-		$this->email->subject("Invitación a mi tienda virtual en pekcell gold");
+		$this->email->subject("Invitación a mi red en EducateNetwork");
 	
 		if($this->email->send()){
 			$success = "Se ha enviado el email Exitosamente .";
@@ -576,7 +574,29 @@ class cgeneral extends CI_Controller
 	
 		$style=$this->modelo_dashboard->get_style($id);
 		//$datos_banner=$this->model_admin->datos_banner();
-			$img = $this->model_admin->img_banner();
+		$this->template->set("style",$style);
+	
+		$this->template->set_theme('desktop');
+		$this->template->set_layout('website/main');
+		$this->template->set_partial('header', 'website/ov/header');
+		$this->template->set_partial('footer', 'website/ov/footer');
+		$this->template->build('website/ov/general/indexAutoresponder');
+
+	}
+
+	function banner(){
+		if (!$this->tank_auth->is_logged_in())
+		{																		// logged in
+			redirect('/auth');
+		}
+	
+		$id=$this->tank_auth->get_user_id();
+		$usuario=$this->general->get_username($id);
+	
+	
+		$style=$this->modelo_dashboard->get_style($id);
+		//$datos_banner=$this->model_admin->datos_banner();
+		$img = $this->model_admin->img_banner();
 		$this->template->set("style",$style);
 	
 		$empresa  = $this->model_admin->val_empresa_multinivel();
@@ -587,9 +607,9 @@ class cgeneral extends CI_Controller
 		$this->template->set_partial('header', 'website/ov/header');
 		$this->template->set_partial('footer', 'website/ov/footer');
 		$this->template->build('website/ov/general/view_autoresponder');
-
+	
 	}
-
+	
 	function Enviar_correos_autoresponder(){
 
 		$correos=explode(",", $_POST['correos']);

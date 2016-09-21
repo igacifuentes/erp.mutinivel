@@ -3,15 +3,10 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 			<h1 class="page-title txt-color-blueDark">
-			
-			
-						<a class="backHome" href="/ov/dashboard"><i class="fa fa-home"></i> Menu</a>
-
-
-							<span>>
-							Autoresponder
-							</span>
-							</h1>
+				<a class="backHome" href="/ov/dashboard"><i class="fa fa-home"></i> Menu</a>
+				<span><a href="/ov/cgeneral/autoresponder"> > Autoresponder </span>
+				<span> > Banner </span>
+			</h1>
 		</div>
 	</div>
 		<?php if($this->session->flashdata('mensaje')) {
