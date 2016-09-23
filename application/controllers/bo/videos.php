@@ -789,7 +789,8 @@ function sube_video_youtube()
 			$mensaje="La clase se ha actualizado con exito";
 			//redirect('/bo/videos/alta_clase');
 			}
-			echo $mensaje;
+			$this->session->set_flashdata('error',$mensaje);
+			redirect('/bo/videos/listar_clase');
 
 	}
 

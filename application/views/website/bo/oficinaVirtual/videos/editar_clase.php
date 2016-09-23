@@ -1,9 +1,9 @@
 
-					<form id="nueva" class="smart-form"  novalidate="novalidate" >
+					<form id="nueva" class="smart-form"  method="post" novalidate="novalidate" action="/bo/videos/actualizar_clase">
 							<fieldset>
 								<input type="text" class="hide" value="<?php echo $_POST['id']; ?>" name="id">
 								<br>
-								<a name="id" value="<?php echo $clase[0]->id_Clase; ?>"> </a>
+								<a name="id" id="id" value="<?php echo $clase[0]->id_Clase; ?>"> </a>
 								<div class="row">
 											<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12" id="busquedatodos">
 												<label class="label">Nombre de la clase</label>
@@ -44,9 +44,11 @@
 
 							</fieldset>
 							<footer>
-								<a class="btn btn-success" onclick="enviar()">
+								<!--<a class="btn btn-success" type="submit">
 									Guardar
-								</a>
+								</a>-->
+
+								<input type="submit" class="btn btn-success" id="boton_subir" value="Guardar clase">
 							</footer>
 						</form>
 
@@ -54,30 +56,5 @@
 <script src="/template/js/validacion.js"></script>
 <script src="/template/js/plugin/fuelux/wizard/wizard.min.js"></script>
 <script type="text/javascript">
-function enviar() {
 
-	
-	 $.ajax({
-							type: "POST",
-							url: "/bo/videos/actualizar_clase",
-							data: $('#nueva').serialize()
-						})
-						.done(function( msg ) {
-							
-									bootbox.dialog({
-										message: msg,
-										title: "Atención",
-										buttons: {
-											success: {
-											label: "Ok!",
-											className: "btn-success",
-											callback: function() {
-												location.href="/bo/videos/listar_clase";
-												}
-											}
-										}
-									});
-						});//fin Done ajax
-		
-}
 </script>
