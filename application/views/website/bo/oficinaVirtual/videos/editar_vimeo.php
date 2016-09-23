@@ -1,4 +1,5 @@
-	<form id="nueva" class="smart-form"  novalidate="novalidate" >
+	<!--<form id="nueva" class="smart-form"  novalidate="novalidate" >-->
+						<form class="smart-form" id="reporte-form" method="post" action="actualizar_vimeo" enctype="multipart/form-data">
 							<fieldset>
 								<input type="text" class="hide" value="<?php echo $_POST['id']; ?>" name="id">
 								<br>
@@ -33,7 +34,7 @@
 													<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<label class="label">PDF</label>
 														<div class="input input-file">
-															<span class="button"><input id="file_pdf" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
+															<span class="button"><input id="file" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
 														</div>
 													</section>
 										</div>
@@ -64,9 +65,10 @@
 
 							</fieldset>
 							<footer>
-								<a class="btn btn-success" onclick="enviar()">
+								<!--<a class="btn btn-success" onclick="enviar()">
 									Guardar
-								</a>
+								</a>-->
+								<input type="submit" class="btn btn-success" id="boton_subir" value="Guardar video">
 							</footer>
 						</form>
 
@@ -74,7 +76,7 @@
 <script src="/template/js/validacion.js"></script>
 <script src="/template/js/plugin/fuelux/wizard/wizard.min.js"></script>
 <script type="text/javascript">
-function enviar() {
+/*function enviar() {
 
 	
 	 $.ajax({
@@ -99,5 +101,5 @@ function enviar() {
 									});
 						});//fin Done ajax
 		
-}
+}*/
 </script>

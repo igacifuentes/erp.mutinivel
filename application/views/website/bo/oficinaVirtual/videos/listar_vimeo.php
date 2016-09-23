@@ -10,6 +10,29 @@
 						</h1>
 					</div>
 				</div>
+				<?php if($this->session->flashdata('error')) {
+
+					if($this->session->flashdata('error')=='El tipo de archivo que se intenta subir no esta permitido'){
+		echo '<div class="alert alert-danger fade in">
+								<button class="close" data-dismiss="alert">
+									×
+								</button>
+								<i class="fa-fw fa fa-check"></i>
+								<strong>Error </strong> '.$this->session->flashdata('error').'
+			</div>'; 
+		}
+		if($this->session->flashdata('exito')=='El video ha sido modificado con exito'){
+echo '<div class="alert alert-success fade in">
+								<button class="close" data-dismiss="alert">
+									×
+								</button>
+								<i class="fa-fw fa fa-check"></i>
+								<strong>Error </strong> '.$this->session->flashdata('exito').'
+			</div>'; 
+
+		}
+	}
+?>
 	<section id="widget-grid" class="">
 		<!-- START ROW -->
 		<div class="row">

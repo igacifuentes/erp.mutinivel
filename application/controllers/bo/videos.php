@@ -467,6 +467,59 @@ function editar_vimeo(){
 
 }
 
+function actualizar_vimeo(){
+	$id=$this->tank_auth->get_user_id();
+	$video=$this->modelo_comercial->get_vimeo_clase($_POST['id']);
+
+		if(!is_dir(getcwd()."/media/".$id))
+		{
+			mkdir(getcwd()."/media/".$id, 0777);
+		}
+
+		$ruta="/media/".$id."/";
+		//definimos la ruta para subir la imagen
+		$config['upload_path'] 		= getcwd().$ruta;
+		$config['allowed_types'] 	= 'pdf|txt';
+		$config['remove_spaces']=TRUE;
+        $config['max_size']    = '2048';
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload())
+		{
+
+			$error = array('error' => $this->upload->display_errors());
+			$this->session->set_flashdata('error','El tipo de archivo que se intenta subir no esta permitido');
+			redirect('/bo/videos/listar_vimeo');
+		}
+		else
+		{
+			$data = array('upload_data' => $this->upload->data());
+			$filename=strrev($data["upload_data"]["file_name"]);
+			$explode=explode(".",$filename);
+			$nombre=strrev($explode[1]);
+			$extencion=strrev($explode[0]);
+			$ext=strtolower($extencion);
+			unlink(getcwd().$video[0]->ruta_pdf);
+			if($ext=='pdf'||$ext=="txt")
+			{
+				/*$this->db->query('insert into cat_img (url,nombre_completo,nombre,extencion,estatus)
+				values ("'.$ruta.$data["upload_data"]["file_name"].'","'.$data["upload_data"]["file_name"].'","'.$nombre.'","'.$extencion.'","ACT")');
+				$imgn=$this->db->insert_id();*/
+
+				
+				$this->db->query('update  Video set id_clase="'.$_POST["tipo"].'", Titulo="'.$_POST["nombre"].'", Descripcion="'.$_POST["descripcion"].'",ruta_Video="'.$_POST["url"].'", ruta_pdf="'.$ruta.$data["upload_data"]["file_name"].'" where id_Video="'.$_POST["id"].'"');
+
+
+			}
+
+			//redirect('/bo/videos/listar_vimeo');
+			}
+
+			$this->session->set_flashdata('exito','El video ha sido modificado con exito');
+			redirect('/bo/videos/listar_vimeo');
+
+
+}
+
 function eliminar_vimeo_comprobacion(){
 
 		/*$id              = $this->tank_auth->get_user_id();
@@ -746,6 +799,8 @@ function sube_video_youtube()
 		$clase=$this->modelo_comercial->get_clase2($_POST['id']);
 		
 		$mensaje='Error al actualizar la clase, vuelva a intentarlo.';
+		$opc='Exito';
+		$verificacion=True;
 		if(!is_dir(getcwd()."/media/".$id))
 		{
 			mkdir(getcwd()."/media/".$id, 0777);
@@ -762,6 +817,8 @@ function sube_video_youtube()
 			$error = array('error' => $this->upload->display_errors());
 			//$this->session->set_flashdata('error','El tipo de archivo que se intenta subir no esta permitido');
 			$mensaje="El tipo de archivo que se intenta subir no esta permitido";
+			$opc='error';
+			$verificacion=False;
 			//redirect('/bo/videos/alta_vimeo');
 		}
 		else
@@ -773,7 +830,7 @@ function sube_video_youtube()
 			$extencion=strrev($explode[0]);
 			$ext=strtolower($extencion);
 			
-				unlink($Clase[0]->ruta_Imagen);
+				unlink(getcwd().$clase[0]->ruta_Imagen);
 			
 			
 			if($ext=='jpg'||$ext=="png"||$ext=="jpeg")
@@ -782,15 +839,17 @@ function sube_video_youtube()
 				//values ("'.$ruta.$data["upload_data"]["file_name"].'","'.$data["upload_data"]["file_name"].'","'.$nombre.'","'.$extencion.'","ACT")');
 				//$imgn=$this->db->insert_id();
 
-				$this->db->query('update  Clase set id_Nivel="'.$_POST["tipo"].'", Nombre="'.$_POST["nombre"].'", Descripcion="'.$_POST["descripcion"].'", ruta_Imagen="'.$ruta.$data["upload_data"]["file_name"].' where id_Clase="'.$_POST["id"].'"');
+				$this->db->query('update  Clase set id_Nivel="'.$_POST["tipo"].'", Nombre="'.$_POST["nombre"].'", Descripcion="'.$_POST["descripcion"].'", ruta_Imagen="'.$ruta.$data["upload_data"]["file_name"].'" where id_Clase="'.$_POST["id"].'"');
 
 
 			}
 			$mensaje="La clase se ha actualizado con exito";
 			//redirect('/bo/videos/alta_clase');
 			}
-			$this->session->set_flashdata('error',$mensaje);
+			$this->session->set_flashdata($opc,$mensaje);
+			//$this->template->set("verificacion",$verificacion);
 			redirect('/bo/videos/listar_clase');
+			//$this->template->build('website/bo/oficinaVirtual/videos/listar_clase');
 
 	}
 

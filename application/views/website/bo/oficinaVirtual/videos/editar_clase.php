@@ -1,5 +1,6 @@
 
-					<form id="nueva" class="smart-form"  method="post" novalidate="novalidate" action="/bo/videos/actualizar_clase">
+					<!--<form id="nueva" class="smart-form"  method="post" novalidate="novalidate" action="/bo/videos/actualizar_clase">-->
+					<form class="smart-form" id="reporte-form" method="post" action="actualizar_clase" enctype="multipart/form-data">
 							<fieldset>
 								<input type="text" class="hide" value="<?php echo $_POST['id']; ?>" name="id">
 								<br>
@@ -16,7 +17,7 @@
 												<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12" id="descripcion">
 													<label class="label">Descripcion</label>
 													<label class="textarea" value="<?php echo $clase[0]->Descripcion; ?>">								
-														<textarea rows="3" value="<?php echo $clase[0]->Descripcion; ?>" class="custom-scroll" name="descripcion" name="descripcion"><?php echo $clase[0]->Descripcion; ?></textarea> 
+														<textarea rows="3" value="<?php echo $clase[0]->Descripcion; ?>" class="custom-scroll" name="descripcion" name="descripcion" required><?php echo $clase[0]->Descripcion; ?></textarea> 
 													</label>
 												</section>
 										</div>
