@@ -7,15 +7,15 @@ include_once ("application/models/ov/model_web_personal_reporte.php");
 		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 			<h1 class="page-title txt-color-blueDark">
 				<a class="backHome" href="/ov"><i class="fa fa-home"></i> Menu</a> <span>
-				<a href="/ov/cgeneral/autoresponder"> > Autoresponder</a> </span> 
-				<span> > Web Personal </span>
+					<a href="/ov/cgeneral/autoresponder"> > Autoresponder</a>
+				</span> <span> > Web Personal </span>
 			</h1>
 		</div>
 	</div>
 	
 	<?php
 	
-if ($this->session->flashdata ( 'success' )) {
+	if ($this->session->flashdata ( 'success' )) {
 		echo '<div class="alert alert-success fade in">
 								<button class="close" data-dismiss="alert">
 									×
@@ -97,7 +97,47 @@ if ($this->session->flashdata ( 'error' )) {
 								<br>
 							</form>
 						</div>
+					</div>
+				</div>
+			</article>
 
+			<article class="col-sm-12 col-md-12 col-lg-12">
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget" id="wid-id-3"
+					data-widget-editbutton="false" data-widget-custombutton="false"
+					data-widget-colorbutton="false">
+
+
+					<!-- widget div-->
+
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+					<!-- widget content -->
+					<div class="widget-body">
+
+						<div class="tab-pane">
+							<div class="row col-xs-12 col-md-12 col-sm-12 col-lg-12 smart-form">
+								<br>
+								<section class="col col-xs-12 col-md-12 col-sm-8 col-lg-8" 
+									style="margin-top: 2rem;">
+									<label> URL: <?php echo base_url(); ?>ov/web/index?web=<?php echo $id; ?> </label>
+								</section>
+
+								<section class="col col-xs-12 col-md-12 col-sm-6 col-lg-3">
+									<a
+										href="<?php echo base_url(); ?>ov/web/index?web=<?php echo $id; ?>"
+										class="btn btn-success col col-xs-12 col-md-12 col-sm-8 col-lg-12">
+										Ir</a>
+								</section>
+							</div>
+							<br>
+
+						</div>
 					</div>
 					<!-- end widget content -->
 
