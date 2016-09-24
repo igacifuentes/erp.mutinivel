@@ -27,7 +27,7 @@ echo '<div class="alert alert-success fade in">
 									×
 								</button>
 								<i class="fa-fw fa fa-check"></i>
-								<strong>Error </strong> '.$this->session->flashdata('error').'
+								<strong>Felicitaciones </strong> '.$this->session->flashdata('error').'
 			</div>'; 
 
 		}

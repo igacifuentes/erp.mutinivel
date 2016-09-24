@@ -16,7 +16,7 @@
 											<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12" id="busquedatodos">
 												<label class="label">Descripcion</label>
 												<label class="textarea">								
-													<textarea rows="3" class="custom-scroll" name="descripcion"><?php echo $video[0]->Descripcion; ?></textarea> 
+													<textarea rows="3" class="custom-scroll" name="descripcion" required><?php echo $video[0]->Descripcion; ?></textarea> 
 												</label>
 											</section>
 										</div>
@@ -34,7 +34,7 @@
 													<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<label class="label">PDF</label>
 														<div class="input input-file">
-															<span class="button"><input id="file" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
+															<span class="button"><input value="<?php echo getcwd().$video[0]->ruta_pdf; ?>" id="file" onchange="this.parentNode.nextSibling.value = this.value"  name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text" value="<?php echo getcwd().$video[0]->ruta_pdf; ?>">
 														</div>
 													</section>
 										</div>

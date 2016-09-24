@@ -479,7 +479,7 @@ function actualizar_vimeo(){
 		$ruta="/media/".$id."/";
 		//definimos la ruta para subir la imagen
 		$config['upload_path'] 		= getcwd().$ruta;
-		$config['allowed_types'] 	= 'pdf|txt';
+		$config['allowed_types'] 	= 'pdf';
 		$config['remove_spaces']=TRUE;
         $config['max_size']    = '2048';
 		$this->load->library('upload', $config);
@@ -499,7 +499,7 @@ function actualizar_vimeo(){
 			$extencion=strrev($explode[0]);
 			$ext=strtolower($extencion);
 			unlink(getcwd().$video[0]->ruta_pdf);
-			if($ext=='pdf'||$ext=="txt")
+			if($ext=='pdf')
 			{
 				/*$this->db->query('insert into cat_img (url,nombre_completo,nombre,extencion,estatus)
 				values ("'.$ruta.$data["upload_data"]["file_name"].'","'.$data["upload_data"]["file_name"].'","'.$nombre.'","'.$extencion.'","ACT")');
@@ -510,12 +510,12 @@ function actualizar_vimeo(){
 
 
 			}
+			$this->session->set_flashdata('error','El video ha sido modificado con éxito');
+			redirect('/bo/videos/listar_vimeo');
 
 			//redirect('/bo/videos/listar_vimeo');
 			}
 
-			$this->session->set_flashdata('exito','El video ha sido modificado con exito');
-			redirect('/bo/videos/listar_vimeo');
 
 
 }
@@ -798,7 +798,7 @@ function sube_video_youtube()
 		$id=$this->tank_auth->get_user_id();
 		$clase=$this->modelo_comercial->get_clase2($_POST['id']);
 		
-		$mensaje='Error al actualizar la clase, vuelva a intentarlo.';
+		$mensaje='';
 		$opc='Exito';
 		$verificacion=True;
 		if(!is_dir(getcwd()."/media/".$id))
@@ -816,7 +816,7 @@ function sube_video_youtube()
 
 			$error = array('error' => $this->upload->display_errors());
 			//$this->session->set_flashdata('error','El tipo de archivo que se intenta subir no esta permitido');
-			$mensaje="El tipo de archivo que se intenta subir no esta permitido";
+			$mensaje='El tipo de archivo que se intenta subir no esta permitido';
 			$opc='error';
 			$verificacion=False;
 			//redirect('/bo/videos/alta_vimeo');
@@ -843,10 +843,10 @@ function sube_video_youtube()
 
 
 			}
-			$mensaje="La clase se ha actualizado con exito";
+			$mensaje='La clase se ha actualizado con exito';
 			//redirect('/bo/videos/alta_clase');
 			}
-			$this->session->set_flashdata($opc,$mensaje);
+			$this->session->set_flashdata('error',$mensaje);
 			//$this->template->set("verificacion",$verificacion);
 			redirect('/bo/videos/listar_clase');
 			//$this->template->build('website/bo/oficinaVirtual/videos/listar_clase');

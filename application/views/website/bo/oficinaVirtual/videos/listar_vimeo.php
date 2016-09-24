@@ -21,13 +21,13 @@
 								<strong>Error </strong> '.$this->session->flashdata('error').'
 			</div>'; 
 		}
-		if($this->session->flashdata('exito')=='El video ha sido modificado con exito'){
+		if($this->session->flashdata('error')=='El video ha sido modificado con exito'){
 echo '<div class="alert alert-success fade in">
 								<button class="close" data-dismiss="alert">
 									×
 								</button>
 								<i class="fa-fw fa fa-check"></i>
-								<strong>Error </strong> '.$this->session->flashdata('exito').'
+								<strong>Felicitaciones</strong> '.$this->session->flashdata('error').'
 			</div>'; 
 
 		}
