@@ -114,7 +114,7 @@ echo '<div class="alert alert-success fade in">
 
 														?>
 														</td>
-														<td></td>
+														<td><img src="<?php echo $Clase->ruta_Imagen; ?>" width="100" height="100"></td>
 														<td>
 															<a title="Editar" style="cursor: pointer;" class="txt-color-blue" onclick="editar('<?php echo $Clase->id_Clase; ?>');"><i class="fa fa-pencil fa-3x"></i></a>
 															<a title="Eliminar" style="cursor: pointer;" class="txt-color-red" onclick="eliminar('<?php echo $Clase->id_Clase; ?>');"><i class="fa fa-trash-o fa-3x"></i></a>
