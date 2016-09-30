@@ -30,11 +30,15 @@
 										</div>
 <br>
 										<div class="row">
-										
+										<!--value="<?php //echo getcwd().$video[0]->ruta_pdf; ?>"-->
 													<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<label class="label">PDF</label>
 														<div class="input input-file">
-															<span class="button"><input value="<?php echo getcwd().$video[0]->ruta_pdf; ?>" id="file" onchange="this.parentNode.nextSibling.value = this.value"  name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text" value="<?php echo getcwd().$video[0]->ruta_pdf; ?>">
+														<?php if(empty($video[0]->ruta_pdf)){?>
+															<span class="button"><input  id="file" onchange="this.parentNode.nextSibling.value = this.value"  name="userfile" type="file" >Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text" >
+															<?php }else{?>
+															<span class="button"><input  id="file" onchange="this.parentNode.nextSibling.value = this.value"  name="userfile" type="file" >Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text" value="<?php echo getcwd().$video[0]->ruta_pdf; ?>">
+															<?php }?>
 														</div>
 													</section>
 										</div>

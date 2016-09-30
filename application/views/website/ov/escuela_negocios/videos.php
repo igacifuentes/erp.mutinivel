@@ -169,14 +169,11 @@ foreach ( $clase as $Clase ) {
 												<h2><?php echo $video->Titulo; ?></h2>
 												<div
 													class="embed-responsive embed-responsive-16by9 video-responsive">
-													<iframe src="<?php echo $video->ruta_Video; ?>" width="320"
+													<iframe src="" width="320"
 														height="192" frameborder="0" webkitallowfullscreen
 														mozallowfullscreen allowfullscreen="allowfullscreen"> </iframe>
 													<p>
-														<a href="https://vimeo.com/58340810">L&#039;uomo
-															d&#039;acqua e la sua fontana</a> from <a
-															href="https://vimeo.com/user12742413">Sang hyun</a> on <a
-															href="https://vimeo.com">Vimeo</a>.
+														
 													</p>
 												</div>
 											</div>

@@ -66,7 +66,7 @@
 													<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<label class="label">PDF</label>
 														<div class="input input-file">
-															<span class="button"><input id="file_pdf" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" required>Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
+															<span class="button"><input id="file_pdf" onchange="this.parentNode.nextSibling.value = this.value" name="userfile" type="file" >Buscar</span><input placeholder="Seleccione un archivo" readonly="" type="text">
 														</div>
 													</section>
 										</div>
