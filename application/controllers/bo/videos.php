@@ -368,7 +368,7 @@ function guardar_clase(){
 
 			$error = array('error' => $this->upload->display_errors());
 			$this->session->set_flashdata('error','El tipo de archivo que se intenta subir no esta permitido');
-			redirect('/bo/videos/alta_vimeo');
+			redirect('/bo/videos/alta_clase');
 		}
 		else
 		{
@@ -427,6 +427,7 @@ function subir_video_vimeo(){
 
 			$error = array('error' => $this->upload->display_errors());
 			$this->session->set_flashdata('error','El tipo de archivo que se intenta subir no esta permitido');
+			$this->db->query('insert into Video (id_Clase,Titulo, Descripcion,tipo, ruta_Video) values("'.$_POST["clase"].'","'.$_POST["nombre"].'","'.$_POST["descripcion"].'","'.$_POST["tipo"].'","'.$_POST["url"].'" )');
 			redirect('/bo/videos/alta_vimeo');
 		}
 		else
@@ -437,8 +438,8 @@ function subir_video_vimeo(){
 			$nombre=strrev($explode[1]);
 			$extencion=strrev($explode[0]);
 			$ext=strtolower($extencion);
-			//if($ext=='pdf'||$ext=="txt")
-			//{
+			if($ext=='pdf')
+			{
 				/*$this->db->query('insert into cat_img (url,nombre_completo,nombre,extencion,estatus)
 				values ("'.$ruta.$data["upload_data"]["file_name"].'","'.$data["upload_data"]["file_name"].'","'.$nombre.'","'.$extencion.'","ACT")');
 				$imgn=$this->db->insert_id();*/
@@ -446,7 +447,7 @@ function subir_video_vimeo(){
 				$this->db->query('insert into Video (id_Clase,Titulo, Descripcion,tipo, ruta_Video, ruta_pdf) values("'.$_POST["clase"].'","'.$_POST["nombre"].'","'.$_POST["descripcion"].'","'.$_POST["tipo"].'","'.$_POST["url"].'","'.$ruta.$data["upload_data"]["file_name"].'" )');
 
 
-			//}
+			}
 
 			redirect('/bo/videos/alta_vimeo');
 			}
@@ -488,6 +489,7 @@ function actualizar_vimeo(){
 
 			$error = array('error' => $this->upload->display_errors());
 			$this->session->set_flashdata('error','El tipo de archivo que se intenta subir no esta permitido');
+			$this->db->query('update  Video set id_clase="'.$_POST["tipo"].'", Titulo="'.$_POST["nombre"].'", Descripcion="'.$_POST["descripcion"].'",ruta_Video="'.$_POST["url"].'" where id_Video="'.$_POST["id"].'"');
 			redirect('/bo/videos/listar_vimeo');
 		}
 		else
