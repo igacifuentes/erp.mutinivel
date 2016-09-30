@@ -305,6 +305,7 @@ class cgeneral extends CI_Controller
 		
 	    $this->template->set("style",$style);
 		$this->template->set("username",$username);
+		$this->template->set("id",$id);
 		$this->template->set("datos_web_personal",$datos_web_personal);
 		
 	    //$this->template->set("datos_compra",$consultar_datos_compra);

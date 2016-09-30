@@ -210,10 +210,10 @@ class escuela_negocios extends CI_Controller
 				$dividir=explode("/",$Video->ruta_Video);
 				if($Video->tipo == 2 && $Video->estatus=='ACT'){
 					$imprimir .='
-					    <div class="col-sm-6">
+					    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 					  		<h2>'.$Video->Titulo.'</h2>
-							<div class="embed-responsive embed-responsive-16by9">
-								<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+							<div class="embed-responsive embed-responsive-16by9 ">
+								<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen="allowfullscreen"></iframe>
 								<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
 									</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
 								</p>
@@ -229,7 +229,7 @@ class escuela_negocios extends CI_Controller
 					    <div class="col-sm-6">
 					  		<h2>'.$Video->Titulo.'</h2>
 							<div class="embed-responsive embed-responsive-16by9">
-								<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+								<iframe class="video-responsive" src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 								<p><a href="'.$Video->ruta_Video.'">'.$Video->Titulo.'</a> from <a href="https://vimeo.com/user54229371">Educate Network</a> on <a href="https://vimeo.com">Vimeo</a>.
 									</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
 								</p>
