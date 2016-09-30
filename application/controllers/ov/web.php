@@ -26,6 +26,11 @@ class web extends CI_Controller {
 	function index() {
 		$this->load->view ( 'website/ov/webPersonal/index' );
 	}
+	
+	function nosotros() {
+		$this->load->view ( 'website/ov/webPersonal/nosotros' );
+	}
+	
 	function afiliar() {
 		$id_red = 1;
 		$id = $_GET ['web'];
@@ -82,6 +87,64 @@ class web extends CI_Controller {
 		
 		$this->load->view ( 'website/ov/webPersonal/afiliar',$datos);
 	}
+	
+	function formularioAfiliar() {
+		$id_red = 1;
+		$id = $_GET ['web'];
+	
+		$usuario = $this->model_perfil_red->datos_perfil ( $id );
+		$telefonos = $this->model_perfil_red->telefonos ( $id );
+		$sexo = $this->model_perfil_red->sexo ();
+		$pais = $this->model_perfil_red->get_pais ();
+		$style = $this->general->get_style ( $id );
+		$dir = $this->model_perfil_red->dir ( $id );
+		$civil = $this->model_perfil_red->edo_civil ();
+		$tipo_fiscal = $this->model_perfil_red->tipo_fiscal ();
+		$estudios = $this->model_perfil_red->get_estudios ();
+		$ocupacion = $this->model_perfil_red->get_ocupacion ();
+		$tiempo_dedicado = $this->model_perfil_red->get_tiempo_dedicado ();
+		$red = $this->model_afiliado->RedAfiliado ( $id, $id_red );
+	
+		$afiliados = $this->model_perfil_red->get_afiliados ( $id_red, $id );
+		// $planes = $this->model_planes->Planes();
+		$image = $this->model_perfil_red->get_images ( $id );
+		$red_forntales = $this->model_tipo_red->ObtenerFrontalesRed ( $id_red );
+	
+		$estaEnRed = $this->model_tipo_red->validarUsuarioRed ( $id, $id_red );
+	
+		if (! $estaEnRed)
+			redirect ( '/' );
+	
+			if ($this->model_perfil_red->isCiclaje ( $id, $id_red )) {
+				$ciclo = $this->model_perfil_red->consultarCiclo ( $id, $id_red ) [0]->id_ciclo;
+				$datos["ciclo"] = $ciclo;
+			} else {
+				$datos["ciclo"] =  0;
+			}
+	
+			$img_perfil = "/template/img/empresario.jpg";
+			foreach ( $image as $img ) {
+				$cadena = explode ( ".", $img->img );
+				if ($cadena [0] == "user") {
+					$img_perfil = $img->url;
+				}
+			}
+	
+			$datos["id"] = $id;
+			$datos["style"] = $style;
+			$datos["contar"] = count ( $afiliados );
+			$datos["sexo"] = $sexo;
+			$datos["civil"] = $civil;
+			$datos["pais"] = $pais;
+			$datos["tipo_fiscal"] = $tipo_fiscal;
+			$datos["estudios"] = $estudios;
+			$datos["ocupacion"] = $ocupacion;
+			$datos["tiempo_dedicado"] = $tiempo_dedicado;
+			$datos["red_frontales"] = $red_forntales;
+	
+			$this->load->view ( 'website/ov/webPersonal/formularioAfiliar',$datos);
+	}
+	
 	function afiliar_nuevo() {
 		$this->load->model ( 'ov/modelo_afiliado' ); // pruebas
 		isset ( $_POST ['token'] ) ? $this->model_perfil_red->trash_token ( $_POST ['token'] ) : '';

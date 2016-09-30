@@ -367,7 +367,7 @@ foreach ( $clase as $Clase ) {
 	padding-top: 30px; /* IE6 workaround*/
 	height: 0;
 	overflow: hidden;
-}
+}	
 
 .video-responsive iframe, .video-responsive object, .video-responsive embed
 	{
