@@ -159,6 +159,8 @@ class escuela_negocios extends CI_Controller
 		$id=$this->tank_auth->get_user_id();
 		$usuario=$this->general->get_username($id);
 		$style=$this->general->get_style($id);
+
+		$style[0]->bg_color = "#fff";
   		$this->template->set("style",$style);
 		$this->template->set("usuario",$usuario);
 		
@@ -214,11 +216,15 @@ class escuela_negocios extends CI_Controller
 					  		<h2>'.$Video->Titulo.'</h2>
 							<div class="embed-responsive embed-responsive-16by9 ">
 								<iframe src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen="allowfullscreen"></iframe>
-								<p><h6>'.$Video->Titulo.'</h6>
-									</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
-								</p>
-							</div>
-					    </div>';
+								<p><h6>'.$Video->Titulo.'</h6>';
+					if($Video->ruta_pdf != null){
+						$imprimir =$imprimir.'</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>';
+					}
+					
+					
+					$imprimir =$imprimir.'</p>
+								</div>
+						    </div>';
 				}
 			}
 		}else{
@@ -230,11 +236,15 @@ class escuela_negocios extends CI_Controller
 					  		<h2>'.$Video->Titulo.'</h2>
 							<div class="embed-responsive embed-responsive-16by9">
 								<iframe class="video-responsive" src="'.$dividir[0].'//player.'.$dividir[2].'/video/'.$dividir[3].'" width="320" height="192" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-								<p><h6>'.$Video->Titulo.'</h6> 
-									</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>
-								</p>
-							</div>
-					    </div>';
+								<p><h6>'.$Video->Titulo.'</h6>';
+					if($Video->ruta_pdf != null){
+						$imprimir =$imprimir.'</br><a href="'.$Video->ruta_pdf.'" download="'.$Video->ruta_pdf.'">Descargar PDF</a>';
+					}
+					
+					
+					$imprimir =$imprimir.'</p>
+								</div>
+						    </div>';
 				}
 			}
 		}

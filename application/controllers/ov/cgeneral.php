@@ -374,7 +374,7 @@ class cgeneral extends CI_Controller
 		
 		$acceso = $this->model_user_webs_personales->traer_acceso_web_personal_afiliado($username);
 		
-		$mensaje = "Quiero que conoscas esta red, ingresa a : <a href='http://erp.multinivel/ov/web/index'>EducateNetwork</a>";
+		$mensaje = "Quiero que conoscas esta red, ingresa a : <a href='http://erp.multinivel/ov/web/index?web=".$id."'>EducateNetwork</a>";
 		
 		$this->email->message($mensaje);
 		
